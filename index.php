@@ -5,6 +5,8 @@ include 'database.php';
 $body = renderPage();
 ?>
 
+<!-- PAGE SETUP -->
+
 <!DOCTYPE html>
 <html>
 <head>
