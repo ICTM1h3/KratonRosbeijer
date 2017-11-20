@@ -8,7 +8,7 @@ $pass = "";
 $db = new PDO($db, $user, $pass);
 
 //Function for execute a query
-function base_query($query, $params){
+function base_query($query, $params= NULL){
     global $db;
     //Met prepare zeg je. 'Dit is de query, ik geef je eventuele parameters later.'
     $stmt = $db->prepare($query);

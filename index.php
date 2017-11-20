@@ -1,6 +1,7 @@
 <?php
 // Load the file which handles loading the actual webpage.
 include 'rendering.php';
+include 'database.php';
 $body = renderPage();
 ?>
 
