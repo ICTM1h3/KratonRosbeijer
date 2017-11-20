@@ -7,4 +7,6 @@ $pagetitle = "Karton";
 
 <h1>Welkom op de homepage</h1>
 
-<?php base_query("SELECT * FROM klant", "Klant"); ?> 
+<?php $klant = base_query("SELECT * FROM klant");
+    echo $klant;
+?> 
