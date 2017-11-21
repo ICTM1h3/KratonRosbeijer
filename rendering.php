@@ -19,7 +19,7 @@ function renderPage()
 	}
 	
 	// Check if the path doesn't contain any malicious path
-	if (!preg_match('/[^A-Za-z0-9_]/', $page)) {
+	if (preg_match('/[^A-Za-z0-9_]/', $page)) {
 		return "Certain characters were used which are not allowed";
 	}
 
