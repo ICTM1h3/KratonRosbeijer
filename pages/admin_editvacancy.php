@@ -121,6 +121,7 @@ $vacancy = [];
 $requirements = [];
 
 // If the user is trying to update a vacancy we extract those values from the database.
+// We also update the title of the page
 if (isset($_GET['vacancy'])) {
     // Get the values of the choosen vacancy
     $vacancy = base_query("SELECT * FROM vacancy WHERE Id = :id", [
@@ -131,6 +132,11 @@ if (isset($_GET['vacancy'])) {
     $requirements = base_query("SELECT * FROM Requirement WHERE Vacancy = :vacancy", [
         ':vacancy' => $_GET['vacancy'],
     ])->fetchAll();
+    
+    setTitle("Aanpassen vacature: " . $vacancy['Title']);
+}
+else {
+    setTitle("Nieuwe vacature");
 }
 
 

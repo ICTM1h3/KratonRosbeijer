@@ -1,4 +1,5 @@
 <?php
+setTitle("Beheer vacatures");
 
 // If requested, remove the provided vacancies
 if (isset($_POST['deleteVacancies']) && isset($_POST['vacanciesToDelete'])) {
