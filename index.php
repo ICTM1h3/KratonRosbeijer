@@ -2,6 +2,8 @@
 // Load the file which handles loading the actual webpage.
 include 'rendering.php';
 include 'database.php';
+//Set default title and setup body
+$pagetitle = "Kraton Rosbeijer";
 $body = renderPage();
 ?>
 
@@ -11,14 +13,17 @@ $body = renderPage();
 <html>
 <head>
 <!-- css files, etc -->
-<title><?php echo $pagetitle ?> </title>
+<title><?php echo htmlentities($pagetitle); ?> </title>
 </head>
 
 	<body>
 		
-		<?php
-		echo  $body;
-		?>
+	<?php
+	
+	echo $body;
+	
+	?>
 
 	</body>
+
 </html>
