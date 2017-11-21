@@ -1,6 +1,6 @@
 
-
 <?php
+
 $db = "mysql:host=localhost; dbname=winkel; port=3306";
 $user = "root";
 $pass = "";
@@ -17,6 +17,5 @@ function base_query($query, $params = NULL) {
     $stmt->execute($params);
     return $stmt;
 }
-
 
 ?>
