@@ -9,7 +9,6 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 <p>General information like how to contact the employer</p>
 <?php
 // Storing the data in variables
-$class = 0;
 foreach ($query as $value) {
     $class = $value['Id'];
     $title = $value['Title'];
