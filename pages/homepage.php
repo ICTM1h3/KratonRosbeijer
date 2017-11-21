@@ -1,5 +1,5 @@
 <?php
-setTitle("Homepage <b>");
+setTitle("Homepage");
 
 ?>
 
