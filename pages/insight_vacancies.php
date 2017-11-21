@@ -38,6 +38,4 @@ foreach ($query as $value) {
         </tr>
     </table>
 <?php
-}
-
-
+} 
