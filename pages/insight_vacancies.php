@@ -19,7 +19,7 @@ foreach ($query as $value) {
     <table id="<?= $class ?>">
         <tr>
             <td>
-                <?= $titles?> 
+                <?= $title ?> 
             </td>
         </tr>
         <tr>
