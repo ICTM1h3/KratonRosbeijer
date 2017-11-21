@@ -19,8 +19,8 @@ function renderPage()
 	}
 	
 	// Check if the path doesn't contain any malicious path
-	if (!preg_match('/[^A-Za-z0-9]/', $page)) {
-	  // string contains only english letters & digits
+	if (!preg_match('/[^A-Za-z0-9_]/', $page)) {
+		return "Certain characters were used which are not allowed";
 	}
 
     // Return to homepage.php if there is no page found.
