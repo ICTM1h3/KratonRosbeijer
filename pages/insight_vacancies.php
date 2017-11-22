@@ -5,7 +5,7 @@ setTitle("Vacatures");
 // Fetching all data that is required for vacancies
 $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 ?>
-<p>Wij zijn een leuk en gezellig team en op zoek naar jou. En wie zegt er nou nee tegen heerlijk Indonesisch eten. Dan ben je bij ons op het juiste adres.
+<p class="generalInfo">Wij zijn een leuk en gezellig team en op zoek naar jou. En wie zegt er nou nee tegen heerlijk Indonesisch eten. Dan ben je bij ons op het juiste adres.
 
 <br>Heb je interesse neem dan per e-mail (info@kratonrosbeijer.nl) of per telefoon ( 033-8871111) contact met ons op.
 
@@ -14,7 +14,7 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 <br>We zijn op zoek naar:</p>   
 <!-- Styling for 2 tables next to eachother -->
 <style>
-    p {
+    .generalInfo {
         font:16px arial, sans-serif;
         width:75%;
     }
