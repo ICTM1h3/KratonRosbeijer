@@ -36,6 +36,7 @@ Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit 
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
 				});
+				document.getElementById("data-container").innerHTML=tinyMCE.activeEditor.getContent();
 			}
 			</script>
 
