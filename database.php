@@ -1,7 +1,7 @@
 
 
 <?php
-$db = "mysql:host=localhost; dbname=winkel; port=3306";
+$db = "mysql:host=localhost; dbname=kratonrosbeijer; port=3306";
 $user = "root";
 $pass = "";
 $db = new PDO($db, $user, $pass);
