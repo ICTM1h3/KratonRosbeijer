@@ -5,31 +5,44 @@ setTitle("Vacancies");
 // Fetching all data that is required for vacancies
 $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 ?>
-<p style="font:16px arial, sans-serif">Wij zijn een leuk en gezellig team en op zoek naar jou. En wie zegt er nou nee tegen heerlijk Indonesisch eten. Dan ben je bij ons op het juiste adres.
+<p style="font:16px arial, sans-serif;width:75%;">Wij zijn een leuk en gezellig team en op zoek naar jou. En wie zegt er nou nee tegen heerlijk Indonesisch eten. Dan ben je bij ons op het juiste adres.
 
-Heb je interesse neem dan per e-mail (info@kratonrosbeijer.nl) of per telefoon ( 033-8871111) contact met ons op.
+<br>Heb je interesse neem dan per e-mail (info@kratonrosbeijer.nl) of per telefoon ( 033-8871111) contact met ons op.
 
-Welkom in onze Kraton familie (Selamat bergabung dengan keluarga Kraton).
+<br>Welkom in onze Kraton familie (Selamat bergabung dengan keluarga Kraton).
 
-We zijn op zoek naar:</p>
+<br>We zijn op zoek naar:</p>   
+<!-- Styling for 2 tables next to eachother -->
+<style>
+    .vacancy_container {
+        display:flex;
+        justify-content: space-between;
+        flex-wrap:wrap;
+    }
+
+    .vacancy_container > table {
+        width: 49%;
+        height: 140px;
+        padding: 2px;
+        overflow-wrap: break-word;
+        border: 1px solid black;
+        
+    }
+</style>
+
+<div class="vacancy_container">
 <?php
 // Storing the data in variables
 foreach ($query as $value) {
     $title = $value['Title'];
     $function = $value['Function'];
     $description = $value['Description'];
-    $employment = $value['Employment'];
-    // If the Id number is odd the element will float on the left
-    if ($value['Id'] % 2 != 0) {
-        $class = " style='font-family:arial;float:left;border:1px solid grey;'";
-    } else {
-        $class = "style='font-family:arial;border:1px solid grey;'";
-    }
+    $employment = $value['Employment'];   
     ?>
-    <table <?= $class ?>
+    <table>
         <tr>
             <td style="font-weight:bold;">
-                 Titel: 
+                    Titel: 
             </td>
             <td>
                 <?= $title ?>
@@ -63,3 +76,5 @@ foreach ($query as $value) {
     <br>
 <?php
 } 
+?> 
+</div>
