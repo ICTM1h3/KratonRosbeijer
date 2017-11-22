@@ -59,9 +59,6 @@ function insert_vacancy()
 
     // Insert the requirements connecting it to the new vacancyId.
     insert_requirements($vacancyId);
-
-    // Redirect the user to the current url but with the new vacancy id so updating it won't create a new one.
-    header("Location: ?p=admin_editvacancy&vacancy=$vacancyId");
 }
 
 
@@ -115,6 +112,9 @@ if (isset($_POST['save'])) {
     } else {
         insert_vacancy();
     }
+
+    // Send the administrator to the vacancy overview page.
+    header("Location: ?p=admin_managevacancies");
 }
 
 $vacancy = [];
