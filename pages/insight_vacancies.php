@@ -1,11 +1,11 @@
 <?php
 
 // Gives the page a title
-setTitle("Vacancies");
+setTitle("Vacatures");
 // Fetching all data that is required for vacancies
 $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 ?>
-<p style="font:16px arial, sans-serif;width:75%;">Wij zijn een leuk en gezellig team en op zoek naar jou. En wie zegt er nou nee tegen heerlijk Indonesisch eten. Dan ben je bij ons op het juiste adres.
+<p>Wij zijn een leuk en gezellig team en op zoek naar jou. En wie zegt er nou nee tegen heerlijk Indonesisch eten. Dan ben je bij ons op het juiste adres.
 
 <br>Heb je interesse neem dan per e-mail (info@kratonrosbeijer.nl) of per telefoon ( 033-8871111) contact met ons op.
 
@@ -14,10 +14,18 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 <br>We zijn op zoek naar:</p>   
 <!-- Styling for 2 tables next to eachother -->
 <style>
+    p {
+        font:16px arial, sans-serif;
+        width:75%;
+    }
     .vacancy_container {
         display:flex;
         justify-content: space-between;
         flex-wrap:wrap;
+    }
+
+    .vacancy_container > table tr > td:first-child {
+        font-weight:bold;
     }
 
     .vacancy_container > table {
@@ -41,7 +49,7 @@ foreach ($query as $value) {
     ?>
     <table>
         <tr>
-            <td style="font-weight:bold;">
+            <td>
                     Titel: 
             </td>
             <td>
@@ -49,15 +57,15 @@ foreach ($query as $value) {
             </td>
         </tr>
         <tr>
-            <td style="font-weight:bold;">
-                 Functie categorie: 
+            <td>
+                 Functie: 
             </td>
             <td> 
                 <?= $function ?> 
             </td>
         </tr>
         <tr>
-            <td style="font-weight:bold;">
+            <td>
                  Beschrijving: 
             </td>
             <td> 
@@ -65,7 +73,7 @@ foreach ($query as $value) {
             </td>
         </tr>
         <tr>
-            <td style="font-weight:bold;">
+            <td>
                  Dienstverband: 
             </td>
             <td> 
