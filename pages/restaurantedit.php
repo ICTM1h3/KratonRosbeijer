@@ -6,24 +6,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	base_query("UPDATE setting SET value = :value WHERE name = 'Info'", array(':value' => $text));
 }
 ?>
+Let op css nog niet aanwezig.
 
-Beheren restaurant informatie
+Beheren restaurant informatie.
 
 Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit kan door middel van de edit plugin.  
 
 
 		<!--Making form for the edit-plugin-->
 
-
+		
+			<!-- Loading the info page into the editor -->
 			<textarea class="tinymce" id="texteditor">
 
-			<!-- Loading the info page into the editor -->
 			<?php $info = base_query("SELECT * FROM setting WHERE name = 'Info' ")->fetch();
-      		echo($info['Value']);
-   			 //used the function base_query to execute a query and echo's the result 
+      			echo($info['Value']);
+   			 	//used the function base_query to execute a query and echo's the result 
  			?> 
 
 			</textarea>
+
+			<!-- Submit data by a submit button-->
 			<input onclick="submit()" type="submit" value="Get Data">
 
 			<script>
