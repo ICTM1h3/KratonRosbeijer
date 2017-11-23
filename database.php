@@ -1,5 +1,4 @@
 
-
 <?php
 $db = "mysql:host=localhost; dbname=kratonrosbeijer; port=3306";
 $user = "root";
@@ -17,6 +16,5 @@ function base_query($query, $params = NULL) : PDOStatement {
     $stmt->execute($params);
     return $stmt;
 }
-
 
 ?>
