@@ -1,6 +1,5 @@
 
 <?php
-
 $db = "mysql:host=localhost; dbname=kratonrosbeijer; port=3306";
 $user = "root";
 $pass = "";
