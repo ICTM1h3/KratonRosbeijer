@@ -100,25 +100,61 @@ function getRequirements($requirements)
 }
 
 
+// Checks if the filled in data is complete
+function getFilledInDataErrors()
+{
+    $errors = [];
+    if (empty($_POST['Title'])) {
+        $errors[] = "Titel is leeg";
+    } 
+    
+    if (empty($_POST['Function'])) {
+        $errors[] = "Functie is leeg";
+    } 
+    
+    if (empty($_POST['Description'])) {
+        $errors[] = "Omschrijving is leeg";
+    } 
+    
+    if (empty($_POST['Employment'])) {
+        $errors[] = "Dienstverband is leeg";
+    } 
+    
+    if (empty($_POST['Requirement'])) {
+        $errors[] = "U heeft geen eisen ingevult";
+    }
+    return $errors;
+}
+
+
+$vacancy = [];
+$requirements = [];
+$errors = [];
+
 // Add an extra empty requirement for the admin to fill in case he wants to add a new one.
 if (isset($_POST['new_requirement'])) {
     $_POST['Requirement'][] = '';
 }
 
+
 // Update or insert the vacancy.
 if (isset($_POST['save'])) {
-    if (isset($_GET['vacancy'])) {
-        update_vacancy();
-    } else {
-        insert_vacancy();
+    $errors = getFilledInDataErrors();
+
+    // Only actually insert/update if there are no problems with the filled in values.
+    if (empty($errors)) {
+        if (isset($_GET['vacancy'])) {
+            update_vacancy();
+        } else {
+            insert_vacancy();
+        }
+        
+        // Send the administrator to the vacancy overview page.
+        header("Location: ?p=admin_managevacancies");
     }
 
-    // Send the administrator to the vacancy overview page.
-    header("Location: ?p=admin_managevacancies");
 }
 
-$vacancy = [];
-$requirements = [];
 
 // If the user is trying to update a vacancy we extract those values from the database.
 // We also update the title of the page
@@ -132,22 +168,35 @@ if (isset($_GET['vacancy'])) {
     $requirements = base_query("SELECT * FROM Requirement WHERE Vacancy = :vacancy", [
         ':vacancy' => $_GET['vacancy'],
     ])->fetchAll();
-    
+
     setTitle("Aanpassen vacature: " . $vacancy['Title']);
-}
-else {
+} else {
     setTitle("Nieuwe vacature");
 }
 
 
 if (isset($_GET['vacancy'])) {
     ?><h2>Vacature wijzigen</h2><?php
+
 } else {
     ?><h2>Vacature aanmaken</h2><?php
+
 }
 
 ?>
 
+<style>
+.errors > p {
+    color: red;
+}
+</style>
+
+<div class="errors">
+    <?php foreach ($errors as $error) {
+        ?><p><?= $error ?></p><?php
+    }
+    ?>
+</div>
 <form method="POST">
     <table>
         <tr>
