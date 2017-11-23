@@ -26,6 +26,7 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 
     .vacancy_container > table tr > td:first-child {
         font-weight:bold;
+        width:100px;
     }
 
     .vacancy_container > table {
@@ -77,7 +78,7 @@ foreach ($query as $value) {
                  Dienstverband: 
             </td>
             <td> 
-                <?= $employment ?>s 
+                <?= $employment ?>
             </td>
         </tr>
     </table>
