@@ -120,7 +120,7 @@ function getFilledInDataErrors()
         $errors[] = "Dienstverband is leeg";
     } 
     
-    if (empty($_POST['Requirement'])) {
+    if (!array_filter($_POST['Requirement'])) {
         $errors[] = "U heeft geen eisen ingevult";
     }
     return $errors;
@@ -241,6 +241,7 @@ if (isset($_GET['vacancy'])) {
         </tr>
     </table>
 </form>
+<i>Alle velden zijn verplicht.</i>
 
 <script>
     function delete_requirement(event) {
