@@ -46,7 +46,10 @@ foreach ($query as $value) {
     $title = $value['Title'];
     $function = $value['Function'];
     $description = $value['Description'];
-    $employment = $value['Employment'];   
+    $employment = $value['Employment'];
+    $requirements = base_query("SELECT * FROM Requirement WHERE Vacancy = :vacancy", [
+        ':vacancy' => $value['Id']
+        ]);
     ?>
     <table>
         <tr>
@@ -81,6 +84,17 @@ foreach ($query as $value) {
                 <?= $employment ?>
             </td>
         </tr>
+        <tr>
+            <td>
+                Eisen:
+            </td>
+            <td>
+                <ul>
+                <?php foreach ($requirements as $requirement) {
+                    ?> <li> <?= $requirement['Requirement'] ?> </li> <?php
+                }  ?>
+                </ul>
+            </td>
     </table>
     <br>
 <?php
