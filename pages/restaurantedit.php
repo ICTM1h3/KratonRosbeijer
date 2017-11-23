@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	base_query("UPDATE setting SET value = :value WHERE name = 'Info'", array(':value' => $text));
 }
 ?>
-Let op css nog niet aanwezig.
+
 
 Beheren restaurant informatie.
 
@@ -27,7 +27,7 @@ Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit 
 			</textarea>
 
 			<!-- Submit data by a submit button-->
-			<input onclick="submit()" type="submit" value="Get Data">
+			<input onclick="submit()" type="submit" value="Opslaan">
 
 			<script>
 
@@ -39,13 +39,10 @@ Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit 
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
 				});
-				document.getElementById("data-container").innerHTML=tinyMCE.activeEditor.getContent();
+				
 			}
 			</script>
 
-		<!-- Put the data from Get Data here, temporarily-->
-		<div id="data-container">
-		</div>
 
 		<!-- Loading javascript for the edit tool -->
 		<script type="text/javascript" src="editplugin/js/jquery.min.js"></script>
