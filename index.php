@@ -17,7 +17,12 @@ $body = renderPage();
 </head>
 
 	<body>
-		
+		<ul>
+			<li><a href="?p=admin_managevacancies">Beheer vacatures</a></li>
+			<li><a href="?p=insight_vacancies">Inzien vacatures</a></li>
+			<li><a href="?p=infopage">Restaurant info pagina</a></li>
+			<li><a href="?p=restaurantedit">Verander restaurant info</a></li>
+		</ul>
 	<?php
 	
 	echo $body;
