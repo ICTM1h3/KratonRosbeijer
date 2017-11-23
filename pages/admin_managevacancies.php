@@ -115,6 +115,6 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
 
     <?php if ($inDeleteMode) { 
         // Show a delete button if we're in delete mode 
-        ?><input class="delete_button" type="submit" name="deleteVacancies" value="Delete selected"/><?php
+        ?><input class="delete_button" type="submit" name="deleteVacancies" value="Verwijder geselecteerde vacatures"/><?php
     } ?>
 </form>

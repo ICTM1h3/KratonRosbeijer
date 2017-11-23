@@ -140,6 +140,11 @@ else {
 }
 
 
+if (isset($_GET['vacancy'])) {
+    ?><h2>Vacature wijzigen</h2><?php
+} else {
+    ?><h2>Vacature aanmaken</h2><?php
+}
 
 ?>
 
