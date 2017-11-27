@@ -1,8 +1,4 @@
 <?php
 setTitel("Login Pagina");
-
-
-
-
-
 ?>
+
