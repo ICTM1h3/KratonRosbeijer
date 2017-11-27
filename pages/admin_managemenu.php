@@ -72,9 +72,14 @@ setTitle("Beheren menu");
     
 <table>
     <th>Menu</th>
-        <tr>
-            <td></td>
-        </tr>
+    <tr>
+        <td>
+        <?php
+            $dish= base_query("SELECT * FROM Dish")->fetchAll(); 
+            var_dump ($dish);
+        ?>
+        </td>
+    </tr>
     </table>
 
 </form>
