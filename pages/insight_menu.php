@@ -1,56 +1,51 @@
 <?php
 
-$queryDish = base_query('SELECT * FROM Dish')->fetchAll();
-$queryCategory = base_query('SELECT * FROM DishCategory')->fetchAll();
-
+function echoCategory($categoryId, $size = 1) {
+    $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
+    $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
 ?>
-<style> 
+<!-- Echo category name -->
+    <h<?= $size ?>>
+        <?= $category['Name'] ?>
+    </h<?= $size ?>> 
+<?php
+// If a category has a price attached, the price will be shown
+    if (isset($category['Price'])) {
+?> 
+    <span style="float:right">
+        <?= $category['Price'] ?>
+    </span> 
+<?php
+    }
 
-* {
-    font-family:Arial;
-}
-
-#categoryName 
-{
-    font-weight: bold;
-    font-size: 15px;
-}
-
-</style>
+?> 
+<!-- Echo category description -->
+     <i><p>
+        <?= $category['Description'] ?>
+    </p></i> 
 
 <?php
-// Going through each category
-foreach ($queryCategory as $categoryValue)
-{
-    $catName = $categoryValue['Name'];
-?> 
-<!-- Printing the category name -->
-    <span id="categoryName"> <?= $catName . "<br>" ?> </span>
-    <?php
-    // Each category goes through each dish
-    foreach ($queryDish as $dishValue) 
-    {
-        //Checking if a category has dish(es) attached to itself
-        if ($dishValue['Category'] == $categoryValue['Id'])
-        {
-            $name = $dishValue['Name'];
-            $description = $dishValue['Description'];
-            $price = $dishValue['Price'];
-        ?>
-        <table>
-            <tr>
-                <td> 
-                    <?= $name ?> 
-                </td>
-                <td> 
-                    <?= $description ?> 
-                </td>
-                <td> 
-                    <?= $price ?> 
-                </td>
-            </tr>
-        </table>
-        <?php
+// If there are still subcategories the function will keep being called upon
+    if (!empty($subcategories)) {
+        foreach ($subcategories as $category) {
+            echoCategory($category['Id'], $size + 1);
         }
     }
+    // If there are no subcategories anymore the function will echo all the dishes attached to the category
+    else {
+        $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
+?>  <ul> <?php
+        foreach ($dishes as $dish) {
+            ?><li> 
+                <?= $dish['Name'] ?> <?= $dish['Description']  ?> $<b><?= $dish['Price'] ?></b></li><?php
+        }
+    ?> </ul> 
+<?php 
+    }
+}
+
+// Calling upon the function with 'Headcategories'
+$mainCategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId IS NULL ORDER BY Position")->fetchAll();
+foreach ($mainCategories as $category) {
+    echoCategory($category['Id']);
 }
