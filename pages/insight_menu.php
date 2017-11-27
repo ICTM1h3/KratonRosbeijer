@@ -1,22 +1,56 @@
 <?php
 
- /*$query = base_query('SELECT * FROM Dish D JOIN DishCategory DC ON D.Category = DC.Id ORDER BY DC.Id')->fetchAll();
-$query_category = base_query('SELECT * FROM DishCategory WHERE SubCategoryId IS NULL')->fetchAll(); */
+$queryDish = base_query('SELECT * FROM Dish')->fetchAll();
+$queryCategory = base_query('SELECT * FROM DishCategory')->fetchAll();
 
-$queryDish = base_query('SELECT * FROM Dish');
-$queryCategory = base_query('SELECT * FROM DishCategory');
+?>
+<style> 
 
-foreach ($queryDish as $dishValue)
-{
-    echo $dishValue['Id'] . "<br>";
-    echo $dishValue['Name'] . "<br>";
-    echo $dishValue['Description'] . "<br>";
-    echo $dishValue['Category'] . "<br><br><br>";
+* {
+    font-family:Arial;
 }
 
+#categoryName 
+{
+    font-weight: bold;
+    font-size: 15px;
+}
+
+</style>
+
+<?php
+// Going through each category
 foreach ($queryCategory as $categoryValue)
 {
-    echo $categoryValue['Id'] . "<br>";
-    echo $categoryValue['Name'] . "<br>";
-    echo $categoryValue['SubCategoryId'] . "<br>";
+    $catName = $categoryValue['Name'];
+?> 
+<!-- Printing the category name -->
+    <span id="categoryName"> <?= $catName . "<br>" ?> </span>
+    <?php
+    // Each category goes through each dish
+    foreach ($queryDish as $dishValue) 
+    {
+        //Checking if a category has dish(es) attached to itself
+        if ($dishValue['Category'] == $categoryValue['Id'])
+        {
+            $name = $dishValue['Name'];
+            $description = $dishValue['Description'];
+            $price = $dishValue['Price'];
+        ?>
+        <table>
+            <tr>
+                <td> 
+                    <?= $name ?> 
+                </td>
+                <td> 
+                    <?= $description ?> 
+                </td>
+                <td> 
+                    <?= $price ?> 
+                </td>
+            </tr>
+        </table>
+        <?php
+        }
+    }
 }
