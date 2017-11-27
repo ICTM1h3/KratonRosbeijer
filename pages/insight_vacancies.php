@@ -30,8 +30,11 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
     }
 
     .vacancy_container > table {
-        width: 49%;
-        height: 140px;
+        max-width: 48%;
+        min-width: 300px;
+        width: 100%;
+        display: block; 
+        margin: 2px;
         padding: 2px;
         overflow-wrap: break-word;
         border: 1px solid black;
