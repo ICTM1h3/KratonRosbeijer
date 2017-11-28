@@ -75,8 +75,8 @@ setTitle("Beheren menu");
     <tr>
         <td>
         <?php
-            $dish= base_query("SELECT * FROM Dish")->fetchAll(); 
-            var_dump ($dish);
+            $category= base_query("SELECT * FROM dishcategory")->fetchAll(); 
+            var_dump ($category);
         ?>
         </td>
     </tr>

@@ -12,21 +12,75 @@ if(isset($_GET['dish'])){
 $categories=base_query("SELECT * FROM dishcategory")->fetchAll();
 
 //Inserts a new dish into the database with a function.
-function insert_menu(){
-    
+function insert_category(){
+        $Parentcategoryid=0;
+
+        if ($_POST['Category'] != '') {
+            $highestPosition = base_query("SELECT MAX(Position) AS HighestPosition FROM dishcategory WHERE ParentCategoryId = :parentCategoryId", [
+                ':parentCategoryId' => $_POST['Category']
+            ])->fetch()['HighestPosition'];
+            $Parentcategoryid = $highestPosition == null ? 0 : $highestPosition + 1;
+        } 
+        else {
+            $highestPosition = base_query("SELECT MAX(Position) AS HighestPosition FROM dishcategory dc1 WHERE ParentCategoryId IS NULL")->fetch()['HighestPosition'];
+            $Parentcategoryid = $highestPosition == null ? 0 : $highestPosition + 1;
+        }
+
         //Insert the dish into the database.
-        base_query("INSERT INTO `dishcategory` (`Name`, `TitleDescription`, `Description`) VALUES ( :Name, :Description, :Price);", array(
-            ':Category' => $_POST['Category'],
+        $stmt = base_query("INSERT INTO `dishcategory` (`Name`, `TitleDescription`, `Description`, `ParentCategoryid`, `Position`, `Price`) 
+        VALUES ( :Name, :TitleDescription, :Description, :Parentcategoryid, :Position, :Price);", array(
             ':Name' => $_POST['Name'],
-            ':Description' =>$_POST ['Description'],
-            ':Price' => $_POST["Price"])
+            ':TitleDescription' => $_POST['TitleDescription'],
+            ':Description' =>$_POST ['CategoryDescription'],
+            ':Parentcategoryid' => $_POST['Category'] == '' ? null : $_POST['Category'],
+            ':Position' => $Parentcategoryid,
+            ':Price' => $_POST['Price']
+            )
     
         );
-    
-        header("Location: ?p=admin_managemenu");
+        ("Location: ?p=admin_managemenu");
     
     }
 
+// Checks if the filled in data is complete
+function getFilledInDataErrors()
+{
+    $errors = [];
+
+    if (empty($_POST['Name'])) {
+        $errors[] = "Naam is leeg";
+    } 
+    if (empty($_POST['CategoryDescription'])) {
+        $errors[] = "Category beschrijving leeg ";
+    } 
+
+    return $errors;
+}
+
+
+
+$errors = [];
+
+    
+// Update or insert the menu.
+if (isset($_POST['save_category'])) {
+    $errors = getFilledInDataErrors();
+
+    // Only actually insert/update if there are no problems with the filled in values.
+    if (empty($errors)) {
+        if (isset($_GET['category'])) {
+            //IN PROGRESS
+            update_category();
+        } else {
+            insert_category();
+            
+        }
+        
+        // Send the administrator to the vacancy overview page.
+        header("Location: ?p=admin_managemenu");
+    }
+
+}
 ?>
 
 <!--Style for the page-->
@@ -36,13 +90,20 @@ function insert_menu(){
     }
 </style>
 
+<!--Print the errors-->
+<div class="errors">
+    <?php foreach ($errors as $error) {
+        ?><p><?= $error ?></p><?php
+    }
+    ?>
+</div>
 
 
 <!--Form for adding/change a category-->
 <form method="POST">
     <table>
         <tr>
-            <td>Naam *</td>
+            <td>Naam (verplicht)</td>
             <td><input type="tekst" name="Name"/></td>
         </tr>
         <tr>
@@ -50,14 +111,14 @@ function insert_menu(){
             <td><input type="tekst" name="TitleDescription"></td>
         </tr>        
         <tr>
-            <td>Categorie beschrijving *</td>
+            <td>Categorie beschrijving </td>
             <td><input type="text" name="CategoryDescription"></td>
         </tr>
         <tr>
             <td>Subcategory van</td>
             <td>
             <select name="Category" >
-            <option>Selecteer de categorie</option><?php 
+                <option value=''>Selecteer de categorie</option><?php 
 
                 foreach($categories as $category){
                     ?>
@@ -83,6 +144,5 @@ function insert_menu(){
     </tr>
     </table>
 </form>
-<i>* Velden zijn verplicht.</i><br>
-<i>De (sub)category wordt geplaats onderaan in de subcategory.</i><br>
+<i>De (sub)category wordt geplaats onderaan in de (sub)category.</i><br>
 <i>De positie kan gewijzigd worden in het beheeroverzicht van het menu.</i>
