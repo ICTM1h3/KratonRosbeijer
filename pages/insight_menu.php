@@ -27,6 +27,7 @@ function echoCategory($categoryId, $size = 1) {
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
 ?>
+
 <!-- Echo category name -->
     <h<?= $size ?>>
         <?= $category['Name']?>
@@ -35,27 +36,36 @@ function echoCategory($categoryId, $size = 1) {
             ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
         } ?>
     </h<?= $size ?>> 
+
 <!-- Echo category description -->
      <i><p>
         <?= $category['Description'] ?>
     </p></i> 
 
 <?php
+
 // If there are still subcategories the function will keep being called upon
-    if (!empty($subcategories)) {
-        foreach ($subcategories as $category) {
-            echoCategory($category['Id'], $size + 1);
-        }
-    }
-    // If there are no subcategories anymore the function will echo all the dishes attached to the category
-    else {
-        $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
-?>  <ul> <?php
+$dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
+    if ($subcategories == true) {?>
+        <ul> <?php
         foreach ($dishes as $dishValue)
         {
             ?><li>- <?= $dishValue['Name']?><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?><?php
         }
-    ?> </ul> 
+    ?> </ul><?php
+        foreach ($subcategories as $category) {
+            echoCategory($category['Id'], $size + 1);
+        }
+    }
+
+    // If there are no subcategories anymore the function will echo all the dishes attached to the category
+    else {
+?>  <ul> <?php
+foreach ($dishes as $dishValue)
+{
+    ?><li>- <?= $dishValue['Name']?><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?><?php
+}
+?> </ul> 
 <?php 
     }
 }
