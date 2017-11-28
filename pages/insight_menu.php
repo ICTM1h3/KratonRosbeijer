@@ -1,5 +1,6 @@
 <?php
 
+
 function echoCategory($categoryId, $size = 1) {
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
@@ -35,9 +36,9 @@ function echoCategory($categoryId, $size = 1) {
     else {
         $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
 ?>  <ul> <?php
-        foreach ($dishes as $dish) {
-            ?><li> 
-                <?= $dish['Name'] ?> <?= $dish['Description']  ?> $<b><?= $dish['Price'] ?></b></li><?php
+        foreach ($dishes as $dishValue)
+        {
+            ?><li><?= $dishValue['Name'] . " " . $dishValue['Description'] . " " . $dishValue['Price']; ?><?php
         }
     ?> </ul> 
 <?php 
