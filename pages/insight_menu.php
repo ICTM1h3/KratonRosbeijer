@@ -1,5 +1,27 @@
-<?php
 
+<style>
+
+ul {
+    list-style: none;
+}
+
+* {
+    font-family: Arial;
+}
+
+#categoryPrice {
+    float:right;
+    font-weight: normal;
+    font-size:17px;
+}
+
+#price {
+    float:right;
+}
+
+</style>
+
+<?php
 
 function echoCategory($categoryId, $size = 1) {
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
@@ -7,19 +29,12 @@ function echoCategory($categoryId, $size = 1) {
 ?>
 <!-- Echo category name -->
     <h<?= $size ?>>
-        <?= $category['Name'] ?>
+        <?= $category['Name']?>
+        <!-- Checks if a category has a price attached to itself -->
+        <?php if(isset($category['Price'])) {
+            ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
+        } ?>
     </h<?= $size ?>> 
-<?php
-// If a category has a price attached, the price will be shown
-    if (isset($category['Price'])) {
-?> 
-    <span style="float:right">
-        <?= $category['Price'] ?>
-    </span> 
-<?php
-    }
-
-?> 
 <!-- Echo category description -->
      <i><p>
         <?= $category['Description'] ?>
@@ -38,7 +53,7 @@ function echoCategory($categoryId, $size = 1) {
 ?>  <ul> <?php
         foreach ($dishes as $dishValue)
         {
-            ?><li><?= $dishValue['Name'] . " " . $dishValue['Description'] . " " . $dishValue['Price']; ?><?php
+            ?><li>- <?= $dishValue['Name']?><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?><?php
         }
     ?> </ul> 
 <?php 
