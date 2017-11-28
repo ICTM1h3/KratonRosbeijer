@@ -56,7 +56,7 @@ setTitle("Beheren menu");
 
 <div class="menu_container">
     <div class="menu_button">
-        <a href="?p=admin_editmenu">
+        <a href="?p=admin_editdish">
             Gerechten toevoegen
         <div>+</div>
         </a>

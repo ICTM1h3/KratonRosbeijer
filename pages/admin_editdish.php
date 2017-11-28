@@ -60,7 +60,7 @@ if (isset($_POST['save_dish'])) {
     // Only actually insert/update if there are no problems with the filled in values.
     if (empty($errors)) {
         if (isset($_GET['dish'])) {
-            //IN PROGRES
+            //IN PROGRESS
             update_menu();
         } else {
             insert_menu();
