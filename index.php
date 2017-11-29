@@ -1,6 +1,7 @@
 <?php
 // Load the file which handles loading the actual webpage.
 include 'rendering.php';
+include 'validators.php';
 include 'database.php';
 //Set default title and setup body
 $pagetitle = "Kraton Rosbeijer";
