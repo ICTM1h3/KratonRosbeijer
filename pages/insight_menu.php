@@ -29,6 +29,7 @@ function echoCategory($categoryId, $size = 1) {
        <ul> <?php
             ?><li><span id="dishTitle"><?= $dishValue['Name']?></span><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?><?php
         ?> </ul>
+    </div>
     <?php
     }
         foreach ($subcategories as $category) {
