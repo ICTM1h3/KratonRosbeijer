@@ -6,6 +6,7 @@ function echoCategory($categoryId, $size = 1) {
     ?>
 
 <!-- Echo category name -->
+<div style="margin:<?= $size * 10 ?>px">
     <h<?= $size ?>>
         <?= $category['Name']?>
         <!-- Checks if a category has a price attached to itself -->
