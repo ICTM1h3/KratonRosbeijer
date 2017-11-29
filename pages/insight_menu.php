@@ -26,9 +26,9 @@ function echoCategory($categoryId, $size = 1) {
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     // var_dump($dishes);
     foreach($dishes as $dishValue){ ?>
-       <ul> <?php
-            ?><li><span id="dishTitle"><?= $dishValue['Name']?></span><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?><?php
-        ?> </ul>
+        <ul>
+            <li><span id="dishTitle"><?= $dishValue['Name']?></span><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
+        </ul>
     <?php
     }
         foreach ($subcategories as $category) {
