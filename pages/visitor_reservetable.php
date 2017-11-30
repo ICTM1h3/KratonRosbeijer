@@ -139,17 +139,51 @@ function createReservation($inNameOf, $email, $date, $telephoneNumber, $amountPe
     return [true, null];
 }
 
+
+function generateCSRFToken() {
+    return sha1(rand());
+}
+
+
+function checkCSRFToken() {
+    return $_SESSION['CSRFToken'] == $_POST['CSRFToken'];
+}
+
+function newCSRFToken() {
+    $token = generateCSRFToken();
+    $_SESSION['CSRFToken'] = $token;
+    return $token;
+}
+
 $errors = [];
+$successes = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $errors = validateData();
+    // Used to protect against Cross-site request forgery, but also to prevent the form to be posted twice.
+    if (!checkCSRFToken()) {
+        $errors[] = "U kunt niet een reservering twee keer aanvragen";
+    }
+
+    $errors = array_merge($errors, validateData());
     if (!empty($errors)) {
 
     } else {
         $date = format_date_and_time($_POST['Date'], $_POST['Time']);
-        list($success, $error) = createReservation($_POST['InNameOf'], $_POST['Email'], $date, $_POST['Telephone'], $_POST['AmountPersons'], $_POST['Notes']);
+        $amountPersons = $_POST['AmountPersons'];
+        $inNameOf = $_POST['InNameOf'];
+        list($success, $error) = createReservation($_POST['InNameOf'], $_POST['Email'], $date, $_POST['Telephone'], $amountPersons, $_POST['Notes']);
 
         if (!$success) {
             $errors[] = $error;
+        }
+        else {
+            // Send an email to the user.
+            send_email_to($_POST['Email'], 'Uw reservering is aangemaakt', 'created_reservation', [
+                'inNameOf' => $inNameOf,
+                'amountPersons' => $amountPersons,
+                'date' => $date
+            ]);
+            
+            $successes[] = "Uw reservering is aangemaakt.";
         }
     }
 }
@@ -161,6 +195,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     .error-box {
         color:red;
     }
+
+    .success-box {
+        color:green;
+    }
 </style>
 <h1>Reserveren</h1>
 <?php
@@ -171,8 +209,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             ?> </div> <?php
     }
+
+    if (!empty($successes)) {
+        ?><div class="success-box"> <?php
+            foreach ($successes as $msg) {
+                ?> <p><?= $msg ?></p> <?php
+            }
+            ?> </div> <?php
+    }
+    
 ?>
 <form method="POST">
+    <input type="hidden" value="<?= newCSRFToken()?>" name="CSRFToken" />
 <table>
     <tr>
         <td>Op naam van*</td>

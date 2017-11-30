@@ -25,6 +25,5 @@ function is_time_valid($time) {
 // }
 
 function format_date_and_time($date, $time) {
-    var_dump($date, $time);
     return $date . ' ' . $time;
 }
