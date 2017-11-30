@@ -1,57 +1,18 @@
 <?php
+//Set title
 setTitle("Beheren menu");
 
-$queryDish = base_query('SELECT * FROM Dish')->fetchAll();
-$queryCategory = base_query('SELECT * FROM DishCategory')->fetchAll();
+var_dump($_POST);
 
+// Boolean. true when the user is trying to delete vacancies, false otherwise.
+$changingModus = isset($_GET['changingModus']) ? ($_GET['changingModus'] == 'true') : false;
+$changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'true') : false;
 ?>
-<
+
+<!-- Style of the page-->
 <style>
-    .menu_container {
-        display:flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
 
-    .menu_container > div {
-        width:49%;
-        padding:2px;
-        overflow-wrap: break-word;
-    }
-
-    .menu_container > div:nth-child(n+3) > div:first-child {
-        width:100%;
-        border-bottom: solid black 1px;
-    }
-
-    .menu_container > div:nth-child(n+3) > div:first-child > span {
-        font-weight:bold;
-    }
-
-    .menu_container > div:nth-child(n+3) > div:first-child > a, .menu_container > div:nth-child(n+3) > div:first-child > input {
-        font-style: italic;
-        float:right;
-    }
-
-    .menu_container > div:first-child, .menu_container > div:nth-child(2)  {
-        text-align:center;
-    }
-
-    .menu_container > div:first-child div, .menu_container > div:nth-child(2)  div {
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 100px;
-        line-height: 100px;
-    }
-
-    .menu_button a {
-        color: inherit;
-        text-decoration: none;
-    }
+    */
     ul {
         list-style: none;
     }
@@ -72,86 +33,127 @@ $queryCategory = base_query('SELECT * FROM DishCategory')->fetchAll();
 
 </style>
 
-
+<!--Form for adding/changing categories/dishes-->
 <form method="POST">
 
 
-<div class="menu_container">
-    <div class="menu_button">
+<div>
+    <div>
         <a href="?p=admin_editdish">
             Gerechten toevoegen
-        <div>+</div>
         </a>
     </div>
 
-    <div class="menu_button">
+    <div>
         <a href="?p=admin_editcategory">
             Categorie toevoegen
-        <div>+</div>
         </a>
     </div>
+    <div>
+    <div>
+        <?php if($changingModus){?>
+        <a href="?p=admin_managemenu">
+            Terug
+        </a>
+        <?php }else{?>
+            <a href="?p=admin_managemenu&changingModus=true">
+            Menu items wijzigen of verwijderen
+        </a>
+        <?php }?>
+    </div>
+    <div>
+    <?php if($changingPlace){?>
+    <a href="?p=admin_managemenu">
+        Terug
+    </a>
+    <?php }else{?>
+        <a href="?p=admin_managemenu&changingPlace=true">
+        Menu items verplaatsen
+    </a>
+    <?php }?>
+</div>
 </div>
 
 
+
+
+
     
-<!--<table>
-    <th>Menu</th>
-    <tr>
-        <td>
-        <?php
-            $category= base_query("SELECT * FROM dishcategory")->fetchAll(); 
-            var_dump ($category);
-        ?>
-        </td>
-    </tr>
-    </table>
-
-</form>-->
-
 <?php
 
-function echoCategory($categoryId, $size = 1) {
+function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1) {
+    //Getting the categories from the database
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
+
 ?>
 <!-- Echo category name -->
 <div style="margin-left:<?= $size * 10 ?>px">
-    <h<?= $size ?>>
-        <?= $category['Name']?>
-        <!-- Checks if a category has a price attached to itself -->
-        <?php if(isset($category['Price'])) {
+    <?php if($changingModus){
+        ?><input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:-20px" value=""/>
+        <h<?= $size ?>>
+        <?= $category['Name']?> 
+        </h<?= $size ?>> 
+        <?= $category['TitleDescription'] ?>
+        <a href="?p=admin_editcategory&category=<?= $categoryId?>">Wijzig category</a>
+        <?php } else { ?>
+            <h<?= $size ?>>
+            <?= $category['Name']?>  
+            </h<?= $size ?>> 
+            <?= $category['TitleDescription'] ?>
+        <?php } ?>
+        <!-- Checks if a category has a price attached to itself, if the price is not set (value is 0) then dont give the price -->
+        <?php if(isset($category['Price']) && $category['Price'] != 0.00) {
             ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
-        } ?>
-    </h<?= $size ?>> 
+        } 
+    ?>
+ 
 <!-- Echo category description -->
      <i><p>
         <?= $category['Description'] ?>
     </p></i> 
 
 <?php
+    //Getting the dishes from the database and put them in the right (sub)category
+    $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
+?>  <ul> <?php
+foreach ($dishes as $dishValue)
+    {
+        ?><li>
+            <?php if ($changingModus) {
+                ?><input type="checkbox" name="dishesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $dishValue['Id'] ?>"/>
+                <b><?= $dishValue['Name']?></b><a href="?p=admin_editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
+                
+                <?php
+            }else{ ?>
+                <b><?= $dishValue['Name']?></b><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?> 
+        <?php
+            }
+    }
+?> </ul>
+<?php 
 // If there are still subcategories the function will keep being called upon
     if (!empty($subcategories)) {
         foreach ($subcategories as $category) {
-            echoCategory($category['Id'], $size + 1);
+            echoCategory($category['Id'], $changingModus, $changingPlace, $size + 1);
         }
+        
     }
     // If there are no subcategories anymore the function will echo all the dishes attached to the category
-    else {
-        $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
-?>  <ul> <?php
-        foreach ($dishes as $dishValue)
-        {
-            ?><li>- <?= $dishValue['Name']?><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?><?php
-        }
-    ?> </ul> 
+    ?>
     </div>
 <?php 
-    }
+    
 }
 
 // Calling upon the function with 'Headcategories'
 $mainCategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId IS NULL ORDER BY Position")->fetchAll();
 foreach ($mainCategories as $category) {
-    echoCategory($category['Id']);
+    echoCategory($category['Id'], $changingModus, $changingPlace);
 }
 ?>
+    <?php if ($changingModus) { 
+        // Show a delete button if we're in delete mode 
+        ?><input type="submit" name="delete" value="Verwijder geselecteerde onderdelen"/><?php
+    } ?>
+</form>
