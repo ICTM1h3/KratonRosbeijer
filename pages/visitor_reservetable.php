@@ -216,42 +216,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ?> <p><?= $msg ?></p> <?php
             }
             ?> </div> <?php
+        newCSRFToken();
+        return;
     }
     
 ?>
 <form method="POST">
     <input type="hidden" value="<?= newCSRFToken()?>" name="CSRFToken" />
-<table>
-    <tr>
-        <td>Op naam van*</td>
-        <td><input type="text" name="InNameOf" value="<?= getValue('InNameOf') ?>" /></td>
-    </tr>
-    <tr>
-        <td>Email*</td>
-        <td><input type="email" name="Email" value="<?= getValue('Email') ?>"/></td>
-    </tr>
-    <tr>
-        <td>Telefoon*</td>
-        <td><input type="text" name="Telephone" value="<?= getValue('Telephone') ?>" /></td>
-    </tr>
-    <tr>
-        <td>Aantal personen*</td>
-        <td><input type="number" name="AmountPersons" value="<?= getValue('AmountPersons') ?>" /></td>
-    </tr>
-    <tr>
-        <td>Datum en tijdstip*</td>
-        <td>
-            <input type="date" name="Date" value="<?= getValue('Date') ?>" />
-            <input type="time" name="Time" value="<?= getValue('Time') ?>" />
-        </td>
-    </tr>
-    <tr>
-        <td>Bijzonderheden</td>
-        <td><textarea name="Notes"><?= getValue('Notes') ?></textarea></td>
-    </tr>
-</table>
+    <table>
+        <tr>
+            <td>Op naam van*</td>
+            <td><input type="text" name="InNameOf" value="<?= getValue('InNameOf') ?>" /></td>
+        </tr>
+        <tr>
+            <td>Email*</td>
+            <td><input type="email" name="Email" value="<?= getValue('Email') ?>"/></td>
+        </tr>
+        <tr>
+            <td>Telefoon*</td>
+            <td><input type="text" name="Telephone" value="<?= getValue('Telephone') ?>" /></td>
+        </tr>
+        <tr>
+            <td>Aantal personen*</td>
+            <td><input type="number" name="AmountPersons" value="<?= getValue('AmountPersons') ?>" /></td>
+        </tr>
+        <tr>
+            <td>Datum en tijdstip*</td>
+            <td>
+                <input type="date" name="Date" value="<?= getValue('Date') ?>" />
+                <input type="time" name="Time" value="<?= getValue('Time') ?>" />
+            </td>
+        </tr>
+        <tr>
+            <td>Bijzonderheden</td>
+            <td><textarea name="Notes"><?= getValue('Notes') ?></textarea></td>
+        </tr>
+    </table>
 
-<i>Velden met een * zijn verplicht</i>
+    <i>Velden met een * zijn verplicht</i>
 
-<input type="submit" value="Reserveren" />
+    <input type="submit" value="Reserveren" />
 </form>

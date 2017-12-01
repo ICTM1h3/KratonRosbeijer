@@ -1,6 +1,6 @@
-Dag {{inNameOf}} 
+Geachte heer/mevrouw,
 
-Uw reservering op {{date}} voor {{amountPersons}} personen is aangemaakt. Als u vragen heeft of de reservering wilt stoppen kunt u contact opnemen via de telefoon.
+Uw reservering op naam van {{inNameOf}} op {{date}} voor {{amountPersons}} personen is aangemaakt. Als u vragen heeft of de reservering wilt stoppen kunt u contact opnemen via de telefoon.
 
 Met vriendelijke groet,
 Kraton Rosbeijer
