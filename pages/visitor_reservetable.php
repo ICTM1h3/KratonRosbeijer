@@ -243,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <tr>
             <td>Datum en tijdstip*</td>
             <td>
-                <input type="date" name="Date" value="<?= getValue('Date') ?>" />
+                <input type="date" name="Date" min="<?= date("Y-m-d") ?>" value="<?= getValue('Date') ?>" />
                 <input type="time" name="Time" value="<?= getValue('Time') ?>" />
             </td>
         </tr>
