@@ -3,6 +3,7 @@ session_start();
 // Load the file which handles loading the actual webpage.
 include 'rendering.php';
 include 'database.php';
+include 'email.php';
 //Set default title and setup body
 $pagetitle = "Kraton Rosbeijer";
 $body = renderPage();

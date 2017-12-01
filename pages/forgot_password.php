@@ -1,20 +1,35 @@
 <?php
+//function to set the title name
 setTitle("Wachtwoord vergeten");
 
+//check if email is filled
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $forget = base_query("SELECT * FROM User WHERE Email=:email", array(
+    if (empty($_POST["email"])){
+        echo ("Vul een email in.");
+    }
+    else {
+        
+        $forget = base_query("SELECT * FROM User WHERE Email=:email", array(
             ":email" => $_POST["email"]
-    ))->fetch();
-    //var_dump($forget);
-    if ($_POST["email"] == ""){
-        echo ("Vul een email in."); 
-    } elseif($_POST["email"] == $forget["Email"]) {
-            mail("christiaanse.iris@gmail.com", "Wachtwoord vergeten", "Geachte Gast, \n Door op de volgende link te klikken kunt u een nieuw wachtwoord aanmaken:\n http://localhost/kratonrosbeijer/?p=reset_password \n met vriendelijke groet, \n Iets");
+            ))->fetch();
+
+        if ($forget != false) {
+            $reset = hash("sha512", rand());
+            base_query("UPDATE User SET ResetCode=:resetCode WHERE Email=:email", array(
+                ":email" => $_POST["email"], ":resetCode" => $reset));
+            send_email_to($_POST["email"], "Wachtwoord Vergeten", "reset_password", array("resetCode" => $reset));
             echo ("Er is een email verzonden.");
-    } else {
-        echo ("Onbekend emailadres.");
+        }else{
+            echo ("Onbekend emailadres.");
+        }
+            //var_dump($forget);
+            //query to fetch all information from the user 
     }
 }
+
+
+    
+
 ?>
 
 <form method="post" class="container">
