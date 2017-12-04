@@ -72,6 +72,17 @@ function getFreeTables($date) {
 // Returns a boolean, true if successfull and false if not.
 // Also returns a list of table ids to which together can hold the requested amount.
 function tryGetFreeTablesForCapacity($requiredCapacity, $date) {
+    // Look if the kitchen can handle the amount of persons.
+    $capacity = base_query("SELECT SUM(r.AmountPersons) FROM kratonrosbeijer.Reservation r
+    WHERE r.date >= :date 
+    AND r.date <= DATE_ADD(:date, INTERVAL 2 HOUR)", [':date' => $date])->fetchColumn();
+    $capacity = $capacity != null ? $capacity : 0;
+     
+    $maximumCapacity = base_query("SELECT Value FROM setting WHERE Name = \"KitchenCapacity\" ")->fetchColumn();
+    if (($capacity + $requiredCapacity) > $maximumCapacity) {
+        return [false, []];
+    }
+
     $tables = getFreeTables($date);
     
     // Loop through all the tables which are free around the provided hours and add it to an array until we got enough capacity to hold all people.
