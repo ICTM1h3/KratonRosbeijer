@@ -4,7 +4,7 @@ setTitle("Inlog pagina");
 
 //query to fetch the information form the user
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $user = base_query("SELECT * FROM User WHERE Email=:email", array(
+        $user = base_query("SELECT * FROM User WHERE RegistrationCode IS NULL AND Email=:email", array(
                 ":email" => $_POST["email"]
         ))->fetch();
         //var_dump($user);
