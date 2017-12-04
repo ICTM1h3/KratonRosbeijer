@@ -53,6 +53,8 @@ else
 }
 ?>
 
+<a href="?p=download_menu&no_layout=true" id="muchWow">Download het menukaart</a>
+
 <style>
 
 ul {
@@ -62,6 +64,16 @@ ul {
 * {
     font-family: Arial;
 }
+
+body {
+    background-image: url('MenuBackground.jpg'));
+}
+
+#muchWow {
+    margin-top: 20px;
+  
+}
+
 
 #dishTitle {
     font-weight: bold;

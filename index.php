@@ -5,6 +5,11 @@ include 'database.php';
 //Set default title and setup body
 $pagetitle = "Kraton Rosbeijer";
 $body = renderPage();
+
+if (isset($_GET['no_layout'])) {
+	echo $body;
+	return;
+}
 ?>
 
 <!-- PAGE SETUP -->
