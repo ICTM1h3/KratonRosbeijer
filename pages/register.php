@@ -70,6 +70,15 @@ function register_user() {
     return [true, "Er is een email verzonden om uw registratie compleet te maken."];
 }
 
+
+function getValue($key) {
+    if (isset($_POST[$key])) {
+        return $_POST[$key];
+    }
+    return '';
+}
+
+
 $errors = [];
 $successes = [];
 
@@ -98,42 +107,41 @@ if (!empty($errors)) { ?>
 
 }
 if (!empty($successes)) { ?>
-    <div class="success-box">
+    <div>
     <?php foreach ($successes as $success ) { ?>
         <p><?= $success ?></p>
 <?php } ?>
     </div> 
-<?php } ?>
+<?php
+    return;
+} ?>
 
 <style>
 .error-box {
     color: red;
-}
-.success-box {
-    color: green;
 }
 </style>
 <form method="POST">
     <table>
         <tr>
             <td>Voornaam</td>
-            <td><input name="firstName" type="text" /></td>
+            <td><input name="firstName" value="<?= getValue("firstName") ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Tussenvoegsel</td>
-            <td><input name="middleName" type="text" /></td>
+            <td><input name="middleName" value="<?= getValue("middleName") ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Achternaam</td>
-            <td><input name="lastName" type="text" /></td>
+            <td><input name="lastName" value="<?= getValue("lastName") ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Telefoonnummer</td>
-            <td><input name="telephoneNumber" type="text" /></td>
+            <td><input name="telephoneNumber" value="<?= getValue("telephoneNumber") ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input name="email" type="email" /></td>
+            <td><input name="email" value="<?= getValue("email") ?>" type="email" /></td>
         </tr>
         <tr>
             <td>Wachtwoord</td>
