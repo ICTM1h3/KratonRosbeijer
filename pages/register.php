@@ -1,5 +1,8 @@
 <?php
 
+setTitle("Registreren");
+
+
 function validateData() {
     $errors = [];
     if (empty($_POST['firstName'])) {
