@@ -66,7 +66,8 @@ ul {
 }
 
 body {
-    background-image: url('MenuBackground.jpg'));
+    background-image: url('pages/MenuBackground.jpg');
+    margin: 0px;
 }
 
 #muchWow {
