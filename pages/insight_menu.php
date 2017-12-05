@@ -76,7 +76,7 @@ body {
     border: 1px solid black; border-width: 0 1px;
     background-image: url('pages/MenuBackground.jpg');
     background-size: 840px;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     background-position: center;
 }
 
