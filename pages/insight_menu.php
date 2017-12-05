@@ -8,11 +8,12 @@ function echoCategory($categoryId, $size = 1)
     
     ?>
     <!-- Echo category name -->
+    <div clas="wow">
     <div style="margin:<?= $size * 10 ?>px">
         <h<?= $size ?>>
             <?= $category['Name']?>
             <!-- Checks if a category has a price attached to itself -->
-            <?php if(isset($category['Price'])) {
+            <?php if($category['Price'] != 0.00) {
                 ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
             } ?>
         </h<?= $size ?>> 
@@ -35,7 +36,7 @@ function echoCategory($categoryId, $size = 1)
         {
             echoCategory($category['Id'], $size + 1);
         }
-        ?></div><?php
+        ?></div></div><?php
     }
 
 // Calling upon the function with 'Headcategories'
@@ -57,6 +58,11 @@ else
 
 <style>
 
+.wow {
+    max-width: 100px;
+    
+}
+
 ul {
     list-style: none;
 }
@@ -66,8 +72,12 @@ ul {
 }
 
 body {
+    overflow: auto; height: 100%; width: 800px; margin: 0 auto; /* center */ padding: 0 20px;
+    border: 1px solid black; border-width: 0 1px;
     background-image: url('pages/MenuBackground.jpg');
-    margin: 0px;
+    background-size: 840px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #muchWow {
