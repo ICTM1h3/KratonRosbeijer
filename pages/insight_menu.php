@@ -62,7 +62,7 @@ else
 ?>
 <?php 
     if(!empty($mainCategories)){?>
-<a href="?p=download_menu&no_layout=true" id="muchWow">Download het menukaart</a>
+<a href="?p=download_menu&no_layout=true" id="muchWow" style="display:non";>Download het menukaart</a>
         <?php
     }
 ?>
@@ -72,7 +72,7 @@ else
 .aBody {
     overflow: auto; height: 100%; width: 800px; margin: 0 auto; /* center */ padding: 0 20px;
     border-width: 0 1px;
-    background-image: url('pages/HMM.jpg');
+    background-image: url('pages/MenuBackground.jpg');
     background-size: 840px;
     background-repeat: repeat-y;
     background-position: center;
@@ -96,7 +96,6 @@ body {
 
 #muchWow {
     margin-top: 20px;
-  
 }
 
 
@@ -108,10 +107,12 @@ body {
     float:right;
     font-weight: normal;
     font-size:17px;
+    display: inline-block;
 }
 
 #price {
     float:right;
+    display: inline-block;
 }
 
 </style>
