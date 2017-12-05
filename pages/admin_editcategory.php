@@ -13,6 +13,7 @@ $categories=base_query("SELECT * FROM dishcategory")->fetchAll();
 
 //Inserts a new dish into the database with a function.
 function insert_category(){
+    $Parentcategoryid = 0;
         if ($_POST['Category'] != '') {
             $highestPosition = base_query("SELECT MAX(Position) AS HighestPosition FROM dishcategory WHERE ParentCategoryId = :parentCategoryId", [
                 ':parentCategoryId' => $_POST['Category']

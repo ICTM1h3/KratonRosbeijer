@@ -11,18 +11,28 @@ if (isset($_POST['delete']) && isset($_POST['dishesToRemove'])) {
 }
 
 //If requested, remove the provided dishes, only when a category is empty (no dishes or subcategory).
-/*if (isset($_POST['delete']) && isset($_POST['categoriesToRemove'])){
+if(isset($_POST['delete']) && isset($_POST['categoriesToRemove'])){
     foreach($_POST['categoriesToRemove'] as $idcategory){
-        if(base_query("SELECT Category as C FROM dish JOIN dishcategory as D on A.  on = WHERE Id = :dishid == :categoryid") ){
-            $errors[]="De category bevat gerechten! Verwijder en/of verplaats de/het gerecht(en) eerst!";
-        }
+        base_query("DELETE FROM dishcategory WHERE Id = :categoryid", [':categoryid'=>$idcategory]);
+
     }
-}*/
 
-$stmt = base_query("SELECT Category FROM dishcategory C 
-                    JOIN dish D on C.Id = D.Id");
-var_dump($stmt);
+}
 
+if (isset($_POST['move_category_down'])) {
+    $categoryId = $_POST['categoryid'];
+    $category = base_query("SELECT * FROM dishcategory WHERE id = :id", [':id' => $categoryId])->fetch();
+
+    $categoryAbove = base_query("SELECT * FROM dishcategory WHERE Position > :targetPosition AND ParentCategoryId <=> :parentCategory ORDER BY Position", [
+        ':parentCategory' => $category['ParentCategoryId'],
+        ':targetPosition' => $category['Position']
+    ])->fetch();
+
+    // var_dump();
+
+    base_query("UPDATE dishcategory SET Position = Position + 1 WHERE id = :id", [':id' => $categoryId]);
+    base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryAbove['Id'], ':newPosition' => $categoryAbove['Position']]);
+}
 
 
 // Boolean. true when the user is trying to delete vacancies, false otherwise.
@@ -110,23 +120,37 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1) {
     //Getting the categories from the database
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
-
+    //Getting the dishes from the database and put them in the right (sub)category
+    $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
 ?>
 <!-- Echo category name -->
 <div style="margin-left:<?= $size * 10 ?>px">
-    <?php if($changingModus){
-        ?><input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:-20px" value=""/>
+    <?php if ($changingModus){
+        if (empty($subcategories) && empty($dishes)){ ?>
+        <input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $categoryId ?>"/>
+
+        <?php }
+        } ?>
+
         <h<?= $size ?>>
         <?= $category['Name']?> 
         </h<?= $size ?>> 
         <?= $category['TitleDescription'] ?>
+
+        <?php if ($changingModus) { ?>
         <a href="?p=admin_editcategory&category=<?= $categoryId?>">Wijzig category</a>
-        <?php } else { ?>
-            <h<?= $size ?>>
-            <?= $category['Name']?>  
-            </h<?= $size ?>> 
-            <?= $category['TitleDescription'] ?>
+        <?php } elseif($changingPlace){
+           ?> <form method="POST">
+               <input type='submit' name="move_category_down" value="Naar beneden"/>
+               <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
+                </form>
+                <form method="POST">
+               <input type='submit' name="move_category_up" value="Naar boven"/>
+               <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
+                </form>
         <?php } ?>
+
+        
         <!-- Checks if a category has a price attached to itself, if the price is not set (value is 0) then dont give the price -->
         <?php if(isset($category['Price']) && $category['Price'] != 0.00) {
             ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
@@ -138,10 +162,9 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1) {
         <?= $category['Description'] ?>
     </p></i> 
 
-<?php
-    //Getting the dishes from the database and put them in the right (sub)category
-    $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
-?>  <ul> <?php
+
+ 
+  <ul> <?php
 foreach ($dishes as $dishValue)
     {
         ?><li>
