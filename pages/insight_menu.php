@@ -2,15 +2,20 @@
 
 setTitle('Menukaart inzien');
 
+if (!empty($mainCategories)) {
+    $BG = "EMPTY";
+} else {
+    $BG = "aBody";
+}?>
+<div class="<?=$BG?>"><?php
+
 function echoCategory($categoryId, $size = 1) 
 {
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
-    
     ?>
     <!-- Echo category name -->
-    <div clas="wow">
     <div style="margin:<?= $size * 10 ?>px">
         <h<?= $size ?>>
             <?= $category['Name']?>
@@ -38,7 +43,7 @@ function echoCategory($categoryId, $size = 1)
         {
             echoCategory($category['Id'], $size + 1);
         }
-        ?></div></div><?php
+        ?></div><?php
     }
 
 // Calling upon the function with 'Headcategories'
@@ -55,14 +60,26 @@ else
         }
 }
 ?>
-
+<?php 
+    if(!empty($mainCategories)){?>
 <a href="?p=download_menu&no_layout=true" id="muchWow">Download het menukaart</a>
-
+        <?php
+    }
+?>
+</div>
 <style>
 
-.wow {
-    max-width: 100px;
-    
+.aBody {
+    overflow: auto; height: 100%; width: 800px; margin: 0 auto; /* center */ padding: 0 20px;
+    border-width: 0 1px;
+    background-image: url('pages/HMM.jpg');
+    background-size: 840px;
+    background-repeat: repeat-y;
+    background-position: center;
+}
+
+@page {
+    margin: 0;
 }
 
 ul {
@@ -74,12 +91,7 @@ ul {
 }
 
 body {
-    overflow: auto; height: 100%; width: 800px; margin: 0 auto; /* center */ padding: 0 20px;
-    border: 1px solid black; border-width: 0 1px;
-    background-image: url('pages/MenuBackground.jpg');
-    background-size: 840px;
-    background-repeat: repeat-y;
-    background-position: center;
+
 }
 
 #muchWow {

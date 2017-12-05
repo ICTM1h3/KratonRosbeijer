@@ -27,6 +27,7 @@ if (isset($_GET['no_layout'])) {
 			<li><a href="?p=insight_vacancies">Inzien vacatures</a></li>
 			<li><a href="?p=infopage">Restaurant info pagina</a></li>
 			<li><a href="?p=restaurantedit">Verander restaurant info</a></li>
+			<li><a href="?p=insight_menu">Inzien menukaart</a></li>
 		</ul>
 	<?php
 	
