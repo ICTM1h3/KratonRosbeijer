@@ -19,9 +19,10 @@ if (isset($_POST['delete']) && isset($_POST['dishesToRemove'])) {
     }
 }*/
 
-/*$stmt = base_query();
-var_dump
-$errors = [];*/
+$stmt = base_query("SELECT Category FROM dishcategory C 
+                    JOIN dish D on C.Id = D.Id");
+var_dump($stmt);
+
 
 
 // Boolean. true when the user is trying to delete vacancies, false otherwise.
@@ -55,13 +56,7 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
     }
 </style>
 
-<!--Print the delete errors-->
-<div class="errors">
-    <?php foreach ($errors as $error) {
-        ?><p><?= $error ?></p><?php
-    }
-    ?>
-</div>
+
 
 <!--Form for adding/changing categories/dishes-->
 <form method="POST">
