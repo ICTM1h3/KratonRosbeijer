@@ -19,9 +19,9 @@ if (isset($_POST['delete']) && isset($_POST['dishesToRemove'])) {
     }
 }*/
 
-$stmt = base_query();
+/*$stmt = base_query();
 var_dump
-$errors = [];
+$errors = [];*/
 
 
 // Boolean. true when the user is trying to delete vacancies, false otherwise.
