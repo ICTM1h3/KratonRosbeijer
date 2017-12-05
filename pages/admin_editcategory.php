@@ -25,7 +25,7 @@ function insert_category(){
         }
 
         //Insert the dish into the database.
-        base_query("INSERT INTO `dishcategory` (`Name`, `TitleDescription`, `Description`, `ParentCategoryid`, `Position`, `Price`) 
+        $stmt1=base_query("INSERT INTO `dishcategory` (`Name`, `TitleDescription`, `Description`, `ParentCategoryid`, `Position`, `Price`) 
         VALUES ( :Name, :TitleDescription, :Description, :Parentcategoryid, :Position, :Price);", [
             ':Name' => $_POST['Name'],
             ':TitleDescription' => $_POST['TitleDescription'],
@@ -36,8 +36,8 @@ function insert_category(){
             
     
         ]);
-        
-        //("Location: ?p=admin_managemenu");
+       
+        ("Location: ?p=admin_managemenu");
     
     }
 //Send the updated category into the database.
@@ -103,7 +103,7 @@ if (isset($_POST['save_category'])) {
         }
         
         // Send the administrator to the vacancy overview page.
-        //header("Location: ?p=admin_managemenu");
+        header("Location: ?p=admin_managemenu");
     }
 
 }
@@ -162,7 +162,7 @@ if (isset($_POST['save_category'])) {
             
                 $currentSubCategory = isset($categoryupdate['ParentCategoryId']) ? $categoryupdate['ParentCategoryId'] : null;
                 if ($currentSubCategory == null) {
-                    ?><option>Selecteer de categorie</option><?php
+                    ?><option value=''>Selecteer de categorie</option><?php
                 }
                 
                 foreach($categories as $category){

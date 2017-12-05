@@ -2,7 +2,27 @@
 //Set title
 setTitle("Beheren menu");
 
-var_dump($_POST);
+//If requested, remove the provided dishes
+if (isset($_POST['delete']) && isset($_POST['dishesToRemove'])) {
+    foreach($_POST['dishesToRemove'] as $iddish){
+        base_query("DELETE FROM dish WHERE Id = :dishid", [':dishid'=>$iddish]);
+
+    }
+}
+
+//If requested, remove the provided dishes, only when a category is empty (no dishes or subcategory).
+/*if (isset($_POST['delete']) && isset($_POST['categoriesToRemove'])){
+    foreach($_POST['categoriesToRemove'] as $idcategory){
+        if(base_query("SELECT Category as C FROM dish JOIN dishcategory as D on A.  on = WHERE Id = :dishid == :categoryid") ){
+            $errors[]="De category bevat gerechten! Verwijder en/of verplaats de/het gerecht(en) eerst!";
+        }
+    }
+}*/
+
+$stmt = base_query();
+var_dump
+$errors = [];
+
 
 // Boolean. true when the user is trying to delete vacancies, false otherwise.
 $changingModus = isset($_GET['changingModus']) ? ($_GET['changingModus'] == 'true') : false;
@@ -11,6 +31,9 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
 <!-- Style of the page-->
 <style>
+    .errors > p {
+    color: red;
+    }
 
     */
     ul {
@@ -30,8 +53,15 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
     #price {
         float:right;
     }
-
 </style>
+
+<!--Print the delete errors-->
+<div class="errors">
+    <?php foreach ($errors as $error) {
+        ?><p><?= $error ?></p><?php
+    }
+    ?>
+</div>
 
 <!--Form for adding/changing categories/dishes-->
 <form method="POST">
