@@ -1,5 +1,7 @@
 <?php
 
+setTitle('Menukaart inzien');
+
 function echoCategory($categoryId, $size = 1) 
 {
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
