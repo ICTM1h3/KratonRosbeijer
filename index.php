@@ -127,19 +127,18 @@ if (isset($_GET['no_layout'])) {
 				<a href="?p=insight_vacancies"><span>Inzien vacatures</span></a>
 				<a href="?p=infopage"><span>Restaurant info pagina</span></a>
 				<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
+        <a href="?p=admin_managemenu">Beheer het menu</a>
+			  <a href="?p=insight_menu">Inzien menukaart</a>
 			</div>
 		</div>
 		<div class="content">
 		<!-- <ul>
 			<li><a href="?p=admin_managevacancies">Beheer vacatures</a></li>
 			<li><a href="?p=insight_vacancies">Inzien vacatures</a></li>
+			<li><a href="?p=admin_managevacancies">Beheer vacatures</a></li>
 			<li><a href="?p=infopage">Restaurant info pagina</a></li>
 			<li><a href="?p=restaurantedit">Verander restaurant info</a></li>
-			<li><a href="?p=insight_menu">Inzien menukaart</a></li>
-			<li><a href="?p=inlogpage">Login</a></li>
-		</ul>-->
-
-
+    -->
 	<?php
 	
 	echo $body;
