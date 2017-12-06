@@ -1,5 +1,4 @@
 <?php
-
 // Sends an email to the target email based on an email template. This template gets filled with the provided parameters.
 function send_email_to($to, $subject, $templateName, $parameters) {
     $content = file_get_contents("email/$templateName.txt");
