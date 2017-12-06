@@ -62,7 +62,7 @@ else
 ?>
 <?php 
     if(!empty($mainCategories) && !isset($_GET['no_layout'])){ ?>
-        <a href="?p=download_menu&no_layout=true" id="download-link" >Download het menukaart</a>
+        <a href="?p=download_menu&no_layout=true" id="download-link" >Download de menukaart</a>
 <?php
     }
 
