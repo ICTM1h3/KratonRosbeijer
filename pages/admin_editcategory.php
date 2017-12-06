@@ -26,7 +26,7 @@ function insert_category(){
         }
 
         //Insert the dish into the database.
-        $stmt1=base_query("INSERT INTO `dishcategory` (`Name`, `TitleDescription`, `Description`, `ParentCategoryid`, `Position`, `Price`) 
+        base_query("INSERT INTO `dishcategory` (`Name`, `TitleDescription`, `Description`, `ParentCategoryid`, `Position`, `Price`) 
         VALUES ( :Name, :TitleDescription, :Description, :Parentcategoryid, :Position, :Price);", [
             ':Name' => $_POST['Name'],
             ':TitleDescription' => $_POST['TitleDescription'],
@@ -78,10 +78,7 @@ function getFilledInDataErrors()
     if (empty($_POST['Name'])) {
         $errors[] = "Naam is leeg";
     } 
-    if (empty($_POST['Description'])) {
-        $errors[] = "Category beschrijving leeg ";
-    } 
-
+    
     return $errors;
 }
 
@@ -152,7 +149,7 @@ if (isset($_POST['save_category'])) {
             <td><input type="tekst" name="TitleDescription" value="<?= getCategoryValue($categoryupdate, 'TitleDescription') ?>"></td>
         </tr>        
         <tr>
-            <td>Categorie beschrijving *</td>
+            <td>Categorie beschrijving</td>
             <td><input type="text" name="Description" value="<?= getCategoryValue($categoryupdate, 'Description')?>"></td>
         </tr>
         <tr>

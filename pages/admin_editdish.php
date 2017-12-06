@@ -11,15 +11,22 @@ if(isset($_GET['dish'])){
 
 //Inserts a new dish into the database with a function.
 function insert_menu(){
+    $dishposition = 0;
 
+    // if($_POST['Position'] != ''){
+        $highestPosition = base_query("SELECT MAX(Position) AS HighestPosition FROM dish WHERE Category = :categoryId", [
+            ':categoryId' => $_POST['Category']
+        ]) ->fetchColumn();
+        $dishposition = $highestPosition == null ? 0 : $highestPosition +1; 
+    // }
     //Insert the dish into the database.
-    base_query("INSERT INTO `dish` (`Category`, `Name`, `Description`, `Price`) VALUES (:Category, :Name, :Description, :Price);", array(
+    base_query("INSERT INTO `dish` (`Category`, `Name`, `Description`, `Price`, `Position`) VALUES (:Category, :Name, :Description, :Price, :Position);", [
         ':Category' => $_POST['Category'],
         ':Name' => $_POST['Name'],
         ':Description' =>$_POST ['Description'],
-        ':Price' => $_POST["Price"])
-
-    );
+        ':Price' => $_POST["Price"],
+        ':Position' => $dishposition
+    ]);
 
     header("Location: ?p=admin_managemenu");
 

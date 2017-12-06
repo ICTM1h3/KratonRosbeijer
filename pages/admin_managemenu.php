@@ -2,6 +2,8 @@
 //Set title
 setTitle("Beheren menu");
 
+
+
 //If requested, remove the provided dishes
 if (isset($_POST['delete']) && isset($_POST['dishesToRemove'])) {
     foreach($_POST['dishesToRemove'] as $iddish){
@@ -18,7 +20,7 @@ if(isset($_POST['delete']) && isset($_POST['categoriesToRemove'])){
     }
 
 }
-
+//Move a category down
 if (isset($_POST['move_category_down'])) {
     $categoryId = $_POST['categoryid'];
     $category = base_query("SELECT * FROM dishcategory WHERE id = :id", [':id' => $categoryId])->fetch();
@@ -28,10 +30,56 @@ if (isset($_POST['move_category_down'])) {
         ':targetPosition' => $category['Position']
     ])->fetch();
 
-    // var_dump();
+    
 
-    base_query("UPDATE dishcategory SET Position = Position + 1 WHERE id = :id", [':id' => $categoryId]);
-    base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryAbove['Id'], ':newPosition' => $categoryAbove['Position']]);
+    base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryId, ':newPosition' => $categoryAbove['Position']]);
+    base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryAbove['Id'], ':newPosition' => $category['Position']]);
+}
+
+//Move a category up
+if (isset($_POST['move_category_up'])) {
+    $categoryId = $_POST['categoryid'];
+    $category = base_query("SELECT * FROM dishcategory WHERE id = :id", [':id' => $categoryId])->fetch();
+
+    $categoryAbove = base_query("SELECT * FROM dishcategory WHERE Position < :targetPosition AND ParentCategoryId <=> :parentCategory ORDER BY Position DESC", [
+        ':parentCategory' => $category['ParentCategoryId'],
+        ':targetPosition' => $category['Position']
+    ])->fetch();
+
+    
+
+    base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryId, ':newPosition' => $categoryAbove['Position']]);
+    base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryAbove['Id'], ':newPosition' => $category['Position']]);
+}
+
+//Move a dish down 
+if (isset($_POST['move_dish_down'])){
+    $dishid = $_POST['dishid'];
+    $dish = base_query("SELECT * FROM dish Where Id = :id", [':id' => $dishid]) ->fetch();
+
+    // $dishAbove = base_query("SELECT * FROM dish WHERE Pos = :id AND category = :samecategory ORDER BY id", [
+    $dishAbove = base_query("SELECT * FROM dish WHERE Position > :targetPosition AND Category = :sameCategory ORDER BY Position", [
+        ':targetPosition' => $dish['Position'],
+        ':sameCategory' => $dish['Category']
+    ])->fetch();
+
+    base_query("UPDATE dish SET Position = :newPosition WHERE Id = :id", [':id' => $dishid, ":newPosition" => $dishAbove['Position']]);
+    base_query("UPDATE dish SET Position = :newPosition WHERE Id = :id", [':id' => $dishAbove['Id'], ':newPosition' => $dish['Position']]);
+}
+
+//Move a dish up 
+if (isset($_POST['move_dish_up'])){
+    $dishid = $_POST['dishid'];
+    $dish = base_query("SELECT * FROM dish Where Id = :id", [':id' => $dishid]) ->fetch();
+
+    // $dishAbove = base_query("SELECT * FROM dish WHERE Pos = :id AND category = :samecategory ORDER BY id", [
+    $dishAbove = base_query("SELECT * FROM dish WHERE Position < :targetPosition AND Category = :sameCategory ORDER BY Position DESC", [
+        ':targetPosition' => $dish['Position'],
+        ':sameCategory' => $dish['Category']
+    ])->fetch();
+
+    base_query("UPDATE dish SET Position = :newPosition WHERE Id = :id", [':id' => $dishid, ":newPosition" => $dishAbove['Position']]);
+    base_query("UPDATE dish SET Position = :newPosition WHERE Id = :id", [':id' => $dishAbove['Id'], ':newPosition' => $dish['Position']]);
 }
 
 
@@ -42,10 +90,6 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
 <!-- Style of the page-->
 <style>
-    .errors > p {
-    color: red;
-    }
-
     */
     ul {
         list-style: none;
@@ -116,7 +160,7 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
     
 <?php
 
-function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1) {
+function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $isFirst, $isLast) {
     //Getting the categories from the database
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
@@ -140,15 +184,21 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1) {
         <?php if ($changingModus) { ?>
         <a href="?p=admin_editcategory&category=<?= $categoryId?>">Wijzig category</a>
         <?php } elseif($changingPlace){
+            if(!$isLast){
            ?> <form method="POST">
                <input type='submit' name="move_category_down" value="Naar beneden"/>
                <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
                 </form>
+            <?php } 
+                if(!$isFirst){?>
                 <form method="POST">
                <input type='submit' name="move_category_up" value="Naar boven"/>
                <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
                 </form>
-        <?php } ?>
+
+        <?php 
+                }
+        } ?>
 
         
         <!-- Checks if a category has a price attached to itself, if the price is not set (value is 0) then dont give the price -->
@@ -165,25 +215,50 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1) {
 
  
   <ul> <?php
-foreach ($dishes as $dishValue)
-    {
+
+
+// for ($dishes as $dishValue)
+$maxValueDish = count($dishes) - 1;
+for ($i = 0; $i <= $maxValueDish; $i++) {
+    $dishValue = $dishes[$i];
+    $isFirst = $i == 0;
+    $isLast = $i == $maxValueDish;
         ?><li>
             <?php if ($changingModus) {
                 ?><input type="checkbox" name="dishesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $dishValue['Id'] ?>"/>
                 <b><?= $dishValue['Name']?></b><a href="?p=admin_editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
                 
                 <?php
-            }else{ ?>
-                <b><?= $dishValue['Name']?></b><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?> 
-        <?php
-            }
+            } elseif($changingPlace){ ?>
+                <b><?= $dishValue['Name']?></b><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
+                <?php if(!$isLast){ ?>
+                    <form method="POST">
+                        <input type='submit' name="move_dish_down" value="Naar beneden"/>
+                        <input type='hidden' name="dishid" value="<?= $dishValue['Id']?>"/>
+                    </form>
+
+                <?php } 
+                if(!$isFirst){ ?>
+                <form method="POST">
+                    <input type='submit' name="move_dish_up" value="Naar boven"/>
+                    <input type='hidden' name="dishid" value="<?= $dishValue['Id'] ?>"/>
+                </form> 
+                <?php } ?>
+            <?php } else{ ?>
+        
+                <b><?= $dishValue['Name']?></b><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
+            <?php }
     }
 ?> </ul>
 <?php 
 // If there are still subcategories the function will keep being called upon
-    if (!empty($subcategories)) {
-        foreach ($subcategories as $category) {
-            echoCategory($category['Id'], $changingModus, $changingPlace, $size + 1);
+if (!empty($subcategories)) {
+    $maxValueCategory = count($subcategories) -1;
+        for($i = 0; $i <= $maxValueCategory; $i++){
+            $category = $subcategories[$i];
+            $isFirst = $i == 0;
+            $isLast = $i == $maxValueCategory;
+            echoCategory($category['Id'], $changingModus, $changingPlace, $size + 1, $isFirst, $isLast);
         }
         
     }
@@ -196,12 +271,20 @@ foreach ($dishes as $dishValue)
 
 // Calling upon the function with 'Headcategories'
 $mainCategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId IS NULL ORDER BY Position")->fetchAll();
-foreach ($mainCategories as $category) {
-    echoCategory($category['Id'], $changingModus, $changingPlace);
+$maxValueHeadCategories = count($mainCategories) -1;
+    for($i = 0; $i <= $maxValueHeadCategories; $i++){
+        $category = $mainCategories[$i];
+        $isFirst = $i == 0;
+        $isLast = $i == $maxValueHeadCategories;
+    echoCategory($category['Id'], $changingModus, $changingPlace, 1, $isFirst, $isLast);
 }
-?>
-    <?php if ($changingModus) { 
+?> 
+    <?php
+
+    if(($changingModus || $changingPlace) && empty($mainCategories)){
+        echo ("Er zijn geen items om te verwijderen/wijzigen. Ga terug."); 
+    }elseif($changingModus && !empty($mainCategories)){
         // Show a delete button if we're in delete mode 
         ?><input type="submit" name="delete" value="Verwijder geselecteerde onderdelen"/><?php
-    } ?>
+        }?>
 </form>
