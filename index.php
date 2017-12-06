@@ -9,6 +9,11 @@ include 'validators.php';
 //Set default title and setup body
 $pagetitle = "Kraton Rosbeijer";
 $body = renderPage();
+
+if (isset($_GET['no_layout'])) {
+	echo $body;
+	return;
+}
 ?>
 
 <!-- PAGE SETUP -->
@@ -130,6 +135,7 @@ $body = renderPage();
 			<li><a href="?p=insight_vacancies">Inzien vacatures</a></li>
 			<li><a href="?p=infopage">Restaurant info pagina</a></li>
 			<li><a href="?p=restaurantedit">Verander restaurant info</a></li>
+			<li><a href="?p=insight_menu">Inzien menukaart</a></li>
 			<li><a href="?p=inlogpage">Login</a></li>
 		</ul>-->
 

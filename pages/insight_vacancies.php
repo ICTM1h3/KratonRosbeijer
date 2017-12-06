@@ -36,8 +36,7 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
         margin: 2px;
         padding: 2px;
         overflow-wrap: break-word;
-        border: 1px solid black;
-        
+        border: 1px solid black;        
     }
 </style>
 
