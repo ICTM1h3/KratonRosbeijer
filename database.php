@@ -14,6 +14,7 @@ function base_query($query, $params = NULL) : PDOStatement {
 
     // Execute the prepared query with the provided parameters.
     $stmt->execute($params);
+
     return $stmt;
 }
 

@@ -1,0 +1,9 @@
+Beste {{firstname}} {{lastname}},
+
+Om uw registratie te voltooien moet u op de volgende link klikken:
+
+{{url}}/?p=finish_registration&registrationCode={{registrationCode}}
+
+Met vriendelijke groet,
+
+Kraton Rosbeijer
