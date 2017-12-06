@@ -17,6 +17,8 @@ $body = renderPage();
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
 <!-- css files, etc -->
 <title><?php echo htmlentities($pagetitle); ?> </title>
 
@@ -62,14 +64,11 @@ $body = renderPage();
 	}
 
 	.content {
-		top:25px;
 		bottom:25px;
-		position:relative;
 		background-color: #FFFFFF;
-		width: 66%;
-		margin:0 auto;
 		border: 1px solid #8c8c8c;
-		border-radius: 5px;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
 		min-height:400px;
 		padding:1px;
 	}
@@ -101,6 +100,23 @@ $body = renderPage();
 		color: #232323;
 		text-decoration:none;
 	}
+
+	.centered {
+		position:relative;
+		top:25px;
+		width:66%;
+		margin: 0 auto;
+	}
+
+	header > img {
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		width:100%;
+	}
+
+	.nav {
+
+	}
 </style>
 
 <script>
@@ -112,7 +128,9 @@ $body = renderPage();
 </head>
 
 	<body>
-		<div class="sidebar">
+		
+		
+		<!-- <div class="sidebar">
 			<div onclick="OpenSidebar(event)" class="nav-icon">
 				&#9776;
 			</div>
@@ -122,8 +140,30 @@ $body = renderPage();
 				<a href="?p=infopage"><span>Restaurant info pagina</span></a>
 				<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
 			</div>
-		</div>
-		<div class="content">
+		</div> -->
+		<header class="centered">
+			<img src="IMG/Logo.png"/>
+		</header>
+		
+
+		<nav class="centered navbar navbar-light bg-light">
+			<a href="?p=admin_managevacancies"><span>Beheer vacatures</span></a>
+			<a href="?p=insight_vacancies"><span>Inzien vacatures</span></a>
+			<a href="?p=infopage"><span>Restaurant info pagina</span></a>
+			<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
+		</nav>
+
+		<div class="content centered">
+
+
+			<section>
+				<?= $body ?>
+			</section>
+
+			<aside>
+
+			</aside>
+			
 		<!-- <ul>
 			<li><a href="?p=admin_managevacancies">Beheer vacatures</a></li>
 			<li><a href="?p=insight_vacancies">Inzien vacatures</a></li>
@@ -132,7 +172,7 @@ $body = renderPage();
 		</ul> -->
 	<?php
 	
-	echo $body;
+	// echo $body;
 	
 	?>
 	</div>
