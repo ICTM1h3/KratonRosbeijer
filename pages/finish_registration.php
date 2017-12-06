@@ -13,6 +13,7 @@ WHERE RegistrationCode = :registrationCode", [
 ]);
 
 
+// Check if the user row has been changed. If not, it means that there was no account
 if ($stmt->rowCount() == 1) { ?>
     <h2>U bent geregistreerd</h2>
 <?php } else { ?>
