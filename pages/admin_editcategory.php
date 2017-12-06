@@ -41,6 +41,7 @@ function insert_category(){
         ("Location: ?p=admin_managemenu");
     
     }
+    
 //Send the updated category into the database.
 function update_category(){
    

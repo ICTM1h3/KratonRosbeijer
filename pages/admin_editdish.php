@@ -13,12 +13,12 @@ if(isset($_GET['dish'])){
 function insert_menu(){
     $dishposition = 0;
 
-    // if($_POST['Position'] != ''){
+    //Add the right position to the dish.
         $highestPosition = base_query("SELECT MAX(Position) AS HighestPosition FROM dish WHERE Category = :categoryId", [
             ':categoryId' => $_POST['Category']
         ]) ->fetchColumn();
         $dishposition = $highestPosition == null ? 0 : $highestPosition +1; 
-    // }
+
     //Insert the dish into the database.
     base_query("INSERT INTO `dish` (`Category`, `Name`, `Description`, `Price`, `Position`) VALUES (:Category, :Name, :Description, :Price, :Position);", [
         ':Category' => $_POST['Category'],
@@ -28,9 +28,11 @@ function insert_menu(){
         ':Position' => $dishposition
     ]);
 
+    //When a dish is inserted into the database let the admin go to the managemenu page.
     header("Location: ?p=admin_managemenu");
 
 }
+
 //Update the dish and put it into the database with a function.
 function update_menu(){
 
@@ -51,6 +53,7 @@ function update_menu(){
         ]);
 }
 
+//Get the right data into the form, when the admin wants to change the data.
 function getDishValue($dishupdate, $name)
 {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
