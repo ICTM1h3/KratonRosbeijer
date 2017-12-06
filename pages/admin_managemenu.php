@@ -1,10 +1,8 @@
 <?php
-//Set title
+
 setTitle("Beheren menu");
 
-
-
-//If requested, remove the provided dishes
+//If requested, remove the provided dishes.
 if (isset($_POST['delete']) && isset($_POST['dishesToRemove'])) {
     foreach($_POST['dishesToRemove'] as $iddish){
         base_query("DELETE FROM dish WHERE Id = :dishid", [':dishid'=>$iddish]);
@@ -20,7 +18,7 @@ if(isset($_POST['delete']) && isset($_POST['categoriesToRemove'])){
     }
 
 }
-//Move a category down
+//Move a category down when requested.
 if (isset($_POST['move_category_down'])) {
     $categoryId = $_POST['categoryid'];
     $category = base_query("SELECT * FROM dishcategory WHERE id = :id", [':id' => $categoryId])->fetch();
@@ -36,7 +34,7 @@ if (isset($_POST['move_category_down'])) {
     base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryAbove['Id'], ':newPosition' => $category['Position']]);
 }
 
-//Move a category up
+//Move a category up when requested.
 if (isset($_POST['move_category_up'])) {
     $categoryId = $_POST['categoryid'];
     $category = base_query("SELECT * FROM dishcategory WHERE id = :id", [':id' => $categoryId])->fetch();
@@ -52,7 +50,7 @@ if (isset($_POST['move_category_up'])) {
     base_query("UPDATE dishcategory SET Position = :newPosition WHERE Id = :id", [':id' => $categoryAbove['Id'], ':newPosition' => $category['Position']]);
 }
 
-//Move a dish down 
+//Move a dish down when requested. 
 if (isset($_POST['move_dish_down'])){
     $dishid = $_POST['dishid'];
     $dish = base_query("SELECT * FROM dish Where Id = :id", [':id' => $dishid]) ->fetch();
@@ -67,7 +65,7 @@ if (isset($_POST['move_dish_down'])){
     base_query("UPDATE dish SET Position = :newPosition WHERE Id = :id", [':id' => $dishAbove['Id'], ':newPosition' => $dish['Position']]);
 }
 
-//Move a dish up 
+//Move a dish up when requested. 
 if (isset($_POST['move_dish_up'])){
     $dishid = $_POST['dishid'];
     $dish = base_query("SELECT * FROM dish Where Id = :id", [':id' => $dishid]) ->fetch();
@@ -153,34 +151,32 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 </div>
 </div>
 
-
-
-
-
-    
 <?php
 
 function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $isFirst, $isLast) {
     //Getting the categories from the database
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
+   
     //Getting the dishes from the database and put them in the right (sub)category
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
 ?>
+
 <!-- Echo category name -->
 <div style="margin-left:<?= $size * 10 ?>px">
+    <!-- Add a checkbox and a url when in changing modus, add buttons when in chaningplace modus.-->
     <?php if ($changingModus){
-        if (empty($subcategories) && empty($dishes)){ ?>
-        <input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $categoryId ?>"/>
-
-        <?php }
+            if (empty($subcategories) && empty($dishes)){ ?>
+            <input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $categoryId ?>"/><?php 
+            }
+        
         } ?>
 
         <h<?= $size ?>>
         <?= $category['Name']?> 
         </h<?= $size ?>> 
         <?= $category['TitleDescription'] ?>
-
+        <!--Add the right buttons, only when the use can do something when clicking on the button.-->
         <?php if ($changingModus) { ?>
         <a href="?p=admin_editcategory&category=<?= $categoryId?>">Wijzig category</a>
         <?php } elseif($changingPlace){
@@ -217,7 +213,7 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
   <ul> <?php
 
 
-// for ($dishes as $dishValue)
+//Printing the right dishes and put the right chaning options.
 $maxValueDish = count($dishes) - 1;
 for ($i = 0; $i <= $maxValueDish; $i++) {
     $dishValue = $dishes[$i];
@@ -248,7 +244,7 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
         
                 <b><?= $dishValue['Name']?></b><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
             <?php }
-    }
+}
 ?> </ul>
 <?php 
 // If there are still subcategories the function will keep being called upon
@@ -278,9 +274,7 @@ $maxValueHeadCategories = count($mainCategories) -1;
         $isLast = $i == $maxValueHeadCategories;
     echoCategory($category['Id'], $changingModus, $changingPlace, 1, $isFirst, $isLast);
 }
-?> 
-    <?php
-
+    //Only show the button for deleting things when there are itmes in the menu. Give an message when there are no items when in changingmodus or in changingplacemodus.
     if(($changingModus || $changingPlace) && empty($mainCategories)){
         echo ("Er zijn geen items om te verwijderen/wijzigen. Ga terug."); 
     }elseif($changingModus && !empty($mainCategories)){
