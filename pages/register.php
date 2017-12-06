@@ -1,8 +1,10 @@
 <?php
 
+// Make sure the title is set properly.
 setTitle("Registreren");
 
 
+// Checks if all posted data is valid.
 function validateData() {
     $errors = [];
     if (empty($_POST['firstName'])) {
@@ -74,6 +76,8 @@ function register_user() {
 }
 
 
+// If the request is a post and the post has the correct key it returns the value from $_POST.
+// Otherwise returns an empty string.
 function getValue($key) {
     if (isset($_POST[$key])) {
         return $_POST[$key];
@@ -89,6 +93,8 @@ $successes = [];
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $errors = validateData();
     if (empty($errors)) {
+        // Get two values from register_user. 
+        // A boolean if the register attempt was successful, and a message telling what happened.
         list($success, $msg) = register_user();
         if ($success) {
             $successes[] = $msg;
@@ -100,20 +106,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 
+// If there are errors create a div with each error in it's own paragraph (<p>)
 if (!empty($errors)) { ?>
     <div class="error-box">
-    <?php foreach ($errors as $error ) { ?>
-        <p><?= $error ?></p>
-<?php } ?>
+        <?php foreach ($errors as $error ) { ?>
+            <p><?= $error ?></p>
+        <?php } ?>
     </div> 
-<?php 
+<?php }
 
-}
+
+// If there is a message that things went well, create a div and fill it with the provided messages. 
+// Do not continue with the rest of the page afterwards as the action went well.
 if (!empty($successes)) { ?>
     <div>
-    <?php foreach ($successes as $success ) { ?>
-        <p><?= $success ?></p>
-<?php } ?>
+        <?php foreach ($successes as $success ) { ?>
+            <p><?= $success ?></p>
+        <?php } ?>
     </div> 
 <?php
     return;
