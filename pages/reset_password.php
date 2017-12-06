@@ -9,10 +9,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo("Vul beide velden in om uw wachtwoord te resetten.");
     }
     elseif ($_POST["password1"] == $_POST["password2"]){
+        // Update the password of the user.
         $reset = base_query("UPDATE User SET Password=:password, ResetCode = null 
-        WHERE ResetCode = :resetCode" ,
-        array(":password" => password_hash($_POST["password1"],PASSWORD_BCRYPT), ":resetCode" => $_GET["resetCode"]));
-        echo("uw wachtwoord is reset.");
+        WHERE ResetCode = :resetCode", array(
+            ":password" => password_hash($_POST["password1"],PASSWORD_BCRYPT),
+             ":resetCode" => $_GET["resetCode"])
+        );
+
+        // Check if one row (The row of the user account) has changed. If not it means there was no use with the provided resetcode.
+        if ($reset->rowCount() == 1) {
+            echo("uw wachtwoord is reset.");
+        }
+        else {
+            echo("Het account is niet gevonden.");
+        }
     }else{
         echo ("Wachtwoord is niet gelijk");       
     }
