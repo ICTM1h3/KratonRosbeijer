@@ -80,10 +80,6 @@ function getFilledInDataErrors()
     if (empty($_POST['Description'])) {
         $errors[] = "Omschrijving is leeg";
     } 
-    
-    if ($_POST['Price']==0) {
-        $errors[] = "Prijs mag niet 0 zijn";
-    } 
 
     return $errors;
 }

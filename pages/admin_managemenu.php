@@ -219,14 +219,18 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
     $dishValue = $dishes[$i];
     $isFirst = $i == 0;
     $isLast = $i == $maxValueDish;
+    $price = (($dishValue['Price'] != '0.00') && !empty($dishValue['Price'])) ? $dishValue['Price'] : '';
         ?><li>
-            <?php if ($changingModus) {
-                ?><input type="checkbox" name="dishesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $dishValue['Id'] ?>"/>
-                <b><?= $dishValue['Name']?></b><a href="?p=admin_editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
+            <?php if ($changingModus) { ?>
+                <input type="checkbox" name="dishesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $dishValue['Id'] ?>"/>
+                <b><?= $dishValue['Name']?></b>
+                <a href="?p=admin_editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
+                <span id="price"><?= $price ?></span>
+                <?= "<br>" . "" . $dishValue['Description']?>
                 
                 <?php
             } elseif($changingPlace){ ?>
-                <b><?= $dishValue['Name']?></b><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
+                <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
                 <?php if(!$isLast){ ?>
                     <form method="POST">
                         <input type='submit' name="move_dish_down" value="Naar beneden"/>
@@ -242,7 +246,7 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
                 <?php } ?>
             <?php } else{ ?>
         
-                <b><?= $dishValue['Name']?></b><span id="price"><?= $dishValue['Price'] ?></span><?= "<br>" . "" . $dishValue['Description']?>
+                <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
             <?php }
 }
 ?> </ul>

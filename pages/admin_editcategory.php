@@ -49,13 +49,15 @@ function update_category(){
     SET Name = :name,
     TitleDescription =:titledescription,
     Description = :description,
-    Price = :price
+    Price = :price,
+    ParentCategoryId = :parentCategoryId
     WHERE Id = :categoryid
     ",[
         ':categoryid' => $_GET['category'],
         ':name' => $_POST['Name'],
         ':titledescription' => $_POST['TitleDescription'],
-        ':description' => $_POST['TitleDescription'],
+        ':description' => $_POST['Description'],
+        ':parentCategoryId' => $_POST['Category'],
         ':price' => $_POST['Price']
     ]);
     
