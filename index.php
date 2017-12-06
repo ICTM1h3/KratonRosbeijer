@@ -65,7 +65,7 @@ if (isset($_GET['no_layout'])) {
 
 	.sidebar-open {
 		background-color:#6e6fc2;
-		transform: translateX(-8px);
+		transform: translateX(0px);
 	}
 
 	.content {
@@ -127,8 +127,8 @@ if (isset($_GET['no_layout'])) {
 				<a href="?p=insight_vacancies"><span>Inzien vacatures</span></a>
 				<a href="?p=infopage"><span>Restaurant info pagina</span></a>
 				<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
-        <a href="?p=admin_managemenu">Beheer het menu</a>
-			  <a href="?p=insight_menu">Inzien menukaart</a>
+        		<a href="?p=admin_managemenu"><span>Beheer het menu</span></a>
+			  <a href="?p=insight_menu"><span>Inzien menukaart</span></a>
 			</div>
 		</div>
 		<div class="content">
