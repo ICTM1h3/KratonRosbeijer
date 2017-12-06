@@ -3,7 +3,6 @@ session_start();
 
 // Load the file which handles loading the actual webpage.
 include 'rendering.php';
-include 'validators.php';
 include 'database.php';
 include 'email.php';
 include 'validators.php';
@@ -132,7 +131,7 @@ $body = renderPage();
 			<li><a href="?p=infopage">Restaurant info pagina</a></li>
 			<li><a href="?p=restaurantedit">Verander restaurant info</a></li>
 			<li><a href="?p=inlogpage">Login</a></li>
-		</ul>
+		</ul>-->
 
 
 	<?php

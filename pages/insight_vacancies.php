@@ -24,14 +24,16 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
         flex-wrap:wrap;
     }
 
-    .vacancy_container > table tr > td:first-child {
+    .vacancy_container > div > table tr > td:first-child {
         font-weight:bold;
+        padding-right:2px;
         width:100px;
     }
 
-    .vacancy_container > table {
+    .vacancy_container > div {
         width: 49%;
-        height: 140px;
+        max-width: 49%;
+        margin: 2px;
         padding: 2px;
         overflow-wrap: break-word;
         border: 1px solid black;
@@ -51,52 +53,54 @@ foreach ($query as $value) {
         ':vacancy' => $value['Id']
         ]);
     ?>
-    <table>
-        <tr>
-            <td>
-                    Titel: 
-            </td>
-            <td>
-                <?= $title ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                 Functie: 
-            </td>
-            <td> 
-                <?= $function ?> 
-            </td>
-        </tr>
-        <tr>
-            <td>
-                 Beschrijving: 
-            </td>
-            <td> 
-                <?= $description ?> 
-            </td>
-        </tr>
-        <tr>
-            <td>
-                 Dienstverband: 
-            </td>
-            <td> 
-                <?= $employment ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Eisen:
-            </td>
-            <td>
-                <ul>
-                <?php foreach ($requirements as $requirement) {
-                    ?> <li> <?= $requirement['Requirement'] ?> </li> <?php
-                }  ?>
-                </ul>
-            </td>
-    </table>
-    <br>
+    <div>
+        <table>
+            <tr>
+                <td>
+                        Titel: 
+                </td>
+                <td>
+                    <?= $title ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Functie: 
+                </td>
+                <td> 
+                    <?= $function ?> 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Beschrijving: 
+                </td>
+                <td> 
+                    <?= $description ?> 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Dienstverband: 
+                </td>
+                <td> 
+                    <?= $employment ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Eisen:
+                </td>
+                <td>
+                    <ul>
+                    <?php foreach ($requirements as $requirement) {
+                        ?> <li> <?= $requirement['Requirement'] ?> </li> <?php
+                    }  ?>
+                    </ul>
+                </td>
+        </table>
+    </div>
+    <!-- <br> -->
 <?php
 } 
 ?> 
