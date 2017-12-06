@@ -3,7 +3,6 @@ session_start();
 
 // Load the file which handles loading the actual webpage.
 include 'rendering.php';
-include 'validators.php';
 include 'database.php';
 include 'email.php';
 include 'validators.php';
@@ -138,8 +137,7 @@ if (isset($_GET['no_layout'])) {
 			<li><a href="?p=restaurantedit">Verander restaurant info</a></li>
 			<li><a href="?p=insight_menu">Inzien menukaart</a></li>
 			<li><a href="?p=inlogpage">Login</a></li>
-
-		</ul>
+		</ul>-->
 
 
 	<?php

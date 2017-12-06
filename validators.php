@@ -14,7 +14,6 @@ function is_valid_telephone_number($phoneNumber) {
 
 // Checks if the provided date format is valid. (YYYY-mm-dd)
 // Doesn't check if the provided date is impossible (2017-13-32)
-
 function is_date_valid($date) {
     return preg_match("/^\d{4}-\d{2}-\d{2}$/", $date) !== 0;
 }
