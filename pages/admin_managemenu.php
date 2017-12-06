@@ -247,6 +247,7 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
 }
 ?> </ul>
 <?php 
+
 // If there are still subcategories the function will keep being called upon
 if (!empty($subcategories)) {
     $maxValueCategory = count($subcategories) -1;
@@ -268,17 +269,18 @@ if (!empty($subcategories)) {
 // Calling upon the function with 'Headcategories'
 $mainCategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId IS NULL ORDER BY Position")->fetchAll();
 $maxValueHeadCategories = count($mainCategories) -1;
-    for($i = 0; $i <= $maxValueHeadCategories; $i++){
+for($i = 0; $i <= $maxValueHeadCategories; $i++){
         $category = $mainCategories[$i];
         $isFirst = $i == 0;
         $isLast = $i == $maxValueHeadCategories;
-    echoCategory($category['Id'], $changingModus, $changingPlace, 1, $isFirst, $isLast);
+        echoCategory($category['Id'], $changingModus, $changingPlace, 1, $isFirst, $isLast);
 }
-    //Only show the button for deleting things when there are itmes in the menu. Give an message when there are no items when in changingmodus or in changingplacemodus.
-    if(($changingModus || $changingPlace) && empty($mainCategories)){
+
+//Only show the button for deleting things when there are itmes in the menu. Give an message when there are no items when in changingmodus or in changingplacemodus.
+if(($changingModus || $changingPlace) && empty($mainCategories)){
         echo ("Er zijn geen items om te verwijderen/wijzigen. Ga terug."); 
-    }elseif($changingModus && !empty($mainCategories)){
+}elseif($changingModus && !empty($mainCategories)){
         // Show a delete button if we're in delete mode 
         ?><input type="submit" name="delete" value="Verwijder geselecteerde onderdelen"/><?php
-        }?>
+}?>
 </form>

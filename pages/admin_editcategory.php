@@ -9,12 +9,12 @@ if(isset($_GET['dish'])){
 }
 
 //Get the data from the table dishcategory
-$categories=base_query("SELECT * FROM dishcategory")->fetchAll();
+$categories = base_query("SELECT * FROM dishcategory")->fetchAll();
 
 //Inserts a new dish into the database with a function.
 function insert_category(){
     $Parentcategoryid = 0;
-        if ($_POST['Category'] != '') {
+        if (!empty($_POST['Category'])) {
             $highestPosition = base_query("SELECT MAX(Position) AS HighestPosition FROM dishcategory WHERE ParentCategoryId = :parentCategoryId", [
                 ':parentCategoryId' => $_POST['Category']
             ])->fetch()['HighestPosition'];
@@ -38,14 +38,14 @@ function insert_category(){
     
         ]);
        
-        ("Location: ?p=admin_managemenu");
+        header("Location: ?p=admin_managemenu");
     
     }
     
 //Send the updated category into the database.
 function update_category(){
    
-    $stmt=base_query("UPDATE dishcategory
+    base_query("UPDATE dishcategory
     SET Name = :name,
     TitleDescription =:titledescription,
     Description = :description,
@@ -58,7 +58,7 @@ function update_category(){
         ':description' => $_POST['TitleDescription'],
         ':price' => $_POST['Price']
     ]);
-    var_dump($stmt);
+    
 }
 
 function getCategoryValue($categoryupdate, $name){
@@ -113,7 +113,6 @@ if (isset($_POST['save_category'])) {
         $categoryupdate = base_query("SELECT * FROM dishcategory WHERE Id = :id", [
             ":id" => $_GET['category'],
             ])->fetch();
-            var_dump($categoryupdate);
             
         ?><h2>Categorie aanpassen</h2><?php
     }else{

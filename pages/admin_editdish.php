@@ -13,7 +13,7 @@ if(isset($_GET['dish'])){
 function insert_menu(){
     $dishposition = 0;
 
-    //Add the right position to the dish.
+        //Add the right position to the dish.
         $highestPosition = base_query("SELECT MAX(Position) AS HighestPosition FROM dish WHERE Category = :categoryId", [
             ':categoryId' => $_POST['Category']
         ]) ->fetchColumn();
@@ -116,20 +116,20 @@ if (isset($_POST['save_dish'])) {
 
 //Check if ther is an category in the database.
 //If ther is one add it to the list. If there is none give the user the option to go to the page for adding a category.
-$categories=base_query("SELECT * FROM dishcategory")->fetchAll();
+$categories = base_query("SELECT * FROM dishcategory")->fetchAll();
 if(empty($categories)){
     echo("Er is geen categorie aangemaakt");
     ?>
     <a href="?p=admin_editcategory">Categorie toevoegen</a>
     <?php
         return;
-    }
-    //If dish is activated through 'wijzig' get the right id into the form also ad the right subtitle to the form.
-    if(isset($_GET['dish'])){
+}
+
+//If dish is activated through 'wijzig' get the right id into the form also ad the right subtitle to the form.
+if(isset($_GET['dish'])){
         $dishupdate = base_query("SELECT * FROM dish WHERE Id = :id", [
             ":id" => $_GET['dish'],
             ])->fetch();
-            var_dump($dishupdate);
             
         ?><h2>Gerecht aanpassen</h2><?php
     }else{
