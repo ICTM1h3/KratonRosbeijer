@@ -8,7 +8,7 @@ if(isset($_GET['dish'])){
     setTitle("Categorie toevoegen");
 }
 
-
+//Get the data from the table dishcategory
 $categories=base_query("SELECT * FROM dishcategory")->fetchAll();
 
 //Inserts a new dish into the database with a function.
