@@ -2,12 +2,6 @@
 
 setTitle('Menukaart inzien');
 
-if (!empty($mainCategories)) {
-    $BG = "EMPTY";
-} else {
-    $BG = "aBody";
-}?>
-<div class="<?=$BG?>"><?php
 
 function echoCategory($categoryId, $size = 1) 
 {
@@ -21,7 +15,7 @@ function echoCategory($categoryId, $size = 1)
             <?= $category['Name']?>
             <!-- Checks if a category has a price attached to itself -->
             <?php if($category['Price'] != 0.00) {
-                ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
+                ?><span class='categoryPrice'><?= $category['Price'] ?></span><?php
             } ?>
         </h<?= $size ?>> 
 
@@ -35,7 +29,13 @@ function echoCategory($categoryId, $size = 1)
         foreach($dishes as $dishValue)
         { ?>
             <ul>
-        <li><span id="dishTitle"><?= $dishValue['Name']?></span><span id="price"><?php if($dishValue['Price'] != 0.00){?><?= $dishValue['Price']?><?php }?></span><?= "<br>" . "" . $dishValue['Description']?>
+                <li>
+                    <span class="dishTitle"><?= $dishValue['Name']?></span>
+                    <span class="price"><?php if($dishValue['Price'] != 0.00){?>
+                        <?= $dishValue['Price']?>
+                    <?php }?>
+                    </span>
+                    <p><?=  $dishValue['Description']?></p>
             </ul>
         <?php
         }
@@ -55,27 +55,25 @@ if(empty($mainCategories))
 else
 {
     foreach ($mainCategories as $category) 
-        {
-            echoCategory($category['Id']);
-        }
+    {
+        echoCategory($category['Id']);
+    }
 }
 ?>
 <?php 
-    if(!empty($mainCategories)){?>
-<a href="?p=download_menu&no_layout=true" id="muchWow" style="display:non";>Download het menukaart</a>
-        <?php
+    if(!empty($mainCategories) && !isset($_GET['no_layout'])){ ?>
+        <a href="?p=download_menu&no_layout=true" id="download-link" >Download het menukaart</a>
+<?php
     }
+
 ?>
-</div>
+
 <style>
 
-.aBody {
-    overflow: auto; height: 100%; width: 800px; margin: 0 auto; /* center */ padding: 0 20px;
-    border-width: 0 1px;
-    background-image: url('pages/MenuBackground.jpg');
-    background-size: 840px;
-    background-repeat: repeat-y;
-    background-position: center;
+
+p {
+    max-width: 50%;
+    margin-top: 2px;
 }
 
 @page {
@@ -90,27 +88,35 @@ ul {
     font-family: Arial;
 }
 
+<?php if (isset($_GET['no_layout'])) { ?>
 body {
+    padding-top:260px;
+    top: 0;
+    left: 0;
 
+    background-image: url('img/MenuBackground.jpg');
+    background-position: left top;
+    background-repeat: repeat-y;
 }
+<?php } ?>
 
-#muchWow {
+#download-link {
     margin-top: 20px;
 }
 
 
-#dishTitle {
+.dishTitle {
     font-weight: bold;
 }
 
-#categoryPrice {
+.categoryPrice {
     float:right;
     font-weight: normal;
     font-size:17px;
     display: inline-block;
 }
 
-#price {
+.price {
     float:right;
     display: inline-block;
 }
