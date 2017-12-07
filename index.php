@@ -45,7 +45,7 @@ if (isset($_GET['no_layout'])) {
 		transform: translateX(-270px);
 		top:0;
 		bottom:0;
-		position:absolute;
+		position:fixed;
 		will-change:transform;
 		transition: transform 0.4s ease, background-color 0.4s ease;
 		z-index:9999999999;
@@ -112,11 +112,12 @@ if (isset($_GET['no_layout'])) {
 
 	.overlay {
 		z-index:9999999999998;
-		position:absolute;
+		position:fixed;
 		width:100%;
 		height:100%;
 		top:0;
 		left:0;
+		bottom:0px;
 		display:none;
 		background-color: rgba(0, 0, 0, 0.2);
 	}
