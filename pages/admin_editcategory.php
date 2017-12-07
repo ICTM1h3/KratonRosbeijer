@@ -44,7 +44,7 @@ function insert_category(){
     
 //Send the updated category into the database.
 function update_category(){
-   
+    $category = empty($_POST['Category']) ? null : $_POST['Category'];
     base_query("UPDATE dishcategory
     SET Name = :name,
     TitleDescription =:titledescription,
@@ -57,9 +57,9 @@ function update_category(){
         ':name' => $_POST['Name'],
         ':titledescription' => $_POST['TitleDescription'],
         ':description' => $_POST['Description'],
-        ':parentCategoryId' => $_POST['Category'],
+        ':parentCategoryId' => $category,
         ':price' => $_POST['Price']
-    ]);
+]);
     
 }
 
@@ -163,6 +163,9 @@ if (isset($_POST['save_category'])) {
                 $currentSubCategory = isset($categoryupdate['ParentCategoryId']) ? $categoryupdate['ParentCategoryId'] : null;
                 if ($currentSubCategory == null) {
                     ?><option value=''>Selecteer de categorie</option><?php
+                }
+                else {
+                    ?><option value=''>Maak hoofdcategorie</option><?php
                 }
                 
                 foreach($categories as $category){
