@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check if one row (The row of the user account) has changed. If not it means there was no use with the provided resetcode.
         if ($reset->rowCount() == 1) {
-            echo("uw wachtwoord is reset.");
+            header("Location: ?p=inlogpage");
         }
         else {
             echo("Het account is niet gevonden.");
