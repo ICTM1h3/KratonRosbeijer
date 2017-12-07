@@ -288,3 +288,9 @@ if(($changingModus || $changingPlace) && empty($mainCategories)){
         ?><input type="submit" name="delete" value="Verwijder geselecteerde onderdelen"/><?php
 }?>
 </form>
+
+<style>
+    ul {
+        list-style: none;
+    }
+</style>
