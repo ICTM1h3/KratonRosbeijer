@@ -98,6 +98,7 @@ if (isset($_GET['no_layout'])) {
 		width:297px;
 		font-family:'Raleway', sans-serif;
 		padding-left:3px;
+		color: white;
 	}
 
 	.sidebar-open > div:last-child > a > span:hover {
@@ -108,16 +109,33 @@ if (isset($_GET['no_layout'])) {
 		color: #232323;
 		text-decoration:none;
 	}
+
+	.overlay {
+		z-index:9999999999998;
+		position:absolute;
+		width:100%;
+		height:100%;
+		top:0;
+		left:0;
+		display:none;
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	.overlay-visible {
+		display:block;
+	}
 </style>
 
 <script>
 	function OpenSidebar(event) {
-		event.target.parentNode.classList.toggle("sidebar-open")
+		document.querySelector(".sidebar").classList.toggle("sidebar-open")
+		document.querySelector(".overlay").classList.toggle("overlay-visible")
 	}
 </script>
 
 </head>
 	<body>
+		<div class="overlay" onclick="OpenSidebar(event)"></div>
 		<div class="sidebar">
 			<div onclick="OpenSidebar(event)" class="nav-icon">
 				&#9776;
@@ -128,7 +146,10 @@ if (isset($_GET['no_layout'])) {
 				<a href="?p=infopage"><span>Restaurant info pagina</span></a>
 				<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
         		<a href="?p=admin_managemenu"><span>Beheer het menu</span></a>
-			  <a href="?p=insight_menu"><span>Inzien menukaart</span></a>
+			  	<a href="?p=insight_menu"><span>Inzien menukaart</span></a>
+			  	<a href="?p=inlogpage"><span>Inloggen</span></a>
+			  	<a href="?p=register"><span>Registreren</span></a>
+			  	<a href="?p=visitor_reservetable"><span>Tafel reserveren</span></a>
 			</div>
 		</div>
 		<div class="content">
