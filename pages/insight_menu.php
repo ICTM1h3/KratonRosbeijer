@@ -56,13 +56,12 @@ if(empty($mainCategories))
 }
 else
 {
+    ?><div style="margin:3px"><?php
     foreach ($mainCategories as $category) 
     {
-        $size = 1;
-        ?><div style="margin:<?=$size?>px"><?php
         echoCategory($category['Id']);
-        ?></div><?php
     }
+    ?></div><?php
 }
 ?>
 <?php 
