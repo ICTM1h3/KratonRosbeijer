@@ -16,8 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errors[] = "Dit account is nog niet geactiveerd.";
         }
         elseif (password_verify($_POST["password"], $user["Password"])) {
-                echo ("succes!");
                 $_SESSION["UserId"] = $user["Id"];
+                header("Location: ?p=infopage");
+                return;
         }
 }
 
