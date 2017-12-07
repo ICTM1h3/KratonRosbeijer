@@ -10,7 +10,7 @@ function echoCategory($categoryId, $size = 1)
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     ?>
     <!-- Echo category name -->
-    <div style="margin:<?= $size * 10 ?>px">
+    
         <h<?= $size ?>>
             <?= $category['Name']?>
             <!-- Checks if a category has a price attached to itself -->
@@ -41,9 +41,11 @@ function echoCategory($categoryId, $size = 1)
         }
         foreach ($subcategories as $category) 
         {
+            ?><div style ="margin-left:<?=$size * 10?>px"><?php
             echoCategory($category['Id'], $size + 1);
+            ?></div><?php
         }
-        ?></div><?php
+        ?><?php
     }
 
 // Calling upon the function with 'Headcategories'
@@ -56,7 +58,10 @@ else
 {
     foreach ($mainCategories as $category) 
     {
+        $size = 1;
+        ?><div style="margin:<?=$size?>px"><?php
         echoCategory($category['Id']);
+        ?></div><?php
     }
 }
 ?>
