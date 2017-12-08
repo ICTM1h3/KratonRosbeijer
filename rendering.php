@@ -72,8 +72,8 @@ function getCurrentRole() {
 		return 0;
 	}
 
-	$user = base_query("SELECT Role FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']]);
-	return $user['Role'];
+	$user = base_query("SELECT Role FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn();
+	return $user;
 }
 
 ?>

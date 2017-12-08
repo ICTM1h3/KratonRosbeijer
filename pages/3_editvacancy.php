@@ -150,7 +150,7 @@ if (isset($_POST['save'])) {
         }
         
         // Send the administrator to the vacancy overview page.
-        header("Location: ?p=admin_managevacancies");
+        header("Location: ?p=managevacancies");
     }
 
 }

@@ -142,15 +142,15 @@ if (isset($_GET['no_layout'])) {
 				&#9776;
 			</div>
 			<div>
-				<a href="?p=admin_managevacancies"><span>Beheer vacatures</span></a>
+				<a href="?p=managevacancies"><span>Beheer vacatures</span></a>
 				<a href="?p=insight_vacancies"><span>Inzien vacatures</span></a>
 				<a href="?p=infopage"><span>Restaurant info pagina</span></a>
 				<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
-        		<a href="?p=admin_managemenu"><span>Beheer het menu</span></a>
+        		<a href="?p=managemenu"><span>Beheer het menu</span></a>
 			  	<a href="?p=insight_menu"><span>Inzien menukaart</span></a>
 			  	<a href="?p=inlogpage"><span>Inloggen</span></a>
 			  	<a href="?p=register"><span>Registreren</span></a>
-			  	<a href="?p=visitor_reservetable"><span>Tafel reserveren</span></a>
+			  	<a href="?p=reservetable"><span>Tafel reserveren</span></a>
 			</div>
 		</div>
 		<div class="content">

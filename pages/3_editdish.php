@@ -29,7 +29,7 @@ function insert_menu(){
     ]);
 
     //When a dish is inserted into the database let the admin go to the managemenu page.
-    header("Location: ?p=admin_managemenu");
+    header("Location: ?p=managemenu");
 
 }
 
@@ -102,7 +102,7 @@ if (isset($_POST['save_dish'])) {
         }
         
         // Send the administrator to the vacancy overview page.
-        header("Location: ?p=admin_managemenu");
+        header("Location: ?p=managemenu");
     }
 
 }
@@ -116,7 +116,7 @@ $categories = base_query("SELECT * FROM dishcategory")->fetchAll();
 if(empty($categories)){
     echo("Er is geen categorie aangemaakt");
     ?>
-    <a href="?p=admin_editcategory">Categorie toevoegen</a>
+    <a href="?p=editcategory">Categorie toevoegen</a>
     <?php
         return;
 }
