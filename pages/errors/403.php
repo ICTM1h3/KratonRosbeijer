@@ -1,1 +1,1 @@
-You are not allowed to access this page
+U heeft niet genoeg rechten om deze pagina te bezoeken.

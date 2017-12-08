@@ -1,1 +1,1 @@
-You are currently not authorized to access this page
+U bent niet geautoriseerd om deze pagina te bezoeken.
