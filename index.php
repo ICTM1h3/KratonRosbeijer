@@ -151,6 +151,7 @@ if (isset($_GET['no_layout'])) {
 			  	<a href="?p=inlogpage"><span>Inloggen</span></a>
 			  	<a href="?p=register"><span>Registreren</span></a>
 			  	<a href="?p=visitor_reservetable"><span>Tafel reserveren</span></a>
+				<a href="?p=0_cadeaubon"><span>Cadeaubon</span></a>
 			</div>
 		</div>
 		<div class="content">
