@@ -1,8 +1,5 @@
 <?php
 
-define("MAX_ROLE_NUMBER", 3);
-define("VISITOR_ROLE", 0);
-
 // Changes the title of the page.
 function setTitle($title)
 {
@@ -66,22 +63,10 @@ function getPathForPage($page) {
 
 	// Return an unauthorized message if the user is not logged in. 
 	// Otherwise return a 403 - forbidden.
-	if ($currentRole == VISITOR_ROLE) {
+	if ($currentRole == ROLE_VISITOR) {
 		return 'pages/errors/401.php';
 	}
 	return 'pages/errors/403.php';
-}
-
-
-// If the user is not logged in it returns the visitor role.
-function getCurrentRole() {
-	if (!isset($_SESSION['UserId'])) {
-		return VISITOR_ROLE;
-	}
-
-	// Get the user role from the user.
-	$user = base_query("SELECT Role FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn();
-	return $user;
 }
 
 ?>

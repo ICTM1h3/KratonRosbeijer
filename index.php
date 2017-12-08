@@ -2,10 +2,12 @@
 session_start();
 
 // Load the file which handles loading the actual webpage.
-include 'rendering.php';
-include 'database.php';
-include 'email.php';
-include 'validators.php';
+include 'helpers/ranks.php';
+include 'helpers/tabs.php';
+include 'helpers/rendering.php';
+include 'helpers/database.php';
+include 'helpers/email.php';
+include 'helpers/validators.php';
 //Set default title and setup body
 $pagetitle = "Kraton Rosbeijer";
 $body = renderPage();
@@ -14,6 +16,9 @@ if (isset($_GET['no_layout'])) {
 	echo $body;
 	return;
 }
+
+$tabs = getTabsForCurrentUser();
+
 ?>
 
 <!-- PAGE SETUP -->
@@ -142,7 +147,10 @@ if (isset($_GET['no_layout'])) {
 				&#9776;
 			</div>
 			<div>
-				<a href="?p=managevacancies"><span>Beheer vacatures</span></a>
+				<?php foreach ($tabs as $tab) { ?>
+					<a href="<?= $tab['href'] ?>"><span><?= $tab['title'] ?></span></a>
+				<?php } ?>
+				<!-- <a href="?p=managevacancies"><span>Beheer vacatures</span></a>
 				<a href="?p=insight_vacancies"><span>Inzien vacatures</span></a>
 				<a href="?p=infopage"><span>Restaurant info pagina</span></a>
 				<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
@@ -150,7 +158,7 @@ if (isset($_GET['no_layout'])) {
 			  	<a href="?p=insight_menu"><span>Inzien menukaart</span></a>
 			  	<a href="?p=inlogpage"><span>Inloggen</span></a>
 			  	<a href="?p=register"><span>Registreren</span></a>
-			  	<a href="?p=reservetable"><span>Tafel reserveren</span></a>
+			  	<a href="?p=reservetable"><span>Tafel reserveren</span></a> -->
 			</div>
 		</div>
 		<div class="content">
