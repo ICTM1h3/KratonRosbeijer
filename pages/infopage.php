@@ -1,5 +1,5 @@
 <?php
-//sets the page name to the correct name//
+//sets the page name to the correct name
 setTitle("Info Pagina");
 ?>
 

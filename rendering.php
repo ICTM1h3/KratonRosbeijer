@@ -7,7 +7,7 @@ function setTitle($title)
 	global $pagetitle;
 
 	// Change the title to the newly provided title.
-	$pagetitle = $title;
+	$pagetitle = $title. " | Kraton Rosbeijer";
 }
 
 //Function looks if page excists and put it in the index.php
