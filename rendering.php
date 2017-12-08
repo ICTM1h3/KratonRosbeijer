@@ -50,16 +50,22 @@ function getPathForPage($page) {
 	}
 
 	$currentRole = getCurrentRole();
+
+	// Loop through all the files until we find a match.
 	foreach ($files as $file) {
 		$matches = [];
 		preg_match("/pages\/(\d)(?:_(\d))?_/", $file, $matches);
 		$minRole = $matches[1];
+
+		// If the max role is not defined use the administrator role instead.
 		$maxRole = isset($matches[2]) ? $matches[2] : MAX_ROLE_NUMBER;
 		if ($currentRole >= $minRole && $currentRole <= $maxRole) {
 			return $file;
 		}
 	}
 
+	// Return an unauthorized message if the user is not logged in. 
+	// Otherwise return a 403 - forbidden.
 	if ($currentRole == VISITOR_ROLE) {
 		return 'pages/errors/401.php';
 	}
@@ -67,11 +73,13 @@ function getPathForPage($page) {
 }
 
 
+// If the user is not logged in it returns the visitor role.
 function getCurrentRole() {
 	if (!isset($_SESSION['UserId'])) {
-		return 0;
+		return VISITOR_ROLE;
 	}
 
+	// Get the user role from the user.
 	$user = base_query("SELECT Role FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn();
 	return $user;
 }
