@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $reset = base_query("UPDATE User SET Password=:password, ResetCode = null 
         WHERE ResetCode = :resetCode", array(
             ":password" => password_hash($_POST["password1"],PASSWORD_BCRYPT),
-             ":resetCode" => $_GET["resetCode"])
+            ":resetCode" => $_GET["resetCode"])
         );
 
         // Check if one row (The row of the user account) has changed. If not it means there was no use with the provided resetcode.
