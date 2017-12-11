@@ -42,7 +42,7 @@ function renderPage()
 function getPathForPage($page) {
 	$files = glob("pages/*_$page.php");
 	if (empty($files)) {
-		// Return to homepage.php if there is no page found.
+		// Return to a 404 page if there is no page found.
 		return 'pages/errors/404.php';
 	}
 
