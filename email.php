@@ -5,13 +5,26 @@ function send_email_to($to, $subject, $templateName, $parameters) {
     // This is useful as the developers aren't all developing in a directory with the same path.
     $parameters['url'] = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['SCRIPT_NAME']);
 
-    $content = file_get_contents("email/$templateName.txt");
+    $content = null;
+    $contentType = "text/plain";
+    if (file_exists("email/$templateName.txt")) {
+        $content = file_get_contents("email/$templateName.txt");
+    }
+    else {
+        // Assume the requested template is an html template.
+        $content = file_get_contents("email/$templateName.html");
+        $contentType = "text/html";
+        
+    }
 
-    // Replace everything between two braces with the provided parameters
+    // Replace everything between two {{braces}} with the provided parameters
     $content = preg_replace_callback("/\{\{(.*?)\}\}/", function($matched) use($parameters) {
         return $parameters[$matched[1]];
     }, $content);
 
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: $contentType; charset=ISO-8859-1\r\n";
+
     // Send the email to the user.
-    mail($to, $subject, $content);
+    mail($to, $subject, $content, $headers);
 }
