@@ -147,7 +147,7 @@ if(isset($_POST['varied'])){
     ?>
 </div>
 
-
+<!-- Form for adding giftcard items -->
 <form method="POST">
 
     <table>
@@ -192,6 +192,7 @@ if(isset($_POST['varied'])){
 <form method="POST">
     <table>
         <?php
+        //If there is an item to show, print it. Also give the option to order the giftcard.
         if (!empty($_SESSION['giftcards'])) {
         echo "<tr><th>Bestelde cadeaubonnen</th></tr>";
         
