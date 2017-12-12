@@ -1,0 +1,85 @@
+<?php
+
+function validateData() {
+    $errors = [];
+    if (empty($_POST['inNameOf'])) {
+        $errors[] = "U heeft uw naam niet ingevuld.";
+    }
+    if (empty($_POST['email'])) {
+        $errors[] = "U heeft uw emailadres niet ingevuld.";
+    }
+    elseif (!is_email_valid($_POST['email'])) {
+        $errors[] = "U heeft geen geldig email ingevuld.";
+    }
+    if (empty($_POST['telNumber'])) {
+        $errors[] = "U heeft uw telefoonnummer niet ingevuld.";
+    }
+    elseif (!is_valid_telephone_number($_POST['telNumber'])) {
+        $errors[] = "U heeft geen geldig telefoonnummer opgegeven.";
+    }
+    if (empty($_POST['date'])) {
+        $errors[] = "U heeft geen datum opgegeven.";
+    }
+    if (empty($_POST['time'])) {
+        $errors[] = "U heeft geen tijdstop opgegeven.";
+    }
+    elseif ($_POST['time'] > "18:00") {
+        $errors[] = "U mag niet later dan 18:00 uur het eten afhalen.";
+    }
+    return $errors;
+}
+
+function getValue($key) {
+    if (isset($_POST[$key])) {
+        return $_POST[$key];
+    }
+    return '';
+}
+
+$errors = [];
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $errors = validateData();
+    if (empty($errors)) {
+        $succes = true;
+    }
+    else {
+        $succes = false;
+        foreach ($errors as $error) {
+            ?><div class="errosmsg">
+                <?=$error?>
+            </div><?php
+        }
+    }
+}
+
+?>
+
+
+
+<form method="POST">
+    <table>
+        <tr>
+            <td><b>Naam:</b></td>
+            <td><input type="text" name="inNameOf" value=<?=getValue('inNameOf')?>><td>
+        </tr>
+        <tr>
+            <td><b>Emailadres:</b></td>
+            <td><input type="email" name="email" value=<?=getValue('email')?>></td>
+        </tr>
+        <tr>
+            <td><b>Telefoonnummer:</b></td>
+            <td><input type="tel" name="telNumber" value=<?=getValue('telNumber')?>></td>
+        <tr>
+            <td><b>Datum van afhalen</b></td>
+            <td><input type="date" name="date" value=<?=getValue('date')?>></td>
+        </tr>
+        <tr>
+            <td><b>Tijdstip van afhalen</b></td>
+            <td><input type="time" name="time" value=<?=getValue('time')?>></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="bestelGegevens" value="Bestellen!"/>
+        </tr>
+    </table>
+</form>
