@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <?=$total?>
         </td>
         <td>
-            <form method="POST">
+            <form action="" method="POST">
                 <input type="submit" name="orderConfirm" value="Bestel!">
             </form>
         </td>
