@@ -1,5 +1,6 @@
 <?php
 
+// Create constants for each role.
 define("ROLE_VISITOR", 0);
 define("ROLE_USER", 1);
 define("ROLE_VIP_USER", 2);

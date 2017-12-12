@@ -2,7 +2,7 @@
 session_start();
 
 // Load the file which handles loading the actual webpage.
-include 'helpers/ranks.php';
+include 'helpers/roles.php';
 include 'helpers/tabs.php';
 include 'helpers/rendering.php';
 include 'helpers/database.php';
