@@ -45,12 +45,32 @@ function validateData()
     return $errors;
 }
 
+// If the user is logged in save the data of the user in a global so we can use it to pre-fill fields later on.
+if (isset($_SESSION['UserId'])) {
+    $GLOBALS['userObj'] = base_query("SELECT Lastname, Email, TelephoneNumber FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetch();
+}
+
+
 // If the current request method is a post it returns the posted value. If not it returns an empty string.
 function getValue($key) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return $_POST[$key];
     }
-    return '';
+
+    if (!isset($GLOBALS['userObj'])) {
+        return '';
+    }
+    $userObj = $GLOBALS['userObj'];
+    switch ($key) {
+        case 'InNameOf':
+            return $userObj['Lastname'];
+        case 'Email':
+            return $userObj['Email'];
+        case 'Telephone':
+            return $userObj['TelephoneNumber'];
+        default:
+            return '';
+    }
 }
 
 // Returns a list of all free tables at the specified time.
@@ -183,7 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $date = format_date_and_time($_POST['Date'], $_POST['Time']);
         $amountPersons = $_POST['AmountPersons'];
         $inNameOf = $_POST['InNameOf'];
-        list($success, $error) = createReservation($inNameOf, $_POST['Email'], $date, $_POST['Telephone'], $amountPersons, $_POST['Notes']);
+        $userId = isset($_SESSION['UserId']) ? $_SESSION['UserId'] : null;
+        list($success, $error) = createReservation($inNameOf, $_POST['Email'], $date, $_POST['Telephone'], $amountPersons, $_POST['Notes'], $userId);
 
         if (!$success) {
             $errors[] = $error;
