@@ -1,23 +1,18 @@
 <?php
-//Set title.
-setTitle("Beheren restaurant informatie");
-
-
-//Update the text.
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	$text = file_get_contents('php://input');
-	base_query("UPDATE setting SET value = :value WHERE name = 'Info'", array(':value' => $text));
-}
+//Set title
+setTitle("Aanpassen vacature text.")
 ?>
 
 
-<p>Beheren restaurant informatie.Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit kan door middel van de edit plugin.</p>  
+<!-- Option to go back to manage vacancies.-->
+<a href="?p=admin_managevacancies"><button>Ga terug naar het overzicht van de vacatures</button></a>
 
+<p>Beheren vacature informatie. Wijzig hieronder de vacature informatie.</p>
 
-			<!-- Loading the info page into the editor -->
+			<!-- Loading the vacancy info into the editor -->
 			<textarea class="tinymce" id="texteditor">
 
-			<?php $info = base_query("SELECT * FROM setting WHERE name = 'Info' ")->fetch();
+			<?php $info = base_query("SELECT * FROM setting WHERE name = 'VacancyInfo' ")->fetch();
       			echo($info['Value']);
    			 	//used the function base_query to execute a query and echo's the result 
  			?> 
@@ -33,11 +28,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			function submit(){
 
 				$.ajax({
-					url: '?p=restaurantedit', // Url witch deals the request
+					url: '?p=admin_managevacancies', // Url witch deals the request
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
 				}).done(function() {
-                    location.search="?p=infopage"
+                    location.search="?p=admin_managevacancies"
                 });
 				
 			}
