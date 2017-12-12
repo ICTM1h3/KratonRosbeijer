@@ -34,14 +34,18 @@ function removeCard($giftCardValue) {
 //Function for errors.
 $errors = [];
 
-function getFilledInDataErrors()
-{
+function getFilledInDataErrors(){
     $errors = [];
+    $email = $_POST['Email'];
+
     
     if(empty($_POST['Email'])){
         $errors[] = "Mail adres is niet opgegeven!";
+    }    
+    elseif(!is_email_valid($_POST['Email'])){
+        $errors[] = "Geen geldig emailadres opgegeven!";
     }
-    
+
     if(empty($_POST['InNameOf'])){
         $errors[] = "Op naam van is niet opgegeven!";
     }
@@ -76,12 +80,14 @@ function createRandomCode() {
     $j = 0; 
     $code = '' ; 
     
-    while ($j <= 7) { 
-        $num = rand() % 33; 
+    for ($j = 0; $j <= 7; $j++) { 
+        $num = rand() % strlen($chars); 
         $tmp = substr($chars, $num, 1); 
         $code = $code . $tmp; 
-        $j++; 
+        
     } 
+
+    //Checks of the code is unique, compare the generated code with the codes in the database.
     while (base_query("SELECT CouponCode FROM Coupon WHERE CouponCode = :couponcode", [':couponcode' => $code])->fetch() != false) {
         $code = createRandomCode();
     }
@@ -132,7 +138,7 @@ if(isset($_POST['varied'])){
 <!--Style for the page-->
 <style>
     .errors > p {
-    color: red;
+        color: red;
     }
 </style>
 
@@ -194,7 +200,7 @@ if(isset($_POST['varied'])){
         <?php
         //If there is an item to show, print it. Also give the option to order the giftcard.
         if (!empty($_SESSION['giftcards'])) {
-        echo "<tr><th>Bestelde cadeaubonnen</th></tr>";
+            echo "<tr><th>Bestelde cadeaubonnen</th></tr>";
         
             $total = 0;
             foreach($_SESSION['giftcards'] as $value => $count){
