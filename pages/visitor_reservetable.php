@@ -62,6 +62,7 @@ function getFreeTables($date) {
         INNER JOIN kratonrosbeijer.Reservation r ON r.id = tr.reservationid
         WHERE r.date >= :date 
         AND r.date <= DATE_ADD(:date, INTERVAL 2 HOUR)
+        AND r.activated = 1
     )
     ORDER BY t.capacity DESC;", [':date' => $date])->fetchAll();
 
@@ -188,15 +189,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors[] = $error;
         }
         else {
-            // Send an email to the user.
-            send_email_to($_POST['Email'], 'Uw reservering is aangemaakt', 'created_reservation', [
+            
+            $emailParameters = [
                 'inNameOf' => $inNameOf,
                 'email' => $_POST['Email'],
                 'telephone' => $_POST['Telephone'],
                 'date' => $date,
                 'amountPersons' => $amountPersons,
                 'notes' => $_POST['Notes'],
-            ]);
+            ];
+            
+            // Send an email to the user.
+            send_email_to($_POST['Email'], 'Uw reservering is aangemaakt', 'created_reservation', $emailParameters);
+            
+            if ($amountPersons >= 12) {
+                // If the amount of persons for the reservation is 12 or higher send an email the the administrator.
+                $websiteMail = $GLOBALS['config']['WebsiteEmail'];
+                send_email_to($websiteMail, "Er is een groepsreservering aangemaakt", "group_reservation", $emailParameters);
+            }
             
             $successes[] = "Uw reservering is aangemaakt.";
         }

@@ -6,6 +6,7 @@ include 'rendering.php';
 include 'database.php';
 include 'email.php';
 include 'validators.php';
+include 'helpers/config.php';
 //Set default title and setup body
 $pagetitle = "Kraton Rosbeijer";
 $body = renderPage();

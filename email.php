@@ -1,6 +1,6 @@
 <?php
 // Sends an email to the target email based on an email template. This template gets filled with the provided parameters.
-function send_email_to($to, $subject, $templateName, $parameters) {
+function send_email_to($to, $subject, $templateName, $parameters, $bcc = null) {
     // From the current request generate a default parameter for the URL.
     // This is useful as the developers aren't all developing in a directory with the same path.
     $parameters['url'] = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['SCRIPT_NAME']);
@@ -24,6 +24,13 @@ function send_email_to($to, $subject, $templateName, $parameters) {
 
     $headers = "MIME-Version: 1.0\r\n";
     $headers .= "Content-Type: $contentType; charset=ISO-8859-1\r\n";
+
+    if ($bcc != null) {
+        if (is_array($bcc)) {
+            $bcc = implode(",", $bcc);
+        }
+        $headers .= "Bcc: $bcc\r\n";
+    }
 
     // Send the email to the user.
     mail($to, $subject, $content, $headers);
