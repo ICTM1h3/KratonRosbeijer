@@ -1,5 +1,9 @@
 <?php
 
+setTitle("Bestelling bevestigen");
+
+date_default_timezone_set("Europe/Amsterdam");
+
 function validateData() {
     $errors = [];
     if (empty($_POST['inNameOf'])) {
@@ -20,6 +24,9 @@ function validateData() {
     if (empty($_POST['date'])) {
         $errors[] = "U heeft geen datum opgegeven.";
     }
+    elseif ($_POST['date'] < date('Y-m-d')) {
+        $errors[] = "Er kan niet in het verleden bestelt worden.";
+    }
     if (empty($_POST['time'])) {
         $errors[] = "U heeft geen tijdstop opgegeven.";
     }
@@ -27,6 +34,22 @@ function validateData() {
         $errors[] = "U mag niet later dan 18:00 uur het eten afhalen.";
     }
     return $errors;
+}
+
+function insertOrderData() {
+
+    $currentDateTime = date('Y-m-d H:i:s');
+    $targetTime = ($_POST['date'] . " " . $_POST['time']);
+
+    base_query("INSERT INTO Order (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email) 
+    values(:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email)", [
+        ':orderDate' => $currentDateTime,
+        ':targetDate' => $targetTime,
+        'inNameOf' => $_POST['inNameOf'],
+        ':telephoneNumber' => $_POST['telNumber'],
+        ':email' => $_POST['email']
+    ]);
+    return true;
 }
 
 function getValue($key) {
@@ -37,11 +60,13 @@ function getValue($key) {
 }
 
 $errors = [];
+$succes = [];
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $errors = validateData();
     if (empty($errors)) {
         $succes = true;
+        
     }
     else {
         $succes = false;
@@ -53,6 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
+if ($succes) {
+    $check = insertOrderData();
+    if ($check) {
+        echo "nice";
+    }
+}
 ?>
 
 
