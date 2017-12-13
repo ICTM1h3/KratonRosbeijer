@@ -151,7 +151,7 @@ function createReservation($inNameOf, $email, $date, $telephoneNumber, $amountPe
         ':TelephoneNumber' => $telephoneNumber,
         ':AmountPersons' => $amountPersons,
         ':Notes' => $notes,
-        ':Activated' => ($amountPersons <= 12),
+        ':Activated' => true,
         ':UserId' => $userId // TODO: If logged in retrieve the user id.
     ]);
 
