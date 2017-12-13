@@ -70,19 +70,19 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
 <form method="POST">
     <div class="vacancy_container">
         <div class="vacancy_button">
-            <a href="?p=admin_editvacancy">
+            <a href="?p=editvacancy">
                 Vacature aanmaken
                 <div>+</div>
             </a>
         </div>
         <div class="vacancy_button">
             <?php if ($inDeleteMode) { ?>
-                <a href="?p=admin_managevacancies">
+                <a href="?p=managevacancies">
                     Terug
                     <div>↩</div>
                 </a>
                 <?php } else { ?>
-                <a href="?p=admin_managevacancies&deleteMode=true">
+                <a href="?p=managevacancies&deleteMode=true">
                     Vacature sluiten
                     <div>─</div>
                 </a>
@@ -102,7 +102,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
                     }
                     else {
                         ?>
-                        <a href="?p=admin_editvacancy&vacancy=<?=  $vacancy['Id'] ?>">Wijzig</a>
+                        <a href="?p=editvacancy&vacancy=<?=  $vacancy['Id'] ?>">Wijzig</a>
                         <?php
                     }
                     ?>

@@ -2,10 +2,12 @@
 session_start();
 
 // Load the file which handles loading the actual webpage.
-include 'rendering.php';
-include 'database.php';
-include 'email.php';
-include 'validators.php';
+include 'helpers/roles.php';
+include 'helpers/tabs.php';
+include 'helpers/rendering.php';
+include 'helpers/database.php';
+include 'helpers/email.php';
+include 'helpers/validators.php';
 //Set default title and setup body
 $pagetitle = "Kraton Rosbeijer";
 $body = renderPage();
@@ -14,6 +16,9 @@ if (isset($_GET['no_layout'])) {
 	echo $body;
 	return;
 }
+
+$tabs = getTabsForCurrentUser();
+
 ?>
 
 <!-- PAGE SETUP -->
@@ -142,25 +147,12 @@ if (isset($_GET['no_layout'])) {
 				&#9776;
 			</div>
 			<div>
-				<a href="?p=admin_managevacancies"><span>Beheer vacatures</span></a>
-				<a href="?p=insight_vacancies"><span>Inzien vacatures</span></a>
-				<a href="?p=infopage"><span>Restaurant info pagina</span></a>
-				<a href="?p=restaurantedit"><span>Verander restaurant info</span></a>
-        		<a href="?p=admin_managemenu"><span>Beheer het menu</span></a>
-			  	<a href="?p=insight_menu"><span>Inzien menukaart</span></a>
-			  	<a href="?p=inlogpage"><span>Inloggen</span></a>
-			  	<a href="?p=register"><span>Registreren</span></a>
-			  	<a href="?p=visitor_reservetable"><span>Tafel reserveren</span></a>
+				<?php foreach ($tabs as $tab) { ?>
+					<a href="<?= $tab['href'] ?>"><span><?= $tab['title'] ?></span></a>
+				<?php } ?>
 			</div>
 		</div>
 		<div class="content">
-		<!-- <ul>
-			<li><a href="?p=admin_managevacancies">Beheer vacatures</a></li>
-			<li><a href="?p=insight_vacancies">Inzien vacatures</a></li>
-			<li><a href="?p=admin_managevacancies">Beheer vacatures</a></li>
-			<li><a href="?p=infopage">Restaurant info pagina</a></li>
-			<li><a href="?p=restaurantedit">Verander restaurant info</a></li>
-    -->
 	<?php
 	
 	echo $body;

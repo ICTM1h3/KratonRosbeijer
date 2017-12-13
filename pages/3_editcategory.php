@@ -38,7 +38,7 @@ function insert_category(){
     
         ]);
        
-        header("Location: ?p=admin_managemenu");
+        header("Location: ?p=managemenu");
     
     }
     
@@ -104,7 +104,7 @@ if (isset($_POST['save_category'])) {
         }
         
         // Send the administrator to the vacancy overview page.
-        header("Location: ?p=admin_managemenu");
+        header("Location: ?p=managemenu");
     }
 
 }
