@@ -285,7 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
         <tr>
             <td>Aantal personen*</td>
-            <td><input type="number" max=12 name="AmountPersons" value="<?= getValue('AmountPersons') ?>" /></td>
+            <td><input type="number" name="AmountPersons" value="<?= getValue('AmountPersons') ?>" /></td>
         </tr>
         <tr>
             <td>Datum en tijdstip*</td>
