@@ -7,6 +7,7 @@ $tabs = [
         ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
         ['title' => 'Registreren', 'href' => '?p=register'],
         ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
+        ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
     ],
     
     // ROLE_USER => [
