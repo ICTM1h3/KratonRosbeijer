@@ -10,11 +10,7 @@ if (isset($_POST['deleteVacancies']) && isset($_POST['vacanciesToDelete'])) {
     }
 }
 
-//Update the text of the vacancy when requested. 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	$text = file_get_contents('php://input');
-	base_query("UPDATE setting SET value = :value WHERE name = 'VacancyInfo'", array(':value' => $text));
-}
+
 
 // Retrieve all current vacancies
 $vacancies = base_query("SELECT * FROM vacancy")->fetchAll();
@@ -107,7 +103,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
 
                         
                     <?php } else { ?>
-                        <a href="?p=admin_editvacancy&vacancy=<?=  $vacancy['Id'] ?>"><button>Wijzig</button></a>
+                        <a href="?p=admin_editvacancy&vacancy=<?=  $vacancy['Id'] ?>">Wijzig</a>
                     <?php } ?>
                 </td>
             </tr>

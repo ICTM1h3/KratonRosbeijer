@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
 				}).done(function() {
-                    location.search="?p=infopage"
+					location.search="?p=infopage"
                 });
 				
 			}

@@ -1,6 +1,12 @@
 <?php
 //Set title
-setTitle("Aanpassen vacature text.")
+setTitle("Aanpassen vacature text");
+
+//Update the text of the vacancy when requested. 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+	$text = file_get_contents('php://input');
+	base_query("UPDATE setting SET value = :value WHERE name = 'VacancyInfo'", array(':value' => $text));
+}
 ?>
 
 
@@ -28,12 +34,12 @@ setTitle("Aanpassen vacature text.")
 			function submit(){
 
 				$.ajax({
-					url: '?p=admin_managevacancies', // Url witch deals the request
+					url: '?p=3_edit_vacancy_text', // Url witch deals the request
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
 				}).done(function() {
-                    location.search="?p=admin_managevacancies"
-                });
+					location.search="?p=admin_managevacancies"
+				});
 				
 			}
 			</script>
