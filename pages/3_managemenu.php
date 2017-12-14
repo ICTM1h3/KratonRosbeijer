@@ -116,35 +116,35 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
 <div>
     <div>
-        <a href="?p=admin_editdish">
+        <a href="?p=editdish">
             Gerechten toevoegen
         </a>
     </div>
 
     <div>
-        <a href="?p=admin_editcategory">
+        <a href="?p=editcategory">
             Categorie toevoegen
         </a>
     </div>
     <div>
     <div>
         <?php if($changingModus){?>
-        <a href="?p=admin_managemenu">
+        <a href="?p=managemenu">
             Terug
         </a>
         <?php }else{?>
-            <a href="?p=admin_managemenu&changingModus=true">
+            <a href="?p=managemenu&changingModus=true">
             Menu items wijzigen of verwijderen
         </a>
         <?php }?>
     </div>
     <div>
     <?php if($changingPlace){?>
-    <a href="?p=admin_managemenu">
+    <a href="?p=managemenu">
         Terug
     </a>
     <?php }else{?>
-        <a href="?p=admin_managemenu&changingPlace=true">
+        <a href="?p=managemenu&changingPlace=true">
         Menu items verplaatsen
     </a>
     <?php }?>
@@ -178,7 +178,7 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
         <?= $category['TitleDescription'] ?>
         <!--Add the right buttons, only when the use can do something when clicking on the button.-->
         <?php if ($changingModus) { ?>
-        <a href="?p=admin_editcategory&category=<?= $categoryId?>">Wijzig category</a>
+        <a href="?p=editcategory&category=<?= $categoryId?>">Wijzig category</a>
         <?php } elseif($changingPlace){
             if(!$isLast){
            ?> <form method="POST">
@@ -224,7 +224,7 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
             <?php if ($changingModus) { ?>
                 <input type="checkbox" name="dishesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $dishValue['Id'] ?>"/>
                 <b><?= $dishValue['Name']?></b>
-                <a href="?p=admin_editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
+                <a href="?p=editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
                 <span id="price"><?= $price ?></span>
                 <?= "<br>" . "" . $dishValue['Description']?>
                 
