@@ -112,8 +112,9 @@ if(isset($_POST['order_gift_card'])){
                 ]);
             }
         }
-    //REMOVE AFTER IDEAL IS WORKING!
-    echo"Bestelling is met succes opgeslagen!";
+        
+        //REMOVE AFTER IDEAL IS WORKING!
+        echo"Bestelling is met succes opgeslagen!";
 
     }
 
