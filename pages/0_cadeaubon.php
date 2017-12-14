@@ -36,8 +36,6 @@ $errors = [];
 
 function getFilledInDataErrors(){
     $errors = [];
-    $email = $_POST['Email'];
-
     
     if(empty($_POST['Email'])){
         $errors[] = "Mail adres is niet opgegeven!";
@@ -77,7 +75,6 @@ function createRandomCode() {
     
     $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz023456789"; 
     srand((double)microtime()*1000000); 
-    $j = 0; 
     $code = '' ; 
     
     for ($j = 0; $j <= 7; $j++) { 
@@ -87,7 +84,7 @@ function createRandomCode() {
         
     } 
 
-    //Checks of the code is unique, compare the generated code with the codes in the database.
+    //Checks if the code is unique, compare the generated code with the codes in the database.
     while (base_query("SELECT CouponCode FROM Coupon WHERE CouponCode = :couponcode", [':couponcode' => $code])->fetch() != false) {
         $code = createRandomCode();
     }
@@ -115,7 +112,7 @@ if(isset($_POST['order_gift_card'])){
                 ]);
             }
         }
-    //REMOVE AFTHER IDEAL IS WORKING!
+    //REMOVE AFTER IDEAL IS WORKING!
     echo"Bestelling is met succes opgeslagen!";
 
     }
