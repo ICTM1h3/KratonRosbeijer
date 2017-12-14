@@ -1,5 +1,7 @@
 <?php
 
+setTitle("Gerechten toevoegen");
+
 function str_starts_with($value, $start){
     return substr($value, 0, strlen($start)) === $start;
 }   
@@ -9,7 +11,9 @@ $subTotal = 0;
 $cumulative = 0;
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    ?><table>
+
+    $everyDish = [];
+    ?><table class="overview_dishes">
         <tr>
             <td>
                 <b>Gerecht</b>
@@ -31,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         if (str_starts_with($key, 'dish_amount_') && !empty($value)) { 
             $id = substr($key, 12);
             $dishPrice = base_query("SELECT * FROM Dish WHERE Id = :dishId", [':dishId' => $id])->fetch();
+            $everyDish[] = $dishPrice['Id'];
             $total += ($value * $dishPrice['Price']);
             $subTotal = ($value * $dishPrice['Price']);
             $cumulative += $subTotal;
@@ -91,11 +96,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <?=$total?>
         </td>
         <td>
-            <form action="" method="POST">
+            <form action="?p=Order_confirm" method="POST">
                 <input type="submit" name="orderConfirm" value="Bestel!">
             </form>
         </td>
     </tr><?php
+    var_dump($everyDish);
 }
 ?><table><?php
 
@@ -183,6 +189,9 @@ else
 
 <style>
 
+.overview_dishes {
+    border: 1px black solid;
+}
 
 p {
     max-width: 50%;

@@ -1,7 +1,6 @@
 <?php
 
 setTitle("Bestelling bevestigen");
-
 date_default_timezone_set("Europe/Amsterdam");
 
 function validateData() {
@@ -41,15 +40,13 @@ function insertOrderData() {
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
 
-    base_query("INSERT INTO Order (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email) 
-    values(:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email)", [
+    base_query("INSERT INTO Order (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email) values(:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email)", [
         ':orderDate' => $currentDateTime,
         ':targetDate' => $targetTime,
         'inNameOf' => $_POST['inNameOf'],
         ':telephoneNumber' => $_POST['telNumber'],
         ':email' => $_POST['email']
     ]);
-    return true;
 }
 
 function getValue($key) {
@@ -60,33 +57,25 @@ function getValue($key) {
 }
 
 $errors = [];
-$succes = [];
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $errors = validateData();
-    if (empty($errors)) {
-        $succes = true;
-        
-    }
-    else {
-        $succes = false;
-        foreach ($errors as $error) {
-            ?><div class="errosmsg">
-                <?=$error?>
-            </div><?php
+    if (isset($_POST['bestelGegevens'])) {
+        $errors = validateData();
+        if (empty($errors)) {
+            insertOrderData();
+        }
+        else {
+            foreach ($errors as $error) {
+                ?><div class="errormsg">
+                    <?=$error?>
+                </div><?php
+            }
         }
     }
 }
+var_dump($errors);
 
-if ($succes) {
-    $check = insertOrderData();
-    if ($check) {
-        echo "nice";
-    }
-}
 ?>
-
-
 
 <form method="POST">
     <table>
@@ -102,11 +91,11 @@ if ($succes) {
             <td><b>Telefoonnummer:</b></td>
             <td><input type="tel" name="telNumber" value=<?=getValue('telNumber')?>></td>
         <tr>
-            <td><b>Datum van afhalen</b></td>
+            <td><b>Datum van afhalen:</b></td>
             <td><input type="date" name="date" value=<?=getValue('date')?>></td>
         </tr>
         <tr>
-            <td><b>Tijdstip van afhalen</b></td>
+            <td><b>Tijdstip van afhalen:</b></td>
             <td><input type="time" name="time" value=<?=getValue('time')?>></td>
         </tr>
         <tr>
@@ -114,3 +103,11 @@ if ($succes) {
         </tr>
     </table>
 </form>
+
+<style>
+
+.errormsg {
+    color:red;
+}
+
+</style>
