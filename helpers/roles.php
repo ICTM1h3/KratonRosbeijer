@@ -7,6 +7,15 @@ define("ROLE_VIP_USER", 2);
 define("ROLE_ADMINISTRATOR", 3);
 define("MAX_ROLE_NUMBER", ROLE_ADMINISTRATOR);
 
+function getAllRoles() {
+	return [
+		ROLE_VISITOR => "Bezoeker",
+		ROLE_USER => "Gebruiker",
+		ROLE_VIP_USER => "VIP Gebruiker",
+		ROLE_ADMINISTRATOR => "Administrator",
+	];
+}
+
 
 // If the user is not logged in it returns the visitor role.
 function getCurrentRole() {
