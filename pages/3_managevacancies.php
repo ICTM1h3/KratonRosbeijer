@@ -81,7 +81,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
                     Terug naar overzicht
                 </a>
                 <?php } else { ?>
-                <a href="?p=admin_managevacancies&deleteMode=true">
+                <a href="?p=managevacancies&deleteMode=true">
                     Vacature sluiten
                 </a>
             <?php } ?>

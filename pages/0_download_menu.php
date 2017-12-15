@@ -9,7 +9,7 @@ Dompdf\Autoloader::register();
 use Dompdf\Dompdf;
 
 ob_start();
-include 'insight_menu.php';
+include '0_insight_menu.php';
 $html = ob_get_clean();
 set_time_limit(300);
 $dompdf = new Dompdf();
