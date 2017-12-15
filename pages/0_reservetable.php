@@ -45,12 +45,32 @@ function validateData()
     return $errors;
 }
 
+// If the user is logged in save the data of the user in a global so we can use it to pre-fill fields later on.
+if (isset($_SESSION['UserId'])) {
+    $GLOBALS['userObj'] = base_query("SELECT Lastname, Email, TelephoneNumber FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetch();
+}
+
+
 // If the current request method is a post it returns the posted value. If not it returns an empty string.
 function getValue($key) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return $_POST[$key];
     }
-    return '';
+
+    if (!isset($GLOBALS['userObj'])) {
+        return '';
+    }
+    $userObj = $GLOBALS['userObj'];
+    switch ($key) {
+        case 'InNameOf':
+            return $userObj['Lastname'];
+        case 'Email':
+            return $userObj['Email'];
+        case 'Telephone':
+            return $userObj['TelephoneNumber'];
+        default:
+            return '';
+    }
 }
 
 // Returns a list of all free tables at the specified time.
@@ -62,6 +82,7 @@ function getFreeTables($date) {
         INNER JOIN kratonrosbeijer.Reservation r ON r.id = tr.reservationid
         WHERE r.date >= :date 
         AND r.date <= DATE_ADD(:date, INTERVAL 2 HOUR)
+        AND r.activated = 1
     )
     ORDER BY t.capacity DESC;", [':date' => $date])->fetchAll();
 
@@ -122,14 +143,15 @@ function createReservation($inNameOf, $email, $date, $telephoneNumber, $amountPe
     
     // Create the reservation
     base_query("INSERT INTO Reservation 
-                (InNameOf, Email, Date, TelephoneNumber, AmountPersons, Notes, UserId) VALUES
-                (:InNameOf, :Email, :Date, :TelephoneNumber, :AmountPersons, :Notes, :UserId)", [
+                (InNameOf, Email, Date, TelephoneNumber, AmountPersons, Notes, Activated, UserId) VALUES
+                (:InNameOf, :Email, :Date, :TelephoneNumber, :AmountPersons, :Notes, :Activated, :UserId)", [
         ':InNameOf' => $inNameOf,
         ':Email' => $email,
         ':Date' => $date,
         ':TelephoneNumber' => $telephoneNumber,
         ':AmountPersons' => $amountPersons,
         ':Notes' => $notes,
+        ':Activated' => true,
         ':UserId' => $userId // TODO: If logged in retrieve the user id.
     ]);
 
@@ -181,18 +203,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $date = format_date_and_time($_POST['Date'], $_POST['Time']);
         $amountPersons = $_POST['AmountPersons'];
         $inNameOf = $_POST['InNameOf'];
-        list($success, $error) = createReservation($_POST['InNameOf'], $_POST['Email'], $date, $_POST['Telephone'], $amountPersons, $_POST['Notes']);
+        $userId = isset($_SESSION['UserId']) ? $_SESSION['UserId'] : null;
+        list($success, $error) = createReservation($inNameOf, $_POST['Email'], $date, $_POST['Telephone'], $amountPersons, $_POST['Notes'], $userId);
 
         if (!$success) {
             $errors[] = $error;
         }
         else {
-            // Send an email to the user.
-            send_email_to($_POST['Email'], 'Uw reservering is aangemaakt', 'created_reservation', [
+            
+            $emailParameters = [
                 'inNameOf' => $inNameOf,
+                'email' => $_POST['Email'],
+                'telephone' => $_POST['Telephone'],
+                'date' => $date,
                 'amountPersons' => $amountPersons,
-                'date' => $date
-            ]);
+                'notes' => $_POST['Notes'],
+            ];
+            
+            // Send an email to the user.
+            send_email_to($_POST['Email'], 'Uw reservering is aangemaakt', 'created_reservation', $emailParameters);
+            
+            if ($amountPersons >= 12) {
+                // If the amount of persons for the reservation is 12 or higher send an email the the administrator.
+                $websiteMail = $GLOBALS['config']['WebsiteEmail'];
+                send_email_to($websiteMail, "Er is een groepsreservering aangemaakt", "group_reservation", $emailParameters);
+            }
             
             $successes[] = "Uw reservering is aangemaakt.";
         }
@@ -213,20 +248,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </style>
 <h1>Reserveren</h1>
 <?php
-    if (!empty($errors)) {
-        ?><div class="error-box"> <?php
+    if (!empty($errors)) { ?>
+        <div class="error-box"> <?php
             foreach ($errors as $error) {
                 ?> <p><?= $error ?></p> <?php
             }
-            ?> </div> <?php
-    }
+        ?> </div> 
+    <?php }
 
-    if (!empty($successes)) {
-        ?><div class="success-box"> <?php
+    if (!empty($successes)) { ?>
+        <div class="success-box"> <?php
             foreach ($successes as $msg) {
                 ?> <p><?= $msg ?></p> <?php
             }
-            ?> </div> <?php
+        ?> </div> 
+        <?php
         newCSRFToken();
         return;
     }
@@ -249,13 +285,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
         <tr>
             <td>Aantal personen*</td>
-            <td><input type="number" max=12 name="AmountPersons" value="<?= getValue('AmountPersons') ?>" /></td>
+            <td><input type="number" name="AmountPersons" value="<?= getValue('AmountPersons') ?>" /></td>
         </tr>
         <tr>
             <td>Datum en tijdstip*</td>
             <td>
-                <input type="date" name="Date" min="<?= date("Y-m-d") ?>" value="<?= getValue('Date') ?>" />
-                <input type="time" name="Time" value="<?= getValue('Time') ?>" />
+                <input type="date" name="Date" placeholder="YYYY-MM-DD" min="<?= date("Y-m-d") ?>" value="<?= getValue('Date') ?>" />
+                <input type="time" name="Time" placeholder="HH:mm" value="<?= getValue('Time') ?>" />
             </td>
         </tr>
         <tr>
