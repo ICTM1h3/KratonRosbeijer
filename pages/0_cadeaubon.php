@@ -124,7 +124,7 @@ if(isset($_POST['order_gift_card'])){
 if(isset($_POST['varied'])){
     $add = $_POST['varied_ammount'];
     if($add <= 0){
-        $errors[] = "Het gekozen bedrag is kleiner of gelijk aan 0!";   
+        $errors[] = "Geen geldig bedrag of het gekozen bedrag is kleiner of gelijk aan 0!";   
     }
     else {
         addCard($add);
@@ -185,7 +185,7 @@ if(isset($_POST['varied'])){
         <tr>
             <td>Cadeaubon variable € </td>
             <td>
-                <input type="number" step="1" name="varied_ammount" value="0"/>
+                <input type="text"  name="varied_ammount"/>
                 <input type="submit" name="varied" value="Toevoegen"/>
             </td>
         </tr>
