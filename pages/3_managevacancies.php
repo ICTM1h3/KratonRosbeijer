@@ -1,4 +1,5 @@
 <?php
+//Set title
 setTitle("Beheer vacatures");
 
 // If requested, remove the provided vacancies
@@ -9,112 +10,122 @@ if (isset($_POST['deleteVacancies']) && isset($_POST['vacanciesToDelete'])) {
     }
 }
 
+
+
 // Retrieve all current vacancies
 $vacancies = base_query("SELECT * FROM vacancy")->fetchAll();
 
 // Boolean. true when the user is trying to delete vacancies, false otherwise.
 $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : false;
 ?>
+
+<!-- Style of the page-->
 <style>
-    .vacancy_container {
-        display:flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
+    .vacancy_button{
+    border-style: solid;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer; 
+    border-radius: 50%; 
+    width: 66%;
     }
 
-    .vacancy_container > div {
-        width:49%;
-        padding:2px;
-        overflow-wrap: break-word;
+    .vacancy_button:hover{
+        background-color: #E8E7ED;
     }
 
-    .vacancy_container > div:nth-child(n+3) > div:first-child {
-        width:100%;
-        border-bottom: solid black 1px;
+    a {
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
     }
 
-    .vacancy_container > div:nth-child(n+3) > div:first-child > span {
-        font-weight:bold;
+    a:hover{
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
     }
 
-    .vacancy_container > div:nth-child(n+3) > div:first-child > a, .vacancy_container > div:nth-child(n+3) > div:first-child > input {
-        font-style: italic;
-        float:right;
-    }
-
-    .vacancy_container > div:first-child, .vacancy_container > div:nth-child(2)  {
-        text-align:center;
-    }
-
-    .vacancy_container > div:first-child div, .vacancy_container > div:nth-child(2)  div {
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 100px;
-        line-height: 100px;
-    }
-
-    .vacancy_button a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    .delete_button {
-        width:100%;
+    .option_table{
+        width: 100%;
+        text-align: center;
     }
 </style>
 
+<h2>Beheren vacatures</h2>
+
 <form method="POST">
-    <div class="vacancy_container">
-        <div class="vacancy_button">
-            <a href="?p=editvacancy">
-                Vacature aanmaken
-                <div>+</div>
-            </a>
-        </div>
-        <div class="vacancy_button">
+    <table class="option_table">
+        <tr>
+            <td> 
+            <div class="vacancy_button">
+                <a href="?p=admin_editvacancy">
+                    Vacature aanmaken
+                </a>
+            </div>
+            </td>   
+            <td> 
+            <div class="vacancy_button">
+                <a href="?p=3_edit_vacancy_text">
+                    Wijzig vacature tekst
+                </a>
+                </div>
+            </td>
+            <td> 
+            <div class="vacancy_button">
             <?php if ($inDeleteMode) { ?>
-                <a href="?p=managevacancies">
-                    Terug
-                    <div>↩</div>
+                <a href="?p=admin_managevacancies">
+                    Terug naar overzicht
                 </a>
                 <?php } else { ?>
                 <a href="?p=managevacancies&deleteMode=true">
                     Vacature sluiten
-                    <div>─</div>
                 </a>
             <?php } ?>
-        </div>
+                </div>
+            </td>
+        </tr>
+</table>
+
+<table>
     <?php
         // Loop through each vacancy and echo the vacancy
         foreach ($vacancies as $vacancy) {
             ?>
-            <div>
-                <div>
-                    <span><?= $vacancy['Title'] ?></span>
-                    <?php if ($inDeleteMode) {
-                        ?>
-                        <input type="checkbox" value="<?= $vacancy['Id'] ?>" name="vacanciesToDelete[]" />
-                        <?php
-                    }
-                    else {
-                        ?>
-                        <a href="?p=editvacancy&vacancy=<?=  $vacancy['Id'] ?>">Wijzig</a>
-                        <?php
-                    }
-                    ?>
-                </div>
-                <div><?= $vacancy['Description'] ?></div>
-            </div>
-        <?php }
-    ?>
-    </div>
+                <tr>
+                    <td>Titel: <span><?= $vacancy['Title'] ?></span></td>
+                <td>
+                    <?php if ($inDeleteMode) {?>
+                            <input type="checkbox" value="<?= $vacancy['Id'] ?>" name="vacanciesToDelete[]"/>
 
-    <?php if ($inDeleteMode) { 
+                        
+                    <?php } else { ?>
+                        <a href="?p=admin_editvacancy&vacancy=<?=  $vacancy['Id'] ?>">Wijzig</a>
+                    <?php } ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Beschrijving: <?= $vacancy['Description'] ?></td>
+            </tr>
+    <?php } ?>            
+    <?php if ($inDeleteMode && !empty($vacancies)) { 
         // Show a delete button if we're in delete mode 
-        ?><input class="delete_button" type="submit" name="deleteVacancies" value="Verwijder geselecteerde vacatures"/><?php
-    } ?>
+        ?><tr><td><input class="delete_button" type="submit" name="deleteVacancies" value="Verwijder geselecteerde vacatures"/></td></tr><?php
+    }elseif($inDeleteMode && empty($vacancies)){
+        ?><tr><td>Er zijn geen vacatures om te verwijderen!</td></tr>
+    <?php } ?>
+    </tr>
+</table>
 </form>
+
+<h3>Vacature tekst</h3>
+
+<?php
+$VacancyInfo = base_query('SELECT Value FROM setting Where Name = "VacancyInfo"')->fetchColumn();
+
+echo $VacancyInfo;
+?>
+
