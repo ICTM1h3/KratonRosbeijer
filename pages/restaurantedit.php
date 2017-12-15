@@ -36,8 +36,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					url: '?p=restaurantedit', // Url witch deals the request
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
-				}).done(function() {
-					location.search="?p=infopage"
+					
+					}).done(function() {
+						location.search="?p=infopage"
                 });
 				
 			}
