@@ -1,6 +1,9 @@
 <?php
+//Set title.
 setTitle("Beheren restaurant informatie");
 
+
+//Update the text.
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$text = file_get_contents('php://input');
 	base_query("UPDATE setting SET value = :value WHERE name = 'Info'", array(':value' => $text));
@@ -8,14 +11,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 
 
-Beheren restaurant informatie.
-
-Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit kan door middel van de edit plugin.  
+<p>Beheren restaurant informatie.Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit kan door middel van de edit plugin.</p>  
 
 
-		<!--Making form for the edit-plugin-->
-
-		
 			<!-- Loading the info page into the editor -->
 			<textarea class="tinymce" id="texteditor">
 
@@ -38,7 +36,10 @@ Op deze pagina kan de informatie van de informatie pagina worden aangepast. Dit 
 					url: '?p=restaurantedit', // Url witch deals the request
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
-				});
+					
+					}).done(function() {
+						location.search="?p=infopage"
+                });
 				
 			}
 			</script>
