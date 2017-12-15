@@ -12,12 +12,10 @@ $giftcards = base_query("SELECT * FROM coupon");
         foreach($giftcards as $card){
         ?>
         <tr>
-            <td>Gegevens</td>
+            <td>Code: </td>
+            <td><?php $card['CouponCode']?>
+            <td></td>
         </tr>
-        <tr>
-            <td>Oorspronkelijke koper:</td>
-            <td><?= $card['InNameOf']?></td>
-        </tr>    
         <?php }?>
     </table>
 </form>
