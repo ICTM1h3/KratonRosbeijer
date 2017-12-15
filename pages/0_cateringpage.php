@@ -1,7 +1,7 @@
 <?php
  setTitle("Catering pagina");
 
- $text = base_query("SELECT * FROM catering WHERE name = 'Text' ")->fetch();
+ $text = base_query("SELECT * FROM catering WHERE name = 'CateringText' ")->fetch();
 ?>
 
 <div>
@@ -34,6 +34,7 @@
 <?php
 echo($text['Value']);
 ?>
+
 <div>
 <script>$('.carousel').carousel(data-interval="100")</script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

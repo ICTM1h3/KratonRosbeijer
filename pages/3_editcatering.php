@@ -3,7 +3,7 @@ setTitle("Beheren Catering Pagina");
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$info = file_get_contents('php://input');
-	base_query("UPDATE catering SET value = :value WHERE name = 'Text'", array(':value' => $info));
+	base_query("UPDATE catering SET value = :value WHERE name = 'CateringText'", array(':value' => $info));
 }
 ?>
 
@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			<!-- Loading the info page into the editor -->
 			<textarea class="tinymce" id="texteditor">
 
-			<?php $text = base_query("SELECT * FROM catering WHERE name = 'Text' ")->fetch();
+			<?php $text = base_query("SELECT * FROM catering WHERE name = 'CateringText' ")->fetch();
       			echo($text['Value']);
    			 	//used the function base_query to execute a query and echo's the result 
  			?> 
@@ -38,7 +38,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					url: '?p=editcatering', // Url witch deals the request
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
-				});
+				}); 
 			}
 			</script>
 
