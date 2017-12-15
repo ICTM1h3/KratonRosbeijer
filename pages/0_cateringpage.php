@@ -1,7 +1,7 @@
 <?php
  setTitle("Catering pagina");
 
- $text = base_query("SELECT * FROM catering WHERE name = 'CateringText' ")->fetch();
+ $text = base_query("SELECT * FROM setting WHERE name = 'CateringText' ")->fetch();
 ?>
 
 <div>
