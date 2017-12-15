@@ -8,9 +8,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 
 
-Beheren Catering Pagina.
+<h6>Beheren Catering Pagina.</h6>
 
-Op deze pagina kan de informatie van de Catering Pagina worden aangepast. Dit kan door middel van de edit plugin.  
+<p>Op deze pagina kan de informatie van de Catering Pagina worden aangepast. Dit kan door middel van de edit plugin.</P>
 
 
 		<!--Making form for the edit-plugin-->
