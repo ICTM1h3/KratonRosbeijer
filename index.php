@@ -84,6 +84,7 @@ $tabs = getTabsForCurrentUser();
 		border-radius: 5px;
 		min-height:400px;
 		padding:1px;
+		overflow: scroll;
 	}
 
 	.sidebar-open > div:last-child {
