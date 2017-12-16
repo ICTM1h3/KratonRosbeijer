@@ -185,7 +185,7 @@ if(isset($_POST['varied'])){
         <tr>
             <td>Cadeaubon variable € </td>
             <td>
-                <input type="text"  name="varied_ammount"/>
+                <input min="0" step="1"  name="varied_ammount" value="0"/>
                 <input type="submit" name="varied" value="Toevoegen"/>
             </td>
         </tr>
