@@ -49,8 +49,8 @@ $users = base_query("SELECT * FROM User")->fetchAll();
             $disabled = $user['Id'] == $_SESSION['UserId'] ? 'disabled' : '';
             ?>
             <tr>
-                <td><?= $user['Firstname'] ?></td>
-                <td><?= $user['Email'] ?></td>
+                <td><?= htmlentities($user['Firstname']) ?></td>
+                <td><?= htmlentities($user['Email']) ?></td>
                 <td>
                     <form method="POST">
                         <input type="hidden" name="user_id" value="<?= $user['Id'] ?>" />
