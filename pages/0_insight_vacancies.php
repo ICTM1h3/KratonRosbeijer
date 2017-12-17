@@ -4,14 +4,12 @@
 setTitle("Vacatures");
 // Fetching all data that is required for vacancies
 $query = base_query('SELECT * FROM Vacancy')->fetchAll();
-?>
-<p class="generalInfo">Wij zijn een leuk en gezellig team en op zoek naar jou. En wie zegt er nou nee tegen heerlijk Indonesisch eten. Dan ben je bij ons op het juiste adres.
 
-<br>Heb je interesse neem dan per e-mail (info@kratonrosbeijer.nl) of per telefoon ( 033-8871111) contact met ons op.
+$VacancyInfo = base_query('SELECT Value FROM setting Where Name = "VacancyInfo"')->fetchColumn();
 
-<br>Welkom in onze Kraton familie (Selamat bergabung dengan keluarga Kraton).
+echo $VacancyInfo;
+?> 
 
-<br>We zijn op zoek naar:</p>   
 <!-- Styling for 2 tables next to eachother -->
 <style>
     .generalInfo {
@@ -40,6 +38,7 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
     }
 </style>
 
+<!--Putting the data to the right place-->
 <div class="vacancy_container">
 <?php
 // Storing the data in variables
@@ -50,46 +49,28 @@ foreach ($query as $value) {
     $employment = $value['Employment'];
     $requirements = base_query("SELECT * FROM Requirement WHERE Vacancy = :vacancy", [
         ':vacancy' => $value['Id']
-        ]);
+        ]);   
     ?>
     <div>
         <table>
             <tr>
-                <td>
-                        Titel: 
-                </td>
-                <td>
-                    <?= $title ?>
-                </td>
+                <td>Titel: </td>
+                <td><?= $title ?></td>
             </tr>
             <tr>
-                <td>
-                    Functie: 
-                </td>
-                <td> 
-                    <?= $function ?> 
-                </td>
+                <td>Functie:</td>
+                <td><?= $function ?></td>
             </tr>
             <tr>
-                <td>
-                    Beschrijving: 
-                </td>
-                <td> 
-                    <?= $description ?> 
-                </td>
+                <td>Beschrijving:</td>
+                <td><?= $description ?></td>
             </tr>
             <tr>
-                <td>
-                    Dienstverband: 
-                </td>
-                <td> 
-                    <?= $employment ?>
-                </td>
+                <td>Dienstverband:</td>
+                <td><?= $employment ?></td>
             </tr>
             <tr>
-                <td>
-                    Eisen:
-                </td>
+                <td>Eisen:</td>
                 <td>
                     <ul>
                     <?php foreach ($requirements as $requirement) {
@@ -99,7 +80,6 @@ foreach ($query as $value) {
                 </td>
         </table>
     </div>
-    <!-- <br> -->
 <?php
 } 
 ?> 
