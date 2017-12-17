@@ -30,20 +30,29 @@ function validateData() {
 
 // Updates the user with the values from the POST.
 function update_user() {
+    // Check if there isn't another use with the same email.
+    if (base_query("SELECT * FROM User WHERE Email = :email AND Id <> :id", [':email' => $_POST['Email'], ':id' => $_GET['userId']])->fetch() != false) {
+        return [false, "Er bestaat al een gebruiker met de gegeven email"];
+    }
+
     base_query("UPDATE User
     SET Firstname = :firstname, 
         Lastname = :lastname,
         MiddleName = :middlename,
         TelephoneNumber = :telephonenumber,
-        Email = :email
+        Email = :email,
+        Discount = :discount
     WHERE Id = :id", [
         ':firstname' => $_POST['Firstname'],
         ':lastname' => $_POST['Lastname'],
         ':middlename' => $_POST['MiddleName'],
         ':telephonenumber' => $_POST['TelephoneNumber'],
         ':email' => $_POST['Email'],
+        ':discount' => isset($_POST['Discount']) ? $_POST['Discount'] : 0,
         ':id' => $_GET['userId'],
     ]);
+
+    return [true];
 }
 
 
@@ -51,17 +60,31 @@ if (!isset($_GET['userId'])) {
     return;
 }
 
+$inChangingMode = isset($_GET['changemode']);
 $errors = [];
 
 if (isset($_POST['save'])) {
     $errors = validateData();
     if (empty($errors)) {
-        update_user();
-        header("Location: ?p=manageaccounts");
+        list($success, $msg) = update_user();
+        if ($success) {
+            header("Location: ?p=manageaccounts");
+        }
+        else {
+            $errors[] = $msg;
+        }
     }
 }
 
-$user = base_query("SELECT * FROM User WHERE Id = :id", [':id' => $_GET['userId']])->fetch();
+$user = base_query("SELECT u.*, 
+    (SELECT COUNT(r.Id) FROM Reservation r WHERE r.UserId = u.Id) AmountReservations,
+    (SELECT COUNT(o.Id) FROM `Order` o WHERE o.UserId = u.Id) AmountOrders,
+    (SELECT COUNT(r.Id) FROM Reservation r WHERE r.UserId = u.Id AND IsNoShow = 1) AmountNoShowReservations,
+    (SELECT COUNT(o.Id) FROM `Order` o WHERE o.UserId = u.Id AND IsNoShow = 1) AmountNoShowOrders
+FROM User u 
+WHERE u.Id = :id", [
+    ':id' => $_GET['userId']
+])->fetch();
 
 function getValue($user, $key) {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -70,21 +93,6 @@ function getValue($user, $key) {
     return $user[$key];
 }
 ?>
-
-<h2>Gebruiker <?= $user['Lastname'] ?>
-    <?php if (!isset($_GET['changemode'])) { ?>
-        <a class="edit" href="?<?= $_SERVER['QUERY_STRING'] ?>&changemode=true">Wijzig</a>
-    <?php } ?>
-</h2>
-
-<?php if (!empty($errors)) { ?>
-    <div style="color:red">
-        <?php foreach ($errors as $error ) { ?>
-            <p><?= $error ?></p>
-        <?php } ?>
-    </div> 
-<?php } ?>
-
 
 <style>
     .edit {
@@ -96,34 +104,78 @@ function getValue($user, $key) {
         color: black;
         background-color: inherit;
     }
+
+    table td {
+        padding: 3px;
+    }
 </style>
 
-<?php $disabled = isset($_GET['changemode']) ? '' : 'disabled'; ?>
+<h2>Gebruiker details
+    <?php if (!$inChangingMode) { ?>
+        <a class="edit" href="?<?= $_SERVER['QUERY_STRING'] ?>&changemode=true">(Wijzig)</a>
+    <?php } else {
+        unset($_GET['changemode']); ?>
+        <a class="edit" href="?<?= http_build_query($_GET) ?>">(Terug)</a>
+    <?php } ?>
+</h2>
+
+<?php if (!empty($errors)) { ?>
+    <div style="color:red">
+        <?php foreach ($errors as $error ) { ?>
+            <p><?= $error ?></p>
+        <?php } ?>
+    </div>
+<?php } ?>
+
+<?php $disabled = $inChangingMode ? '' : 'disabled'; ?>
 
 <form method="POST">
     <table>
         <tr>
             <td>Voornaam</td>
-            <td><input <?= $disabled ?> name="Firstname" value="<?= getValue($user, "Firstname") ?>" type="text" /></td>
+            <td><input <?= $disabled ?> name="Firstname" value="<?= htmlentities(getValue($user, "Firstname")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Tussenvoegsel</td>
-            <td><input <?= $disabled ?> name="MiddleName" value="<?= getValue($user, "MiddleName") ?>" type="text" /></td>
+            <td><input <?= $disabled ?> name="MiddleName" value="<?= htmlentities(getValue($user, "MiddleName")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Achternaam</td>
-            <td><input <?= $disabled ?> name="Lastname" value="<?= getValue($user, "Lastname") ?>" type="text" /></td>
+            <td><input <?= $disabled ?> name="Lastname" value="<?= htmlentities(getValue($user, "Lastname")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Telefoonnummer</td>
-            <td><input <?= $disabled ?> name="TelephoneNumber" value="<?= getValue($user, "TelephoneNumber") ?>" type="text" /></td>
+            <td><input <?= $disabled ?> name="TelephoneNumber" value="<?= htmlentities(getValue($user, "TelephoneNumber")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input <?= $disabled ?> name="Email" value="<?= getValue($user, "Email") ?>" type="Email" /></td>
+            <td><input <?= $disabled ?> name="Email" value="<?= htmlentities(getValue($user, "Email")) ?>" type="Email" /></td>
         </tr>
-
-        <?php if (isset($_GET['changemode'])) { ?>
+        <?php if ($user['Role'] == ROLE_VIP_USER) { ?>
+            <tr>
+                <td>Korting</td>
+                <td><input <?= $disabled ?> name="Discount" value="<?= htmlentities(getValue($user, "Discount")) ?>" type="number" /></td>
+            </tr>
+        <?php } ?>
+        
+        <?php if (!$inChangingMode) { ?>
+        <tr>
+            <td>Hoeveelheid reserveringen</td>
+            <td><?= $user['AmountReservations'] ?> </td>
+        </tr>
+        <tr>
+            <td>Hoeveelheid bestellingen</td>
+            <td><?= $user['AmountOrders'] ?> </td>
+        </tr>
+        <tr>
+            <td>Hoeveelheid no show reserveringen</td>
+            <td><?= $user['AmountNoShowReservations'] ?> </td>
+        </tr>
+        <tr>
+            <td>Hoeveelheid no show bestellingen</td>
+            <td><?= $user['AmountNoShowOrders'] ?> </td>
+        </tr>
+        <?php } else { ?>
         <tr>
             <td colspan="2">
                 <input type="submit" style="width:100%;" name="save" value="Opslaan">

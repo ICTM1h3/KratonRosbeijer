@@ -1,7 +1,14 @@
 <?php
 
+// Creates a href for the provided page number
+function createPaginationLinkFor($page) {
+    $query = $_GET;
+    $query['page'] = $page;
+    return '?' . http_build_query($query);
+}
 
-
+// Generates the option tags for all the roles. 
+// Automatically selects the role which the provided user is part of.
 function createOptionsFor($user) {
     $res = "";
     foreach (getAllRoles() as $id => $role) {
@@ -11,11 +18,12 @@ function createOptionsFor($user) {
     return $res;
 }
 
+// Updates the role of the provided user.
 function update_role($userId, $role) {
     base_query("UPDATE User SET Role = :role WHERE Id = :id", [':role' => $role, ':id' => $userId]);
 }
 
-
+// Switches if the provided user is activated or not.
 function switch_user_activation_status($userId) {
     base_query("UPDATE User SET Activated = NOT Activated WHERE Id = :id", [':id' => $userId]);
 }
@@ -27,21 +35,32 @@ elseif (isset($_POST['switch_user_status'])) {
     switch_user_activation_status($_POST['user_id']);
 }
 
+$pageSize = 15;
+$currentPage = isset($_GET['page']) ? $_GET['page'] : 0;
+$currentPage = filter_var($currentPage, FILTER_VALIDATE_INT) ? $currentPage : 0;
+$currentRow = $currentPage * $pageSize;
+$amountRows = base_query("SELECT COUNT(Id) FROM User")->fetchColumn();
+$amountPages = ceil($amountRows / $pageSize);
 
-
-
-$users = base_query("SELECT * FROM User")->fetchAll();
+$users = base_query("SELECT * FROM User LIMIT $currentRow, $pageSize")->fetchAll();
 
 
 ?>
-<table>
+
+<style>
+    .table td:nth-child(4) input {
+        width:98px;
+    }
+</style>
+<div class="table-responsive">
+<table class="table">
     <thead>
         <tr>
-            <td>Gebruikersnaam</td>
-            <td>Email</td>
-            <td>Rol</td>
-            <td>Verwijder</td>
-            <td>Details</td>
+            <th>Gebruikersnaam</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Verwijder</th>
+            <th>Details</th>
         </tr>
     </thead>
     <tbody>
@@ -75,7 +94,18 @@ $users = base_query("SELECT * FROM User")->fetchAll();
         <?php } ?>
     </tbody>
 </table>
+</div>
 
+<div style="display: flex;justify-content: center;">
+    <ul class="pagination">
+        <li class="page-item <?= $currentPage <= 0 ? 'disabled' : '' ?>"><a class="page-link" href="<?= createPaginationLinkFor($currentPage - 1) ?>">Vorige</a></li>
+        <?php for ($i = 0; $i < $amountPages; $i++) { ?>
+            <li class="page-item <?= $i == $currentPage ? 'disabled' : '' ?>"><a class="page-link" href="<?= createPaginationLinkFor($i) ?>"><?= $i + 1 ?></a></li>
+            
+            <?php } ?>
+        <li class="page-item <?= ($currentPage == $amountPages - 1) ? 'disabled' : '' ?>"><a class="page-link" href="<?= createPaginationLinkFor($currentPage + 1) ?>">Volgende</a></li>
+    </ul> 
+</div>
 <script>
     function requestUserStatusChange(event, email, newStatus) {
         event.preventDefault();

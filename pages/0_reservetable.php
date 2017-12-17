@@ -181,7 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $date = format_date_and_time($_POST['Date'], $_POST['Time']);
         $amountPersons = $_POST['AmountPersons'];
         $inNameOf = $_POST['InNameOf'];
-        list($success, $error) = createReservation($_POST['InNameOf'], $_POST['Email'], $date, $_POST['Telephone'], $amountPersons, $_POST['Notes']);
+        $userId = isset($_SESSION['UserId']) ? $_SESSION['UserId'] : null;
+        list($success, $error) = createReservation($_POST['InNameOf'], $_POST['Email'], $date, $_POST['Telephone'], $amountPersons, $_POST['Notes'], $userId);
 
         if (!$success) {
             $errors[] = $error;
