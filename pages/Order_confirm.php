@@ -1,7 +1,7 @@
 <?php
-
 setTitle("Bestelling bevestigen");
 date_default_timezone_set("Europe/Amsterdam");
+var_dump($_SESSION);
 
 function validateData() {
     $errors = [];
@@ -35,18 +35,65 @@ function validateData() {
     return $errors;
 }
 
+function countDishes($Id) {
+    $count = 0;
+    foreach ($_SESSION["dishes"] as $value) {
+        if ($value == $Id) {
+            $count++;
+        }
+    }
+    return $count;
+} 
+
+function countCategories($Id) {
+    $count = 0;
+    foreach ($_SESSION["categories"] as $value) {
+        if ($value == $Id) {
+            $count++;
+        }
+    }
+    return $count;
+} 
+
 function insertOrderData() {
 
+    $newOrderId = base_query("SELECT MAX(Id) AS newestOrderId FROM `Order`")->fetchColumn();
+    $newOrderId++;
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
 
-    base_query("INSERT INTO Order (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email) values(:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email)", [
+    base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email) VALUES
+    (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email)", [
         ':orderDate' => $currentDateTime,
         ':targetDate' => $targetTime,
         'inNameOf' => $_POST['inNameOf'],
         ':telephoneNumber' => $_POST['telNumber'],
         ':email' => $_POST['email']
     ]);
+
+    foreach ($_SESSION["dish"] as $value) {
+        $countedDishes = countDishes($value);
+        base_query("INSERT INTO Dish_Order (OrderId, DishId, CountDish) VALUES
+        (:orderId, :dishId, :countDish)", [
+            ':orderId' => $newOrderId,
+            ':dishId' => $value,
+            ':countDish' => $countedDishes
+        ]);
+    }
+
+
+        
+
+
+    foreach ($_SESSION["category"] as $value) {
+        $countedCategories = countCategories($value);
+        base_query("INSERT INTO Category_Order (OrderId, CategoryId, CountCategory) VALUES
+        (:OrderId, :CategoryId, :countCategory)", [
+            ':OrderId' => $newOrderId,
+            ':CategoryId' => $value,
+            ':countCategory' => $countedCategories
+        ]);
+    }
 }
 
 function getValue($key) {
@@ -55,6 +102,8 @@ function getValue($key) {
     }
     return '';
 }
+
+
 
 $errors = [];
 
@@ -73,10 +122,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     }
 }
-var_dump($errors);
 
 ?>
-
+Totale prijs: <?=$_SESSION["totalPrice"] ?>
 <form method="POST">
     <table>
         <tr>

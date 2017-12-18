@@ -4,15 +4,18 @@ setTitle("Gerechten toevoegen");
 
 function str_starts_with($value, $start){
     return substr($value, 0, strlen($start)) === $start;
-}   
+}
 
 $total = 0;
 $subTotal = 0;
 $cumulative = 0;
+$sDishes = [];
+$sCategories = [];
+$sDish = [];
+$sCategory = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 
-    $everyDish = [];
     ?><table class="overview_dishes">
         <tr>
             <td>
@@ -35,10 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         if (str_starts_with($key, 'dish_amount_') && !empty($value)) { 
             $id = substr($key, 12);
             $dishPrice = base_query("SELECT * FROM Dish WHERE Id = :dishId", [':dishId' => $id])->fetch();
-            $everyDish[] = $dishPrice['Id'];
             $total += ($value * $dishPrice['Price']);
             $subTotal = ($value * $dishPrice['Price']);
             $cumulative += $subTotal;
+            $sDish[] = $dishPrice['Id'];
+            $sDishes[] = $dishPrice['Id'];
             ?>
                 <tr>
                     <td>
@@ -52,18 +56,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     <td>
                         <?=$subTotal?>
                     </td>
-                    </td>
                     <td>
                         <?=$cumulative?>
                     </td>                        
                 </tr>
             <?php
+            for ($i = 1; $i < $value; $i++) {
+                $sDishes[] = $dishPrice['Id'];
+            }
         } elseif (str_starts_with($key, 'category_amount_') && !empty($value)) {
             $id = substr($key, 16);
             $categoryPrice = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $id ])->fetch();
             $total += ($value * $categoryPrice['Price']);
             $subTotal = ($value * $categoryPrice['Price']);
             $cumulative += $subTotal;
+            $sCategory[] = $categoryPrice['Id'];
+            $sCategories[] = $categoryPrice['Id'];
             ?>
             <tr>
                 <td>
@@ -77,12 +85,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 <td>
                     <?=$subTotal?>
                 </td>
-                </td>
                 <td>
                     <?=$cumulative?>
                 </td>                        
             </tr>
         <?php
+        for ($i = 1; $i < $value; $i++) {
+            $sCategories[] = $categoryPrice['Id'];
+        }
         }
     }
     ?><tr>
@@ -96,17 +106,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <?=$total?>
         </td>
         <td>
-            <form action="?p=Order_confirm" method="POST">
-                <input type="submit" name="orderConfirm" value="Bestel!">
-            </form>
+            <a href="?p=Order_confirm"><button>Bestel!</button></a>
         </td>
     </tr><?php
-    var_dump($everyDish);
+    $_SESSION["dishes"] = $sDishes;
+    $_SESSION["categories"] = $sCategories;
+    $_SESSION["dish"] = $sDish;
+    $_SESSION["category"] = $sCategory;
+    $_SESSION["totalPrice"] = $total;
+
 }
+var_dump($_SESSION);
 ?><table><?php
-
-
-
 
 function echoCategory($categoryId, $size = 1) 
 {
@@ -181,11 +192,6 @@ else
 <?php
     }
 ?>
-
-
-
-
-
 
 <style>
 
