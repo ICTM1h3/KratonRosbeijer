@@ -102,6 +102,7 @@ if(isset($_POST['order_gift_card'])){
         foreach($_SESSION['giftcards'] as $value => $count){
             for($i= 0; $i<$count; $i++){
                 $code = createRandomCode();
+                $_SESSION["couponId"] = $code;
                 base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`) 
                 VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof);", [
                     ':couponcode' => $code,
@@ -112,9 +113,9 @@ if(isset($_POST['order_gift_card'])){
                 ]);
             }
         }
+        echo "Bestelling van de cadeaubon is opgslagen!";
         header('Location: ?p=IDEAL_payment');
     }
-
 }
 
 //Looks if the varied ammount of a giftcard not null is, otherwise add it tho the list of choosen giftcards.
@@ -209,6 +210,7 @@ if(isset($_POST['varied'])){
                     </tr>
                 <?php    
             }
+            $_SESSION["totalPrice"] = $total;
         ?>
             <tr>
                 <td>Totaal</td>
