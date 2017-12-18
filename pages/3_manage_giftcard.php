@@ -7,7 +7,7 @@ setTitle("Beheer cadeaubonnen");
 //Update the value of the giftcard or give an error.
 function changeGiftCard($code, $value) {
     if (base_query("SELECT InitialValue FROM Coupon WHERE CouponCode = :couponcode", [':couponcode' => $code])->fetchColumn() < $value || $value < 0) {
-        echo "Waarde is kleiner dan 0 of is hoger dan het beginbedrag van de kaar!";
+        echo "Waarde is kleiner dan 0 of is hoger dan het beginbedrag van de kaart!";
         
     }else{
         base_query("UPDATE coupon SET CurrentValue = :currentvalue WHERE CouponCode = :couponcode",[
