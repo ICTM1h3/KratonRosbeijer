@@ -29,11 +29,6 @@ function changeGiftCard($code, $value) {
     
 //Retrieve all current giftcards.
 $giftcards = base_query("SELECT * FROM coupon ORDER BY CurrentValue DESC")->fetchAll();
-
-//Error when the is no data tot show.
-if(empty($giftcards)){
-    $error = "Geen cadeaukaarten om weer te geven.";
-}
 ?>
 
 <!--Style of the page-->
