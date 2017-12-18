@@ -28,10 +28,10 @@ function changeGiftCard($code, $value) {
     }
     
 //Retrieve all current giftcards.
-$giftcards = base_query("SELECT * FROM coupon ORDER BY CurrentValue DESC");
+$giftcards = base_query("SELECT * FROM coupon ORDER BY CurrentValue DESC")->fetchAll();
 
 //Error when the is no data tot show.
-if(empty(base_query("SELECT * FROM coupon"))){
+if(empty($giftcards)){
     $error = "Geen cadeaukaarten om weer te geven.";
 }
 ?>
@@ -49,11 +49,9 @@ table, tr, td {
 
 <!-- Form for showing the giftcards, if the exist-->
 <form method="POST">
-    <table>
-        <?php 
-        if(!empty($giftcards)){ ?>
-        <?php
-            foreach($giftcards as $card){ ?>
+    <div class="table-responsive">
+    <table><?php
+        if(!empty($giftcards)){?>
             <tr>
                 <td>Code</td>
                 <td>Oorspronkelijk tegoed</td>
@@ -61,6 +59,8 @@ table, tr, td {
                 <td>Oorspronkelijke besteller</td>
                 <td>E-mail</td>
             </tr>
+        <?php
+            foreach($giftcards as $card){ ?>
             <tr>
                 <td><?= $card['CouponCode']?></td>
                 <td><?= $card['InitialValue']?></td>
@@ -71,7 +71,8 @@ table, tr, td {
             </tr><?php 
             }
         }else{
-            echo $error;
+            echo "Geen cadeaukaarten om weer te geven!";
         }?>
     </table>
+    </div>
 </form>
