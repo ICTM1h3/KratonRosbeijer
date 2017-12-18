@@ -109,6 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <a href="?p=Order_confirm"><button>Bestel!</button></a>
         </td>
     </tr><?php
+    // Creating 2 types of sessions for dishes and categories so that the amount for each dish can be counted
     $_SESSION["dishes"] = $sDishes;
     $_SESSION["categories"] = $sCategories;
     $_SESSION["dish"] = $sDish;
@@ -116,7 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $_SESSION["totalPrice"] = $total;
 
 }
-var_dump($_SESSION);
 ?><table><?php
 
 function echoCategory($categoryId, $size = 1) 

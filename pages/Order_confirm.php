@@ -1,7 +1,8 @@
 <?php
 setTitle("Bestelling bevestigen");
+
+// Sets the timezone
 date_default_timezone_set("Europe/Amsterdam");
-var_dump($_SESSION);
 
 function validateData() {
     $errors = [];
@@ -35,6 +36,7 @@ function validateData() {
     return $errors;
 }
 
+// Checks how many times the dish is ordered
 function countDishes($Id) {
     $count = 0;
     foreach ($_SESSION["dishes"] as $value) {
@@ -45,6 +47,7 @@ function countDishes($Id) {
     return $count;
 } 
 
+// Checks how many times the category(dish) is ordered
 function countCategories($Id) {
     $count = 0;
     foreach ($_SESSION["categories"] as $value) {
@@ -55,10 +58,13 @@ function countCategories($Id) {
     return $count;
 } 
 
+// Inserts everything into the database
 function insertOrderData() {
 
+    // Gets the newest Order Id
     $newOrderId = base_query("SELECT MAX(Id) AS newestOrderId FROM `Order`")->fetchColumn();
     $newOrderId++;
+    // Saves the current time when the Order is made
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
 
@@ -71,6 +77,7 @@ function insertOrderData() {
         ':email' => $_POST['email']
     ]);
 
+    // Inserting the dishes into the database
     foreach ($_SESSION["dish"] as $value) {
         $countedDishes = countDishes($value);
         base_query("INSERT INTO Dish_Order (OrderId, DishId, CountDish) VALUES
@@ -81,10 +88,7 @@ function insertOrderData() {
         ]);
     }
 
-
-        
-
-
+    // Inserting the categories into the database
     foreach ($_SESSION["category"] as $value) {
         $countedCategories = countCategories($value);
         base_query("INSERT INTO Category_Order (OrderId, CategoryId, CountCategory) VALUES
@@ -96,6 +100,7 @@ function insertOrderData() {
     }
 }
 
+
 function getValue($key) {
     if (isset($_POST[$key])) {
         return $_POST[$key];
@@ -103,10 +108,9 @@ function getValue($key) {
     return '';
 }
 
-
-
 $errors = [];
 
+// Checks for errors. If there are, it will show errors
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST['bestelGegevens'])) {
         $errors = validateData();
@@ -125,9 +129,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 ?>
-Totale prijs: <?=$_SESSION["totalPrice"] ?>
 <form method="POST">
     <table>
+        <tr>
+            <td>Totale prijs: <?=$_SESSION["totalPrice"] ?></td>
+        </tr>
         <tr>
             <td><b>Naam:</b></td>
             <td><input type="text" name="inNameOf" value=<?=getValue('inNameOf')?>><td>
