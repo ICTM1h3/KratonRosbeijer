@@ -112,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errors = validateData();
         if (empty($errors)) {
             insertOrderData();
+            echo "Uw bestelling is aangemaakt<br>";
         }
         else {
             foreach ($errors as $error) {
