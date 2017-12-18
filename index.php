@@ -33,7 +33,11 @@ $tabs = getTabsForCurrentUser();
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="css-style-sheet.css" type="text/css">
 	<title><?php echo htmlentities($pagetitle); ?> </title>
-
+	<style>
+		body {
+			overflow-x: hidden;
+		}
+	</style>
     <!-- Bootstrap core CSS 
     <link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet">
     -->
@@ -47,11 +51,16 @@ $tabs = getTabsForCurrentUser();
 
 <body>
     <!-- navbar with small logo in the left corner-->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-  <div>
-    <a class="navbar-brand" href="#">
-    <img class="imglogo" src="img/logo_kraton.png" width="30" height="30" alt="">Kraton Rosbeijer</a>
-  </div>
+<nav class="navbar navbar-nav navbar-expand-lg navbar-dark fixed-top">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="?p=infopage">
+			<img class="imglogo" src="img/logo_kraton.png" width="30" height="30" alt="">
+			Kraton Rosbeijer
+		</a>
+	    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+	</div>
   <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
     <ul class="navbar-nav mr-auto">
 	  <?php foreach ($tabs as $tab) { ?>
@@ -115,7 +124,7 @@ $tabs = getTabsForCurrentUser();
               <a class="twitter-timeline" data-width="250" data-height="250" data-theme="light" href="https://twitter.com/kratonrosbeijer?ref_src=twsrc%5Etfw">Tweets by kratonrosbeijer</a>
               <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
             </div>
-          </div>
+    	  </div>
         <hr>
       </div> <!-- /container -->
     </main>

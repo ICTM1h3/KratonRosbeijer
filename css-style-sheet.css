@@ -1,6 +1,7 @@
 .imglogo{
     border-radius: 10px;
     margin-right: 4px;
+    margin-left: 4px;
 }
 
 .sidebar{
@@ -47,4 +48,12 @@ ul{
 
 .btn{
     margin-bottom: 5px;
+}
+
+.error-box {
+    color:red;
+}
+
+.success-box {
+    color:green;
 }
