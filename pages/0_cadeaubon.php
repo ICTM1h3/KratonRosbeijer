@@ -112,10 +112,7 @@ if(isset($_POST['order_gift_card'])){
                 ]);
             }
         }
-        
-        //REMOVE AFTER IDEAL IS WORKING!
-        echo"Bestelling is met succes opgeslagen!";
-
+        header('Location: ?p=IDEAL_payment');
     }
 
 }
