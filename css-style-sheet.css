@@ -1,8 +1,42 @@
-.container{
-    
-    background-color: lightgrey;
-    border-radius: 25px;
-    padding: 20px; 
-    width: 500px;
-    height: 300px;
+.imglogo{
+    border-radius: 10px;
+    margin-right: 4px;
+}
+
+.sidebar{
+    position: relative;
+    width: 300px;
+    float: right;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.form-inline{
+    margin-right: 4px;
+}
+
+.jumbotron{
+    margin-top: 32px;
+}
+
+.text{
+    font-size: 20;
+    color: lightgray;
+}
+
+footer{
+    background-color: black;
+}
+
+nav{
+    background-color: black;
+}
+
+.footertext{
+    font-size: 6;
+    color: darkgray;
+}
+
+ul{
+    list-style-type: none;
 }
