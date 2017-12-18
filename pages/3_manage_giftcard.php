@@ -42,7 +42,7 @@ table, tr, td {
 
 <h2>Aangemaakte cadeaukaarten</h2>
 
-<!-- Form for showing the giftcards, if the exist-->
+<!-- Form for showing the giftcards, if the giftcard exist-->
 <form method="POST">
     <div class="table-responsive">
     <table><?php
