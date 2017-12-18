@@ -5,8 +5,8 @@ $tabs = [
         ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
         ['title' => 'Menu', 'href' => '?p=insight_menu'],
         ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
-        ['title' => 'Registreren', 'href' => '?p=register'],
-        ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
+        // ['title' => 'Registreren', 'href' => '?p=register'],
+        // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
         ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
     ],
     
@@ -19,8 +19,8 @@ $tabs = [
     // ],
     
     ROLE_ADMINISTRATOR => [
-        ['title' => 'Registreren', 'href' => '?p=register'],
-        ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
+        // ['title' => 'Registreren', 'href' => '?p=register'],
+        // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
         ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
         ['title' => 'Menu', 'href' => '?p=insight_menu'],
         ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],

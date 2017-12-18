@@ -22,13 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 }
 
-
-
 ?>
 
-
-<form method="post" class="container">
-        <h2>Welkom op de login pagina</h2>
+<div class="container">
+      <form method="post" class="form-signin">
         <?php
         if (!empty($errors)) { ?>
                 <div style="color:red">
@@ -40,19 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php
         }
         ?>
-        <div class="form-group">
-                <label>E-mailadres</label></br>
-                <input type="text" name="email" placeholder="E-mailadres"/>
-        </div>
+        <h2 class="form-signin-heading">Login Pagina</h2>
+        <label for="inputEmail">E-mailadres</label>
+        <input type="text" name="email" id="inputEmail" class="form-control" placeholder="E-mailadres" required="" autofocus="">
+        <label for="inputPassword">Wachtwoord</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Wachtwoord" required="">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
 
-        <div class="form-group">
-                <label>Wachtwoord</label></br>
-                <input type="password" name="password" placeholder="Wachtwoord"/>
-        </div>
-
-        <button class="btn btn-primary" type="submit" name="submit">LOGIN</button></br>
-        
-        <a href="?p=forgot_password">wachtwoord vergeten?</a>
-        
-</form>
-
+    </div>

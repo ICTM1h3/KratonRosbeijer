@@ -133,41 +133,33 @@ if (!empty($successes)) { ?>
     color: red;
 }
 </style>
-<form method="POST">
-    <table>
-        <tr>
-            <td>Voornaam</td>
-            <td><input name="firstName" value="<?= getValue("firstName") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Tussenvoegsel</td>
-            <td><input name="middleName" value="<?= getValue("middleName") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Achternaam</td>
-            <td><input name="lastName" value="<?= getValue("lastName") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Telefoonnummer</td>
-            <td><input name="telephoneNumber" value="<?= getValue("telephoneNumber") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input name="email" value="<?= getValue("email") ?>" type="email" /></td>
-        </tr>
-        <tr>
-            <td>Wachtwoord</td>
-            <td><input name="password" type="password" /></td>
-        </tr>
-        <tr>
-            <td>Bevestig wachtwoord</td>
-            <td><input name="password_confirmation" type="password" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" style="width:100%;" value="Registreren">
-            </td>
-        </tr>
 
-    </table>
-</form>
+<div class="container">
+      <form method="post" class="form-signin">
+        <h2 class="form-signin-heading">Registreren</h2>
+
+        <label for="inputText">Voornaam</label>
+        <input name="firstName" value="<?= getValue("firstName") ?>" type="text" id="inputEmail" class="form-control" placeholder="Voornaam"/>
+        
+        <label for="inputText">Tussenvoegsel</label>
+        <input name="middleName" value="<?= getValue("middleName") ?>" type="text" id="inputEmail" class="form-control" placeholder="Tussenvoegsel"/>
+        
+        <label for="inputText">Achternaam</label>
+        <input name="lastName" value="<?= getValue("lastName") ?>" type="text" id="inputEmail" class="form-control" placeholder="Achternaam"/>
+        
+        <label for="inputText">Telefoonnummer</label>
+        <input name="telephoneNumber" value="<?= getValue("telephoneNumber") ?>" type="text" id="inputEmail" class="form-control" placeholder="Telefoonnummer"/>
+        
+        <label for="inputEmail">E-mailadres</label>
+        <input name="email" value="<?= getValue("email") ?>" type="email" id="inputEmail" class="form-control" placeholder="E-mailadres" required="" autofocus="">
+        
+        <label for="inputPassword">Wachtwoord</label>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Wachtwoord" required="">
+        
+        <label for="inputPassword">Bevestig Wachtwoord</label>
+        <input name="password_confirmation" type="password" id="inputPassword" class="form-control" placeholder="Wachtwoord" required="">
+        
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Registreren</button>
+      </form>
+
+    </div>

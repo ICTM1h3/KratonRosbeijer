@@ -20,6 +20,7 @@ if (isset($_GET['no_layout'])) {
 
 $tabs = getTabsForCurrentUser();
 
+// var_dump($_SESSION);
 ?>
 
 <!-- PAGE SETUP -->
@@ -55,20 +56,28 @@ $tabs = getTabsForCurrentUser();
     <ul class="navbar-nav mr-auto">
 	  <?php foreach ($tabs as $tab) { ?>
 	  <li class="nav-item">
-	  <a href="<?= $tab['href'] ?>"><span><?= $tab['title'] ?></span></a>
+	  <a class="nav-link" href="<?= $tab['href'] ?>"><span><?= $tab['title'] ?></span></a>
 	  </li>
 	  <?php } ?>
     </ul>
 
     <!-- registration button -->
-    <form class="form-inline my-2 my-lg-0" action=""> <!-- add action form registration --> 
+	<?php
+	if(isset($_SESSION["UserId"])){?>
+	<a class="form-inline my-2 my-lg-0" href="?p=logout"> <!-- action from registration page --> 
+        <button class="btn btn-outline-light" type="submit">Uitloggen</button>
+    </a>
+	<?php }else{ ?>
+
+    <a class="form-inline my-2 my-lg-0" href="?p=register"> <!-- action from registration page --> 
         <button class="btn btn-outline-light" type="submit">Registreren</button>
-    </form>
+    </a>
 
      <!-- login button -->
-    <form class="form-inline my-2 my-lg-0" action=""> <!-- add action form login -->
+    <a class="form-inline my-2 my-lg-0" href="?p=inlogpage"> <!-- action from login page -->
         <button class="btn btn-outline-light" type="submit">Login</button>
-    </form>
+    </a>
+	<?php } ?>
   </div>
 </nav>
 
@@ -115,16 +124,17 @@ $tabs = getTabsForCurrentUser();
       <div class="row">
         <div class="col-6 col-sm-4">
           <a class="navbar-brand text" href="#">
-          <img class="imglogo" src="logo_kraton.png" width="30" height="30" alt="">Kraton Rosbeijer</a>
+          <img class="imglogo" src="img/logo_kraton.png" width="30" height="30" alt="">Kraton Rosbeijer</a>
         </div>
         <div class="col-6 col-sm-4">
-          <p class="footertext">Hamersveldseweg 57 </br>
-             3833 GL Leusden </br>
-             Telefoon: 033-8871111</br>
-             www.kratonrosbeijer.nl</br>
-             info@kratonrosbeijer.nl</br>
-             www.facebook.com/KratonRosbeijer</br>
-             Twitter @KratonRosbeijer
+          <p class="footertext">
+		  	Hamersveldseweg 57 </br>
+            3833 GL Leusden </br>
+            Telefoon: 033-8871111</br>
+            www.kratonrosbeijer.nl</br>
+            info@kratonrosbeijer.nl</br>
+            www.facebook.com/KratonRosbeijer</br>
+            Twitter @KratonRosbeijer
           </p>
         </div>
         <div class="col-6 col-sm-4">
