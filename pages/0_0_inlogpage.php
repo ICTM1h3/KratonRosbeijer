@@ -7,27 +7,26 @@ $errors = [];
 
 //query to fetch the information form the user
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if(empty($_POST["email"]) || empty(($_POST["password"]))){
-                $errors[] = "Vul de velden Emailadres en Wachtwoord in.";
-        }
+    if (empty($_POST["email"]) || empty(($_POST["password"]))) {
+        $errors[] = "Vul de velden Emailadres en Wachtwoord in.";
+    } else {
         $user = base_query("SELECT * FROM User WHERE Email=:email", array(
-                ":email" => $_POST["email"]
+            ":email" => $_POST["email"]
         ))->fetch();
-        
-        // Don't allow a user who hasn't activated the account to log in.
-        if(!$user){
-                $errors[] = "Dit account bestaat niet.";
+                
+                // Don't allow a user who hasn't activated the account to log in.
+        if (!$user) {
+            $errors[] = "Dit account bestaat niet.";
+        } elseif ($user['RegistrationCode'] != null) {
+            $errors[] = "Dit account is nog niet geactiveerd.";
+        } elseif (password_verify($_POST["password"], $user["Password"])) {
+            $_SESSION["UserId"] = $user["Id"];
+            header("Location: ?p=infopage");
+            return;
+        } else {
+            $errors[] = "Wachtwoord en/of Gebruikersnaam klopt niet.";
         }
-        elseif ($user['RegistrationCode'] != null) {
-                $errors[] = "Dit account is nog niet geactiveerd.";
-        }
-        elseif (password_verify($_POST["password"], $user["Password"])) {
-                $_SESSION["UserId"] = $user["Id"];
-                header("Location: ?p=infopage");
-                return;
-        }else{
-                $errors[] = "Wachtwoord en/of Gebruikersnaam klopt niet.";
-        }
+    }
 }
 
 
