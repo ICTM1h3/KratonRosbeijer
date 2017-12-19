@@ -166,6 +166,7 @@ if (isset($_POST['Save'])) {
     $errors = validateData();
     if (empty($errors)) {
         update_reservation();
+        header("Location: ?p=managereservation");
     }
 }
 
@@ -191,7 +192,8 @@ $reservation = base_query("SELECT * FROM Reservation WHERE Id = :id", [':id' => 
             <td><label for="Activated">Geactiveerd</label></td>
             <td>
                 <input type="hidden" name="Activated" value="<?= htmlentities(getValue($reservation, "Activated")) ?>">
-                <input id="Activated" type="checkbox" <?= htmlentities(getValue($reservation, "Activated")) == 1 ? 'checked' : ''?> onclick="this.previousElementSibling.value=this.checked ? 1 : 0"/></td>
+                <input id="Activated" type="checkbox" <?= htmlentities(getValue($reservation, "Activated")) == 1 ? 'checked' : ''?> onclick="this.previousElementSibling.value=this.checked ? 1 : 0"/>
+            </td>
         </tr>
         <tr>
             <td><label for="AmountPersons">Hoeveelheid personen</label></td>
