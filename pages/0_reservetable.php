@@ -237,9 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<div class="container">
-      <form method="post" class="form-signin">
-      <?php
+<?php
         if (!empty($errors)) { ?>
             <div class="error-box"> <?php
                 foreach ($errors as $error) {
@@ -260,6 +258,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
     
             ?>
+
+<div class="container">
+      <form method="post" class="form-signin">
+
         <input type="hidden" value="<?= newCSRFToken()?>" name="CSRFToken" />
         <h2 class="form-signin-heading">Login Pagina</h2>
         <label for="inputText">Op naam van *</label>
