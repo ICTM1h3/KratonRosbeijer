@@ -1,0 +1,11 @@
+Beste {{inNameOf}},
+
+U heeft een bestelling gemaakt voor {{targetDate}}.
+Als telefoonnummer heeft u {{telNumber}} opgegeven.
+
+De volgende gerechten heeft u besteld:
+{{dish}} {{amount}}
+
+Bedankt voor uw bestelling!
+
+Kraton Rosbeijer

@@ -117,6 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (empty($errors)) {
             insertOrderData();
             echo "Uw bestelling is aangemaakt<br>";
+            send_email_to($_POST['email'], "Confirmatie bestelling", "confirm_order");
         }
         else {
             foreach ($errors as $error) {
