@@ -121,7 +121,7 @@ if(isset($_POST['order_gift_card'])){
             }
         }
         echo "Bestelling van de cadeaubon is opgslagen!";
-        header('Location: ?p=IDEAL_payment');
+        header('Location: ?p=IDEAL_payment_giftcards');
     }
 }
 
