@@ -1,5 +1,7 @@
 <?php
 
+// If the request is a post it returns values from there. 
+// Otherwise it returns it from the provided reservation (array).
 function getValue($reservation, $key) {
     if (isset($_POST[$key])) {
         return $_POST[$key];
@@ -10,6 +12,8 @@ function getValue($reservation, $key) {
 }
 
 
+// Checks if all posted data is correct. 
+// Returns an array of errors which is empty if there were no errors.
 function validateData() {
     $errors = [];
     if (empty($_POST['InNameOf'])) {
@@ -111,29 +115,39 @@ function tryGetFreeTablesForCapacity($requiredCapacity, $date, $currentReservati
 
 
 
+// Updates the reservation.
 function update_reservation() {
-    $oldData = base_query("SELECT * FROM Reservation WHERE Id = :id", [':id' => $_GET['reservationId']])->fetch();
+    // Combine the posted date and time to the same format as in the database
     $date = $_POST['Date'] . ' ' . $_POST['Time'];
-    $reservationId = $_GET['reservationId'];
-    if ($oldData['Date'] != $date){
-        list($foundEnough, $tables) = tryGetFreeTablesForCapacity($_POST['AmountPersons'], $date, $reservationId);
-        if (!$foundEnough) {
-            return [false, "Er zijn niet genoeg tafels beschikbaar op de gevraagde tijd en datum."];
-        }
-        else {
-            base_query("DELETE FROM Table_Reservation WHERE ReservationId = :id", [':id' => $reservationId]);
-            $query = "INSERT INTO table_reservation (TableId, ReservationId) VALUES ";
-            $params = [];
-            foreach ($tables as $tableId) {
-                $params = array_merge($params, [$tableId, $reservationId]);
-                $query .= '(?, ?),';
+    
+    { 
+        $oldData = base_query("SELECT * FROM Reservation WHERE Id = :id", [':id' => $_GET['reservationId']])->fetch();
+        $reservationId = $_GET['reservationId'];
+        // If the date has changed find new tables for this reservation.
+        if ($oldData['Date'] != $date){
+            list($foundEnough, $tables) = tryGetFreeTablesForCapacity($_POST['AmountPersons'], $date, $reservationId);
+            if (!$foundEnough) {
+                return [false, "Er zijn niet genoeg tafels beschikbaar op de gevraagde tijd en datum."];
             }
-            
-            // Remove the trailing ',' at the end
-            $query = substr($query, 0, -1);
-            base_query($query, $params);
+            else {
+                // Remove the current tables from the reservation.
+                base_query("DELETE FROM Table_Reservation WHERE ReservationId = :id", [':id' => $reservationId]);
+
+                // Assign the new tables to this reservation.
+                $query = "INSERT INTO table_reservation (TableId, ReservationId) VALUES ";
+                $params = [];
+                foreach ($tables as $tableId) {
+                    $params = array_merge($params, [$tableId, $reservationId]);
+                    $query .= '(?, ?),';
+                }
+                
+                // Remove the trailing ',' at the end
+                $query = substr($query, 0, -1);
+                base_query($query, $params);
+            }
         }
     }
+
     base_query("UPDATE Reservation 
     SET InNameOf = :InNameOf,
         Email = :Email,
@@ -167,6 +181,7 @@ function update_reservation() {
     return [true];
 }
 
+// Redirect the user to a list of all reservations if no reservation was provided.
 if (!isset($_GET['reservationId'])) {
     header("Location: ?p=managereservation");
     return;
@@ -174,6 +189,7 @@ if (!isset($_GET['reservationId'])) {
 
 $errors = [];
 
+// Try to save the reservation if requested.
 if (isset($_POST['Save'])) {
     $errors = validateData();
     if (empty($errors)) {
