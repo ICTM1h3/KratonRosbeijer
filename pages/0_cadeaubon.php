@@ -68,7 +68,14 @@ foreach($_POST as $key => $value){
     
 }
 
+function createPaymentCode() {
+    $paymentCode = md5(uniqid(rand(), true));
 
+    while (base_query("SELECT PaymentCode FROM Coupon WHERE PaymentCode = :paymentCode", [':paymentCode' => $paymentCode])->fetch() != false) {
+        $paymentCode = md5(uniqid(rand(), true));
+    }
+    return $paymentCode;
+}
 
 //Create a random unique giftcard code. 
 function createRandomCode() { 
@@ -91,25 +98,25 @@ function createRandomCode() {
     
     return $code; 
     
-} 
-
-
+}
 
 //Put the choosen giftcards with the required data into the database. 
 if(isset($_POST['order_gift_card'])){
     $errors = getFilledInDataErrors();
     if(empty($errors)){
+        $paymentCode = createPaymentCode();
         foreach($_SESSION['giftcards'] as $value => $count){
             for($i= 0; $i<$count; $i++){
                 $code = createRandomCode();
-                $_SESSION["couponId"] = $code;
-                base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`) 
-                VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof);", [
+                $_SESSION['paymentCode'] = $paymentCode;
+                base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, `PaymentCode`) 
+                VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof, :paymentCode);", [
                     ':couponcode' => $code,
                     ':initialvalue' => $value,
                     ':currentvalue' => $value,
                     ':email' => $_POST['Email'],
-                    ':innameof' => $_POST['InNameOf']
+                    ':innameof' => $_POST['InNameOf'],
+                    ':paymentCode' => $paymentCode
                 ]);
             }
         }

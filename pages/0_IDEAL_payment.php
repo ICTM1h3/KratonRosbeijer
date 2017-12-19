@@ -57,27 +57,30 @@ try
 	 *   metadata      Custom metadata that is stored with the payment.
 	 *   issuer        The customer's bank. If empty the customer can select it later.
 	 */
+	$payCode = $_SESSION["paymentCode"];
+	$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['SCRIPT_NAME']);
 	$payment = $mollie->payments->create(array(
 		"amount"       => $_SESSION["totalPrice"],
 		"method"       => Mollie_API_Object_Method::IDEAL,
 		"description"  => "My first iDEAL payment",
-		"redirectUrl"  => "http://localhost/ProjectKratonRosbeijer/?p=test",
+		"redirectUrl"  => "$url/?p=completePayCoupon&PaymentCode=$payCode",
 		"webhookUrl"   => "https://api.mollie.nl/v1/payments",
 		"metadata"     => array(
 			"order_id" => $order_id,
 		),
 		"issuer"       => !empty($_POST["issuer"]) ? $_POST["issuer"] : NULL
 	));
-	$test = $order_id;
-	$_SESSION["IDEAL"] = $test;
+
 	/*
 	 * In this example we store the order with its payment status in a database.
 	 */
 	database_write($order_id, $payment->status);
 
+	$payment = $mollie->payments->get($payment->id);
+
+	$_SESSION["paymentId"] = $payment->id;
 	/*
-	 * Send the customer off to complete the payment.
-	 */
+	 * Send the customer off to complete the payment. */
 	header("Location: " . $payment->getPaymentUrl());
 }
 catch (Mollie_API_Exception $e)
