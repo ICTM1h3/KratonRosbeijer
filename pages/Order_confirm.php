@@ -47,6 +47,15 @@ function countDishes($Id) {
     return $count;
 } 
 
+function createPaymentCode() {
+    $paymentCode = md5(uniqid(rand(), true));
+
+    while (base_query("SELECT PaymentCode FROM `Order` WHERE PaymentCode = :paymentCode", [':paymentCode' => $paymentCode])->fetch() != false) {
+        $paymentCode = md5(uniqid(rand(), true));
+    }
+    return $paymentCode;
+}
+
 // Checks how many times the category(dish) is ordered
 function countCategories($Id) {
     $count = 0;
@@ -67,14 +76,16 @@ function insertOrderData() {
     // Saves the current time when the Order is made
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
-    $paymentCode = md5(uniqid($your_user_login, true));
-    base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email) VALUES
-    (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email)", [
+    $paymentCode = createPaymentCode();
+
+    base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email, PaymentCode) VALUES
+    (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email, :paymentCode)", [
         ':orderDate' => $currentDateTime,
         ':targetDate' => $targetTime,
         'inNameOf' => $_POST['inNameOf'],
         ':telephoneNumber' => $_POST['telNumber'],
-        ':email' => $_POST['email']
+        ':email' => $_POST['email'],
+        ':paymentCode' => $paymentCode
     ]);
 
     // Inserting the dishes into the database
