@@ -69,7 +69,8 @@ function getFreeTables($date, $currentReservationId, $reservedHours) {
     )
     ORDER BY t.capacity DESC;", [
         ':date' => $date,
-        ':currentReservationId' => $currentReservationId
+        ':currentReservationId' => $currentReservationId,
+        ':reservedHours' => $reservedHours
     ])->fetchAll();
 
     return $tables;
