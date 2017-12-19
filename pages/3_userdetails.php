@@ -155,8 +155,8 @@ function getValue($user, $key) {
         </tr>
         <?php if ($user['Role'] == ROLE_VIP_USER) { ?>
             <tr>
-                <td>Korting</td>
-                <td><input <?= $disabled ?> name="Discount" value="<?= htmlentities(getValue($user, "Discount")) ?>" type="number" /></td>
+                <td>Korting (%)</td>
+                <td><input <?= $disabled ?> min="0" name="Discount" value="<?= htmlentities(getValue($user, "Discount")) ?>" type="number" /></td>
             </tr>
         <?php } ?>
         
