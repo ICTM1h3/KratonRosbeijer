@@ -82,7 +82,7 @@ $user = base_query("SELECT u.*,
     (SELECT COUNT(r.Id) FROM Reservation r WHERE r.UserId = u.Id) AmountReservations,
     (SELECT COUNT(o.Id) FROM `Order` o WHERE o.UserId = u.Id) AmountOrders,
     (SELECT COUNT(r.Id) FROM Reservation r WHERE r.UserId = u.Id AND IsNoShow = 1) AmountNoShowReservations,
-    (SELECT COUNT(o.Id) FROM `Order` o WHERE o.UserId = u.Id AND IsNoShow = 1) AmountNoShowOrders
+    (SELECT COUNT(o.Id) FROM `Order` o WHERE o.UserId = u.Id AND IsPickedUp = 0 AND TargetDate < NOW()) AmountNoShowOrders
 FROM User u 
 WHERE u.Id = :id", [
     ':id' => $_GET['userId']
