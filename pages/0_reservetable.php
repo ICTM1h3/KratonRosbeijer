@@ -74,14 +74,14 @@ function getValue($key) {
 }
 
 // Returns a list of all free tables at the specified time.
-function getFreeTables($date) {
+function getFreeTables($date, $reservedHours) {
     // Get all free tables in a 2 hour span
     $tables = base_query("SELECT t.id, t.capacity FROM kratonrosbeijer.`table` t
     WHERE t.id NOT IN (
 	    SELECT DISTINCT tr.tableid FROM kratonrosbeijer.table_reservation tr
         INNER JOIN kratonrosbeijer.Reservation r ON r.id = tr.reservationid
         WHERE r.date >= :date 
-        AND r.date <= DATE_ADD(:date, INTERVAL 2 HOUR)
+        AND r.date <= DATE_ADD(:date, INTERVAL :reservedHours HOUR)
         AND r.activated = 1
     )
     ORDER BY t.capacity DESC;", [':date' => $date])->fetchAll();
@@ -104,7 +104,7 @@ function tryGetFreeTablesForCapacity($requiredCapacity, $date) {
         return [false, []];
     }
 
-    $tables = getFreeTables($date);
+    $tables = getFreeTables($date, $requiredCapacity >= 12 ? 2.5 : 2);
     
     // Loop through all the tables which are free around the provided hours and add it to an array until we got enough capacity to hold all people.
     $tablesForReservation = [];
