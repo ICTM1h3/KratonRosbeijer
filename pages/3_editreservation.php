@@ -118,7 +118,7 @@ function update_reservation() {
     if ($oldData['Date'] != $date){
         list($foundEnough, $tables) = tryGetFreeTablesForCapacity($_POST['AmountPersons'], $date, $reservationId);
         if (!$foundEnough) {
-            return [false, "There are not enough tables at the requested time."];
+            return [false, "Er zijn niet genoeg tafels beschikbaar op de gevraagde tijd en datum."];
         }
         else {
             base_query("DELETE FROM Table_Reservation WHERE ReservationId = :id", [':id' => $reservationId]);
@@ -152,7 +152,19 @@ function update_reservation() {
         ':Activated' => $_POST['Activated'],
         ':Id' => $reservationId
     ]);
-    
+
+    // Send an email to notify the customer that the reservation has changed.
+    $emailParameters = [
+        'inNameOf' => $_POST['InNameOf'],
+        'email' => $_POST['Email'],
+        'telephone' => $_POST['TelephoneNumber'],
+        'date' => $date,
+        'amountPersons' => $_POST['AmountPersons'],
+        'notes' => $_POST['Notes'],
+    ];
+
+    send_email_to($_POST['Email'], 'Uw reservering is aangepast', 'changed_reservation', $emailParameters);
+    return [true];
 }
 
 if (!isset($_GET['reservationId'])) {
@@ -165,8 +177,13 @@ $errors = [];
 if (isset($_POST['Save'])) {
     $errors = validateData();
     if (empty($errors)) {
-        update_reservation();
-        header("Location: ?p=managereservation");
+        list($success, $msg) = update_reservation();
+        if ($success) {
+            header("Location: ?p=managereservation");
+        }
+        else {
+            $errors[] = $msg;
+        }
     }
 }
 

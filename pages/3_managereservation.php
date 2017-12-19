@@ -43,7 +43,7 @@ ORDER BY date", [
     }
 
     .is-no-show {
-        background-color: #ffacac;
+        background-color: #ffd1d1;
     }
     
     .not-activated-reservation {
