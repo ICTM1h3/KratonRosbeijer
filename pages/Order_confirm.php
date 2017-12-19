@@ -77,6 +77,7 @@ function insertOrderData() {
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
     $paymentCode = createPaymentCode();
+    $_SESSION["paymentCode"] = $paymentCode;
 
     base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email, PaymentCode) VALUES
     (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email, :paymentCode)", [

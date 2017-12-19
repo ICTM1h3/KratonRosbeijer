@@ -63,7 +63,7 @@ try
 		"amount"       => $_SESSION["totalPrice"],
 		"method"       => Mollie_API_Object_Method::IDEAL,
 		"description"  => "My first iDEAL payment",
-		"redirectUrl"  => "$url/?p=completePayCoupon&PaymentCode=$payCode",
+		"redirectUrl"  => "$url/?p=completePayOrder&PaymentCode=$payCode",
 		"webhookUrl"   => "https://api.mollie.nl/v1/payments",
 		"metadata"     => array(
 			"order_id" => $order_id,
