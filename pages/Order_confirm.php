@@ -67,7 +67,7 @@ function insertOrderData() {
     // Saves the current time when the Order is made
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
-
+    $paymentCode = md5(uniqid($your_user_login, true));
     base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email) VALUES
     (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email)", [
         ':orderDate' => $currentDateTime,
@@ -117,6 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (empty($errors)) {
             insertOrderData();
             echo "Uw bestelling is aangemaakt<br>";
+            header('Location: ?p=IDEAL_payment_orders');
         }
         else {
             foreach ($errors as $error) {
