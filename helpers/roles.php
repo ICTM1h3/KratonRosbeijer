@@ -7,6 +7,7 @@ define("ROLE_VIP_USER", 2);
 define("ROLE_ADMINISTRATOR", 3);
 define("MAX_ROLE_NUMBER", ROLE_ADMINISTRATOR);
 
+// Returns the name of each role in an array. The key is the id of the role.
 function getAllRoles() {
 	return [
 		ROLE_VISITOR => "Bezoeker",

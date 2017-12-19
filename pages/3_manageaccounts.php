@@ -29,12 +29,15 @@ function switch_user_activation_status($userId) {
 }
 
 if (isset($_POST['new_role'])) {
+    // Change the role of the specified user.
     update_role($_POST['user_id'], $_POST['new_role']);
 }
 elseif (isset($_POST['switch_user_status'])) {
+    // Activate or deactivate the user.
     switch_user_activation_status($_POST['user_id']);
 }
 
+// Used for pagination
 $pageSize = 15;
 $currentPage = isset($_GET['page']) ? $_GET['page'] : 0;
 $currentPage = filter_var($currentPage, FILTER_VALIDATE_INT) ? $currentPage : 0;
@@ -42,6 +45,7 @@ $currentRow = $currentPage * $pageSize;
 $amountRows = base_query("SELECT COUNT(Id) FROM User")->fetchColumn();
 $amountPages = ceil($amountRows / $pageSize);
 
+// Get all the users but only the users from the specified page.
 $users = base_query("SELECT * FROM User LIMIT $currentRow, $pageSize")->fetchAll();
 
 

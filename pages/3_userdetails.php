@@ -63,6 +63,7 @@ if (!isset($_GET['userId'])) {
 $inChangingMode = isset($_GET['changemode']);
 $errors = [];
 
+// Update the user if requested.
 if (isset($_POST['save'])) {
     $errors = validateData();
     if (empty($errors)) {
@@ -76,6 +77,7 @@ if (isset($_POST['save'])) {
     }
 }
 
+// Get the user details, amount of reservations and orders and the amount of times they didn't show up.
 $user = base_query("SELECT u.*, 
     (SELECT COUNT(r.Id) FROM Reservation r WHERE r.UserId = u.Id) AmountReservations,
     (SELECT COUNT(o.Id) FROM `Order` o WHERE o.UserId = u.Id) AmountOrders,
