@@ -67,6 +67,7 @@ function getFreeTables($date, $currentReservationId, $reservedHours) {
         AND r.activated = 1
         AND r.Id <> :currentReservationId
     )
+    AND t.Activated = 1
     ORDER BY t.capacity DESC;", [
         ':date' => $date,
         ':currentReservationId' => $currentReservationId,
