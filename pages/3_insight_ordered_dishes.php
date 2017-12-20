@@ -3,53 +3,32 @@
 setTitle("Inzien bestelde gerechten");
 
 //Get the categories of the order from the database. 
-$categories = base_query("SELECT C.*, O.*, C.Price AS Price FROM DishCategory C
+$categories = base_query("SELECT C.*, O.*, Q.CountCategory, C.Price AS Price FROM DishCategory C
             JOIN Category_Order Q on C.Id = Q.CategoryId
             JOIN `Order` O on Q.OrderId = O.Id
             WHERE OrderId =:order", [
                 ":order" => $_GET['dishes']
             ])->fetchAll();
 
-//Get the number of categories from the databese.
-$number_of_categories =  base_query("SELECT * FROM Category_Order
-            WHERE OrderId = :orderid",[
-                ":orderid" => $_GET['dishes']
-            ])->fetchAll();
-
 //Get the dishes of the order from the database. 
-$dishes = base_query("SELECT D.*, O.*, D.Price AS Price FROM Dish D
+$dishes = base_query("SELECT D.*, O.*, Q.CountDish, D.Price AS Price FROM Dish D
             JOIN Dish_Order Q on D.Id = Q.DishId
             JOIN `Order` O on Q.OrderId = O.Id
             WHERE OrderId = :order",[
                 ":order" => $_GET['dishes']
             ])->fetchAll();
 
-//Get the number of dishes from the database. 
-$number_of_dish = base_query("SELECT * FROM Dish_Order
-            WHERE OrderId = :orderid",[
-                ":orderid" => $_GET['dishes']
-            ])->fetchAll();
 
 //Getting the personal information from the database.
 $person = base_query("SELECT * FROM `order` WHERE Id = :id",[
-                ":id" => $_GET['dishes']
+            ":id" => $_GET['dishes']
             ])->fetch();
 
 
 //Getting the total price of the order.
 $total = base_query("SELECT Price FROM `order` WHERE Id = :id",[
-    ":id" => $_GET['dishes']
-])->fetchColumn();
-
-//Getting the number of dishes into the table.
-foreach($number_of_dish as $number){
-    $numberofdish[] = $number['CountDish'];
-}
-
-//Getting the number of categories into the table.
-foreach($number_of_categories as $number){
-    $numberofcategory[] = $number['CountCategory'];
-}
+             ":id" => $_GET['dishes']
+            ])->fetchColumn();
 
 //Cancel the order
 if(isset($_POST['cancel_order'])){
@@ -71,8 +50,8 @@ if(isset($_POST['Finish'])){
             echo "Geen geldige tijd of tijd is eerder dan de besteldatum!";
         
         }else{
-        echo"niets";
-        header("Location: ?p=manageorders");
+            echo"niets";
+            header("Location: ?p=manageorders");
         }
         
         
@@ -89,7 +68,9 @@ table, tr, td {
 
 }
 </style>
+
 <h2>Bestelling</h2>
+
 <a href="?p=manageorders">Ga terug</a>
 
 <!--Form for showing the personal information.-->
@@ -97,23 +78,23 @@ table, tr, td {
     <table>
         <tr>
             <td>Op naam van</td>
-            <td><?= $person['InNameOf']?></td>
+            <td><?= htmlentities($person['InNameOf'])?></td>
         </tr>
         <tr>
             <td>Telefoonnummer</td>
-            <td><?= $person['TelephoneNumber']?></td>
+            <td><?= htmlentities($person['TelephoneNumber'])?></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><?= $person['Email']?></td>
+            <td><?= htmlentities($person['Email'])?></td>
         </tr>
         <tr>
             <td>Besteldatum</td>
-            <td><?= $person['OrderDate']?></td>
+            <td><?= htmlentities($person['OrderDate'])?></td>
         </tr>
         <tr>
             <td>Afhaaldatum</td>
-            <td><?= $person['TargetDate']?></td>
+            <td><?= htmlentities($person['TargetDate'])?></td>
         </tr>
         <tr>
             <td>Betaald</td>
@@ -127,12 +108,8 @@ table, tr, td {
             ?>
             </td>        
         </tr>
-    </table>
-    </form>
-
-<!--Form for showing the dishes.-->
-<form method="POST">
-    <table>
+        </table>
+        <table>
         <tr>
             <td>Naam Gerecht</td>
             <td>Beschrijving</td>
@@ -144,7 +121,7 @@ table, tr, td {
         <tr>
             <td><?= $dish['Name']?></td>
             <td><?= $dish['Description']?></td>
-            <td><?= $numberofdish[$key]?></td>  
+            <td><?= $dish['CountDish']?></td>  
         </tr>
         <?php
         }
@@ -162,7 +139,7 @@ table, tr, td {
             }
             ?>    
             </td>
-            <td><?= $numberofcategory[$key]?></td>
+            <td><?= $category['CountCategory']?></td>
 
         </tr>
         <?php

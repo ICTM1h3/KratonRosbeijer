@@ -38,9 +38,13 @@ ORDER BY TargetDate", [
 </form>
 
 <!--Chek of there are orders on this date-->
-<?php if (empty($orders)) { ?>
-    Op deze datum zijn geen bestellingen.
-<?php } else { ?>
+<?php 
+if(empty($orders)){ 
+?>
+<p>Op deze datum zijn geen bestellingen.</p>
+<?php 
+}else{ 
+?>
 
  <!--Form for showing the orders-->
 <div class="table-responsive">
@@ -55,7 +59,8 @@ ORDER BY TargetDate", [
         <th>Status</th>
     </tr>
     <?php
-   foreach($orders as $order){?>
+    foreach($orders as $order){
+    ?>
     <tr>
         <td><?= $order['InNameOf']?></td>
         <td><?= $order['Email']?></td>
@@ -93,8 +98,10 @@ ORDER BY TargetDate", [
         <td><a href="?p=insight_ordered_dishes&dishes=<?= $order['Id']?>">Inzien bestelling</a></td>
     </tr>
     <?php
-        }
+    }
     ?>
 </table>
 </div>
-<?php } ?>
+<?php 
+} 
+?>

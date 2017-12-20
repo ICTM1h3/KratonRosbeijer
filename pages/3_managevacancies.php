@@ -62,7 +62,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
         <tr>
             <td> 
             <div class="vacancy_button">
-                <a href="?p=admineditvacancy">
+                <a href="?p=editvacancy">
                     Vacature aanmaken
                 </a>
             </div>
