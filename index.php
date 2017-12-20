@@ -37,6 +37,10 @@ $tabs = getTabsForCurrentUser();
 		body {
 			overflow-x: hidden;
 		}
+
+    .dropdown-menu-inverse .nav-link {
+      color: black !important;
+    }
 	</style>
     <!-- Bootstrap core CSS 
     <link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,11 +67,24 @@ $tabs = getTabsForCurrentUser();
 	</div>
   <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
     <ul class="navbar-nav mr-auto">
-	  <?php foreach ($tabs as $tab) { ?>
-	  <li class="nav-item">
-	  <a class="nav-link" href="<?= $tab['href'] ?>"><span><?= $tab['title'] ?></span></a>
-	  </li>
-	  <?php } ?>
+      <?php foreach ($tabs as $tab) { ?>
+        <?php if (!isset($tab['header'])) { ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= $tab['href'] ?>"><span><?= $tab['title'] ?></span></a>
+          </li>
+        <?php } else { ?>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><?= $tab['header']?><span class="caret"></span></a>
+            <ul class="dropdown-menu dropdown-menu-inverse">
+              <?php foreach ($tab['pages'] as $subtab) { ?>
+                <li>
+                  <a class="nav-link" href="<?= $subtab['href'] ?>"><?= $subtab['title'] ?></a>
+                </li>
+              <?php } ?>
+            </ul>
+          </li>
+        <?php } ?>
+      <?php } ?>
     </ul>
 
     <!-- registration button -->
