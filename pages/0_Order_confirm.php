@@ -1,6 +1,5 @@
 <?php
 setTitle("Bestelling bevestigen");
-var_dump($_SESSION);
 
 // Sets the timezone
 date_default_timezone_set("Europe/Amsterdam");
