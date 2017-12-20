@@ -1,5 +1,6 @@
 <?php
 setTitle("Bestelling bevestigen");
+var_dump($_SESSION);
 
 // Sets the timezone
 date_default_timezone_set("Europe/Amsterdam");
@@ -168,6 +169,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         </tr>
         <tr>
             <td><input type="submit" name="bestelGegevens" value="Bestellen!"/>
+            <?php if (!isset($_SESSION["UserId"])) {
+                ?><td><a href="?p=inlogpage">U kunt hier inloggen</a></td><?php
+            } ?>
         </tr>
     </table>
 </form>
