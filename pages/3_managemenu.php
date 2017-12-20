@@ -116,24 +116,24 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
 <div>
     <div>
-        <a href="?p=editdish">
+        <a class="btn btn-secondary" href="?p=editdish">
             Gerechten toevoegen
         </a>
     </div>
 
     <div>
-        <a href="?p=editcategory">
+        <a class="btn btn-secondary" href="?p=editcategory">
             Categorie toevoegen
         </a>
     </div>
 
     <div>
         <?php if($changingModus){?>
-        <a href="?p=managemenu">
+        <a class="btn btn-secondary" href="?p=managemenu">
             Terug
         </a>
         <?php }else{?>
-            <a href="?p=managemenu&changingModus=true">
+            <a class="btn btn-secondary" href="?p=managemenu&changingModus=true">
             Menu items wijzigen of verwijderen
         </a>
         <?php }?>
@@ -141,11 +141,11 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
     <div>
     <?php if($changingPlace){?>
-    <a href="?p=managemenu">
+    <a class="btn btn-secondary" href="?p=managemenu">
         Terug
     </a>
     <?php }else{?>
-        <a href="?p=managemenu&changingPlace=true">
+        <a class="btn btn-secondary" href="?p=managemenu&changingPlace=true">
         Menu items verplaatsen
     </a>
     <?php }?>

@@ -239,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php
         if (!empty($errors)) { ?>
-            <div class="error-box"> <?php
+            <div class="alert alert-danger" role="alert"> <?php
                 foreach ($errors as $error) {
                     ?> <p><?= $error ?></p> <?php
                 }
@@ -247,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php }
 
         if (!empty($successes)) { ?>
-            <div class="success-box"> <?php
+            <div class="alert alert-success" role="alert"> <?php
                 foreach ($successes as $msg) {
                     ?> <p><?= $msg ?></p> <?php
                 }
@@ -263,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <form method="post" class="form-signin">
 
         <input type="hidden" value="<?= newCSRFToken()?>" name="CSRFToken" />
-        <h2 class="form-signin-heading">Login Pagina</h2>
+        <h2 class="form-signin-heading">Reserveren</h2>
         <label for="inputText">Op naam van *</label>
         <input type="text" name="InNameOf" value="<?= getValue('InNameOf') ?>" type="text" id="inputEmail" class="form-control" placeholder="Naam"/>
         
@@ -288,4 +288,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button class="btn btn-lg btn-primary btn-block" type="submit">Reserveren</button>
 </form>
 
-    </div>
+</div>

@@ -146,20 +146,21 @@ if(isset($_GET['dish'])){
 
 
 <!--Print the errors-->
-<div class="errors">
     <?php foreach ($errors as $error) {
-        ?><p><?= $error ?></p><?php
+        ?><div class="alert alert-danger">
+        <p><?= $error ?></p></div><?php
     }
     ?>
-</div>
 
 <!--Form for adding/change a dish.-->
-<form method="POST">
-<table>
-    <tr>
+<div class="container">
+      <form method="post" class="form-signin">
+      <a class="btn btn-secondary" href="?p=managemenu">Ga terug naar het overzicht</a>
+      <table>
+      <tr>
         <td>Categorie</td>
         <td>
-            <select name="Category" >
+            <select class="form-control" name="Category" >
             <?php 
             
                 $currentCategory = isset($dishupdate['Category']) ? $dishupdate['Category'] : null;
@@ -173,35 +174,35 @@ if(isset($_GET['dish'])){
                     <?php   
                 }
             
-
-            
             ?>
             </select>
         </td>
-    </tr>
-    <tr>
+        </tr>
+        <tr>
         <td>Naam</td>
         <td>
-            <input type="text" name="Name" value="<?=getDishValue($dishupdate, 'Name') ?>">
+            <input class="form-control" type="text" name="Name" value="<?=getDishValue($dishupdate, 'Name') ?>">
         </td>
-    </tr>
-    <tr>
+        </tr>
+        <tr>
         <td>Omschrijving</td>
         <td>
-            <textarea name="Description" ><?=getDishValue($dishupdate, 'Description') ?></textarea>
+            <textarea class="form-control" name="Description" ><?=getDishValue($dishupdate, 'Description') ?></textarea>
         </td>
-    </tr>
-    <tr>
+        </tr>
+        <tr>
         <td>Prijs (&#8364;)</td>
         <td>
-            <input type="number" step="0.01" name="Price" value="<?=getDishValue($dishupdate, 'Price') ?>">
+            <input class="form-control" type="number" step="0.01" name="Price" value="<?=getDishValue($dishupdate, 'Price') ?>">
         </td>
-    </tr>
-    <tr>
+        </tr>
+        <tr>
         <td>
-            <input name="save_dish" value="Gerecht opslaan" type="submit"/>
+            <input class="btn btn-secondary" name="save_dish" value="Gerecht opslaan" type="submit"/>
         </td>
-    </tr>
+        </tr>
 </table>
 </form>
+
 <i>Alle velden zijn verplicht</i>
+</div>

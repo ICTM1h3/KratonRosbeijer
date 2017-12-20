@@ -140,60 +140,62 @@ if(isset($_POST['varied'])){
     }
 </style>
 
-<h2>Cadeaubon bestellen</h2>
-<p>Bonnen kunnen ook in het restaurant worden opgehaald.</p>
+
 
 <!--Print the errors-->
-<div class="errors">
     <?php foreach ($errors as $error) {
-        ?><p><?= $error ?></p><?php
+        ?><div class="alert alert-danger">
+        <p><?= $error ?></p> </div><?php
     }
     ?>
-</div>
 
 <!-- Form for adding giftcard items -->
-<form method="POST">
+
+<div class="container">
+      <form method="post" class="form-signin">
+      <h2>Cadeaubon bestellen</h2>
+      <p>Bonnen kunnen ook in het restaurant worden opgehaald.</p>
+      <h4 class="form-signin-heading">Cadeaubonnen</h4>
 
     <table>
         <tr>
-            <th>Cadeaubonnen</th>
-        </tr>
-        <tr>
             <td>Cadeaubon € 25</td>
             <td>
-                <input type="submit" name="add_25" value="Toevoegen"/>
+                <input class="btn btn-secondary" type="submit" name="add_25" value="Toevoegen"/>
             </td>
         </tr>
         <tr>
             <td>Cadeaubon € 50</td>
             <td>
-                <input type="submit" name="add_50" value="Toevoegen"/>
+                <input class="btn btn-secondary" type="submit" name="add_50" value="Toevoegen"/>
             </td>
         </tr>
         <tr>
             <td>Cadeaubon € 75</td>
             <td>
-                <input type="submit" name="add_75" value="Toevoegen"/>
+                <input class="btn btn-secondary" type="submit" name="add_75" value="Toevoegen"/>
             </td>
         </tr>
         <tr>
             <td>Cadeaubon € 100</td>
             <td>
-                <input type="submit" name="add_100" value="Toevoegen"/>
+                <input class="btn btn-secondary" type="submit" name="add_100" value="Toevoegen"/>
             </td>
         </tr>
+
         <tr>
             <td>Cadeaubon variable € </td>
             <td>
-                <input type="number" step="1" name="varied_ammount" value="0"/>
-                <input type="submit" name="varied" value="Toevoegen"/>
+                <input class="form-control" type="number" step="1" name="varied_ammount" value="0"/>
+                <input class="btn btn-secondary" type="submit" name="varied" value="Toevoegen"/>
             </td>
         </tr>
     </table>
 </form>
 
+
 <!--Form for choosen gift cart items. -->
-<form method="POST">
+<form method="POST" class="form-signin">
     <table>
         <?php
         //If there is an item to show, print it. Also give the option to order the giftcard.
@@ -208,7 +210,7 @@ if(isset($_POST['varied'])){
                     <tr>
                         <td><?= $count ?> X Cadeaubon € <?= $value ?></td>
                         <td> € <?= $subtotal ?></td>
-                        <td><input type="submit" name="remove_<?= $value?>" value = "Delete" /></td>
+                        <td><input class="btn btn-secondary" type="submit" name="remove_<?= $value?>" value = "Delete" /></td>
                     </tr>
                 <?php    
             }
@@ -219,14 +221,14 @@ if(isset($_POST['varied'])){
             </tr>
             <tr>
                 <td>Op naam van (verplicht):</td>
-                <td><input type="text" name="InNameOf"/></td>
+                <td><input class="form-control" type="text" name="InNameOf"/></td>
             </tr>
             <tr>
                 <td>E-mail adres (verplicht):</td>
-                <td><input type="text" name="Email"/></td>
+                <td><input class="form-control" type="text" name="Email"/></td>
             </tr>
             <tr>
-                <td><input type="submit" name="order_gift_card" value="Cadeaubon afrekenen"/></td>
+                <td><input class="btn btn-secondary" type="submit" name="order_gift_card" value="Cadeaubon afrekenen"/></td>
             </tr>
         
         <?php } ?>
@@ -234,3 +236,4 @@ if(isset($_POST['varied'])){
 
     </table>
 </form>
+</div>

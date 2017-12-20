@@ -39,10 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <h2 class="form-signin-heading">Login Pagina</h2>
         <label for="inputEmail">E-mailadres</label>
-        <input type="text" name="email" id="inputEmail" class="form-control" placeholder="E-mailadres" required="" autofocus="">
+        <input type="text" name="email" id="inputEmail" class="form-control" placeholder="E-mailadres">
         <label for="inputPassword">Wachtwoord</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Wachtwoord" required="">
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Wachtwoord">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <a href="?p=forgot_password">Wachtwoord Vergeten?</a>
       </form>
 
     </div>

@@ -131,33 +131,33 @@ if (isset($_POST['save_category'])) {
 </style>
 
 <!--Print the errors-->
-<div class="errors">
     <?php foreach ($errors as $error) {
-        ?><p><?= $error ?></p><?php
+        ?><div class="alert alert-danger" role="alert">
+        <p><?= $error ?></p></div><?php
     }
     ?>
-</div>
-
 
 <!--Form for adding/change a category-->
-<form method="POST">
+<div class="container">
+      <form method="post" class="form-signin">
+      <a class="btn btn-secondary" href="?p=managemenu">Ga terug naar het overzicht</a>
     <table>
         <tr>
             <td>Naam *</td>
-            <td><input type="tekst" name="Name" value="<?= getCategoryValue($categoryupdate,'Name') ?>"/></td>
+            <td><input class="form-control" type="tekst" name="Name" value="<?= getCategoryValue($categoryupdate,'Name') ?>"/></td>
         </tr>
         <tr>
             <td>Titel beschrijving</td>
-            <td><input type="tekst" name="TitleDescription" value="<?= getCategoryValue($categoryupdate, 'TitleDescription') ?>"></td>
+            <td><input class="form-control" type="tekst" name="TitleDescription" value="<?= getCategoryValue($categoryupdate, 'TitleDescription') ?>"></td>
         </tr>        
         <tr>
             <td>Categorie beschrijving</td>
-            <td><input type="text" name="Description" value="<?= getCategoryValue($categoryupdate, 'Description')?>"></td>
+            <td><input class="form-control" type="text" name="Description" value="<?= getCategoryValue($categoryupdate, 'Description')?>"></td>
         </tr>
         <tr>
             <td>Subcategory van</td>
             <td>
-            <select name="Category" >
+            <select class="form-control" name="Category" >
             <?php 
             
                 $currentSubCategory = isset($categoryupdate['ParentCategoryId']) ? $categoryupdate['ParentCategoryId'] : null;
@@ -184,16 +184,17 @@ if (isset($_POST['save_category'])) {
         <tr>
         <td>Prijs (&#8364;)</td>
         <td>
-            <input type="number" step="0.01" name="Price" value="<?= getCategoryValue($categoryupdate, 'Price')?>">
+            <input class="form-control" type="number" step="0.01" name="Price" value="<?= getCategoryValue($categoryupdate, 'Price')?>">
         </td>
     </tr>
     <tr>
         <td>
-            <input name="save_category" value="Category opslaan" type="submit"/>
+            <input class="btn btn-secondary" name="save_category" value="Category opslaan" type="submit"/>
         </td>
     </tr>
     </table>
 </form>
+</div>
 <i>* Is verpicht.</i><br>
 <i>De (sub)category wordt geplaats onderaan in de (sub)category.</i><br>
 <i>De positie kan gewijzigd worden in het beheeroverzicht van het menu.</i>

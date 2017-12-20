@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			</textarea>
 
 			<!-- Submit data by a submit button-->
-			<input onclick="submit()" type="submit" value="Opslaan">
+			<input class="btn btn-secondary" onclick="submit()" type="submit" value="Opslaan">
 
 			<script>
 

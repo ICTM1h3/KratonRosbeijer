@@ -62,7 +62,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
         <tr>
             <td> 
             <div class="vacancy_button">
-                <a href="?p=admin_editvacancy">
+                <a href="?p=editvacancy">
                     Vacature aanmaken
                 </a>
             </div>
@@ -77,7 +77,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
             <td> 
             <div class="vacancy_button">
             <?php if ($inDeleteMode) { ?>
-                <a href="?p=admin_managevacancies">
+                <a href="?p=managevacancies">
                     Terug naar overzicht
                 </a>
                 <?php } else { ?>
@@ -103,7 +103,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
 
                         
                     <?php } else { ?>
-                        <a href="?p=admin_editvacancy&vacancy=<?=  $vacancy['Id'] ?>">Wijzig</a>
+                        <a class="btn btn-secondary btn-sm" href="?p=editvacancy&vacancy=<?=  $vacancy['Id'] ?>">Wijzig</a>
                     <?php } ?>
                 </td>
             </tr>
@@ -113,7 +113,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
     <?php } ?>            
     <?php if ($inDeleteMode && !empty($vacancies)) { 
         // Show a delete button if we're in delete mode 
-        ?><tr><td><input class="delete_button" type="submit" name="deleteVacancies" value="Verwijder geselecteerde vacatures"/></td></tr><?php
+        ?><tr><td><input class="btn btn-secondary" type="submit" name="deleteVacancies" value="Verwijder geselecteerde vacatures"/></td></tr><?php
     }elseif($inDeleteMode && empty($vacancies)){
         ?><tr><td>Er zijn geen vacatures om te verwijderen!</td></tr>
     <?php } ?>
