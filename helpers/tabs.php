@@ -27,6 +27,9 @@ $tabs = [
         ['title' => 'Beheer menu', 'href' => '?p=managemenu'],
         ['title' => 'Beheer vacatures', 'href' => '?p=managevacancies'],
         ['title' => 'Beheer restaurant info', 'href' => '?p=restaurantedit'],
+        ['title' => 'Beheer gebruikers', 'href' => '?p=manageaccounts'],
+        ['title' => 'Beheer reserveringen', 'href' => '?p=managereservation'],
+        ['title' => 'Beheer cadeaubonnen', 'href' => '?p=manage_giftcard']
     ]
 ];
 

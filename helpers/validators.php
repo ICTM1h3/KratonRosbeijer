@@ -22,7 +22,7 @@ function is_date_valid($date) {
 // Checks if the provided time is valid. (HH:mm).
 // Doesn't check if the values are impossible (61:61)
 function is_time_valid($time) {
-    return preg_match("/^\d{2}:\d{2}$/", $time) !== 0;
+    return preg_match("/^\d{2}:\d{2}(?::\d{2})?$/", $time) !== 0;
 }
 
 // Combines a date and time.
