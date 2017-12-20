@@ -141,7 +141,11 @@ if(isset($_POST['varied'])){
 </style>
 
 <h2>Cadeaubon bestellen</h2>
-<p>Bonnen kunnen ook in het restaurant worden opgehaald.</p>
+<p>
+-Bonnen kunnen ook in het restaurant worden opgehaald.<br>
+-U rekent de bestellde bonnen samen af.<br>
+-U ontvangt een mail met per bestelde cadeaubon een unieke code.
+</p>
 
 <!--Print the errors-->
 <div class="errors">
