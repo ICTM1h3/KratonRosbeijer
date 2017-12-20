@@ -1,7 +1,4 @@
 <?php
-/*
- * Example 4 - How to prepare an iDEAL payment with the Mollie API.
- */
 
 try
 {

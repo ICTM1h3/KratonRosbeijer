@@ -31,6 +31,7 @@ elseif (base_query("SELECT PaymentCode FROM Coupon WHERE PaymentCode = :paymentC
     }
     elseif ($payment->isOpen())
     {
-        echo "RIP";
+        echo "Uw betaling is niet geslaagd en uw cadeaubon bestelling is niet opgeslagen";
+        base_query("UPDATE `Coupon` SET PaymentStatus = 0 WHERE PaymentCode = :paymentCode", [':paymentCode' => $payCode]);
     }
 }
