@@ -32,7 +32,7 @@ $total = base_query("SELECT Price FROM `order` WHERE Id = :id",[
 
 //Cancel the order
 if(isset($_POST['cancel_order'])){
-    base_query("UPDATE `order` SET Activated = 0");
+    base_query("UPDATE `order` SET Activated = 0 WHERE Id = :id", [':id' => $_GET['dishes']]);
     header("Location: ?p=manageorders");
 }
 
@@ -73,92 +73,90 @@ table, tr, td {
 
 <a href="?p=manageorders">Ga terug</a>
 
-<!--Form for showing the personal information.-->
-<form>
-    <table>
-        <tr>
-            <td>Op naam van</td>
-            <td><?= htmlentities($person['InNameOf'])?></td>
-        </tr>
-        <tr>
-            <td>Telefoonnummer</td>
-            <td><?= htmlentities($person['TelephoneNumber'])?></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><?= htmlentities($person['Email'])?></td>
-        </tr>
-        <tr>
-            <td>Besteldatum</td>
-            <td><?= htmlentities($person['OrderDate'])?></td>
-        </tr>
-        <tr>
-            <td>Afhaaldatum</td>
-            <td><?= htmlentities($person['TargetDate'])?></td>
-        </tr>
-        <tr>
-            <td>Betaald</td>
-            <td>
-            <?php 
-            if($person['PayementStatus']== 0){
-                echo "Bestelling door administrator";
-            }else{
-                echo "Betaald";
-            }
-            ?>
-            </td>        
-        </tr>
-        </table>
-        <table>
-        <tr>
-            <td>Naam Gerecht</td>
-            <td>Beschrijving</td>
-            <td>Aantal</td>
-        </tr>
-        <?php
-        foreach($dishes as $key => $dish){
-        ?>
-        <tr>
-            <td><?= $dish['Name']?></td>
-            <td><?= $dish['Description']?></td>
-            <td><?= $dish['CountDish']?></td>  
-        </tr>
-        <?php
-        }
-        foreach($categories as $key => $category){
-        ?>
-        <tr>
-            <td><?= $category['Name']?></td>
-            <td>
-            <?php
-            if(empty($category['TitleDescription'])){
-                echo "Geen beschrijving gevonden";
-            }else{
-                echo $category['TitleDescription'];
-
-            }
-            ?>    
-            </td>
-            <td><?= $category['CountCategory']?></td>
-
-        </tr>
-        <?php
+<!-- Shows all information about the customer -->
+<table>
+    <tr>
+        <td>Op naam van</td>
+        <td><?= htmlentities($person['InNameOf'])?></td>
+    </tr>
+    <tr>
+        <td>Telefoonnummer</td>
+        <td><?= htmlentities($person['TelephoneNumber'])?></td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td><?= htmlentities($person['Email'])?></td>
+    </tr>
+    <tr>
+        <td>Besteldatum</td>
+        <td><?= htmlentities($person['OrderDate'])?></td>
+    </tr>
+    <tr>
+        <td>Afhaaldatum</td>
+        <td><?= htmlentities($person['TargetDate'])?></td>
+    </tr>
+    <tr>
+        <td>Betaald</td>
+        <td>
+        <?php 
+        if($person['PayementStatus']== 0){
+            echo "Bestelling door administrator";
+        }else{
+            echo "Betaald";
         }
         ?>
-        <tr>
-            <td>Totaal bedrag</td>
-            <td>€ <?= $total ?></td>
-        </tr>
-    </table>
-    <?php 
-    //Option to cancel the order.
-    if($person['Activated'] == 0){
-        echo "Bestelling is geannuleerd";
-    }else{
+        </td>        
+    </tr>
+</table>
+<!-- Shows all dishes and categories -->
+<table>
+    <tr>
+        <td>Naam Gerecht</td>
+        <td>Beschrijving</td>
+        <td>Aantal</td>
+    </tr>
+    <?php
+    foreach($dishes as $key => $dish){
     ?>
-        <input type="submit" name="cancel_order" value="Annuleren"/> 
+    <tr>
+        <td><?= $dish['Name']?></td>
+        <td><?= $dish['Description']?></td>
+        <td><?= $dish['CountDish']?></td>  
+    </tr>
+    <?php
+    }
+    foreach($categories as $key => $category){
+    ?>
+    <tr>
+        <td><?= $category['Name']?></td>
+        <td>
+        <?php
+        if(empty($category['TitleDescription'])){
+            echo "Geen beschrijving gevonden";
+        }else{
+            echo $category['TitleDescription'];
+
+        }
+        ?>    
+        </td>
+        <td><?= $category['CountCategory']?></td>
+
+    </tr>
     <?php
     }
     ?>
-</form>
+    <tr>
+        <td>Totaal bedrag</td>
+        <td>€ <?= $total ?></td>
+    </tr>
+</table>
+<?php 
+//Option to cancel the order.
+if($person['Activated'] == 0){
+    echo "Bestelling is geannuleerd";
+} else { ?>
+    <form method="POST">
+        <input type="submit" name="cancel_order" value="Annuleren"/> 
+    </form>
+<?php } ?>
 
