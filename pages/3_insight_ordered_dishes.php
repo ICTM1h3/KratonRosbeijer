@@ -99,7 +99,7 @@ table, tr, td {
         <td>Betaald</td>
         <td>
         <?php 
-        if($person['PayementStatus']== 0){
+        if($person['PaymentStatus']== 0){
             echo "Bestelling door administrator";
         }else{
             echo "Betaald";
