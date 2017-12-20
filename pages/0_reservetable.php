@@ -84,6 +84,7 @@ function getFreeTables($date, $reservedHours) {
         AND r.date <= DATE_ADD(:date, INTERVAL :reservedHours HOUR)
         AND r.activated = 1
     )
+    AND t.Activated = 1
     ORDER BY t.capacity DESC;", [':date' => $date])->fetchAll();
 
     return $tables;
