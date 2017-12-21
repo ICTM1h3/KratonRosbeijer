@@ -220,6 +220,7 @@ else
 
 .inputNumber {
     width: 17%;
+    text-align: center;
 }
 
 .overview_dishes {
