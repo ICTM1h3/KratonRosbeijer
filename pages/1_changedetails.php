@@ -55,6 +55,7 @@ if (isset($_POST['change_details'])) {
     }
 }
 
+// Get the current use from the database.
 $user = base_query("SELECT * FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetch();
 
 // Change the password if requested
@@ -65,6 +66,7 @@ if (isset($_POST['change_password'])) {
     }
     else {
         if (empty($_POST['new_password']) || empty($_POST['confirm_password'])) {
+            // Make sure the provided passwords are not empty.
             $password_errors[] = "U heeft geen wachtwoord ingevult.";
         }
         elseif ($_POST['new_password'] != $_POST['confirm_password']) {
@@ -72,6 +74,7 @@ if (isset($_POST['change_password'])) {
             $password_errors[] = "Het nieuwe wachtwoord komt niet overeen met het bevestigings wachtwoord.";
         }
         else {
+            // Update the password of the user in the database with the new hash.
             base_query("UPDATE User SET Password = :password WHERE Id = :id", [
                 ':password' => password_hash($_POST['new_password'], PASSWORD_BCRYPT),
                 ':id' => $_SESSION['UserId']
@@ -116,7 +119,7 @@ if (isset($_POST['change_password'])) {
             <td><input type="text" class="form-control" name="Lastname" value="<?= $user['Lastname'] ?>" required></td>
         </tr>
         <tr>
-            <td>Telephonenummer</td>
+            <td>Telefoonnummer</td>
             <td><input type="text" class="form-control" name="TelephoneNumber" value="<?= $user['TelephoneNumber'] ?>"></td>
         </tr>
         <tr>
@@ -131,13 +134,13 @@ if (isset($_POST['change_password'])) {
 
 <h2>Wachtwoord</h2>
 <div class="errors">
-    <?php foreach ($password_errors as $error) {
-        ?><p><?= $error ?></p>
+    <?php foreach ($password_errors as $error) { ?>
+        <p><?= $error ?></p>
     <?php } ?>
 </div>
 <div class="success">
-    <?php foreach ($password_success as $success) {
-        ?><p><?= $success ?></p>
+    <?php foreach ($password_success as $success) { ?>
+        <p><?= $success ?></p>
     <?php } ?>
 </div>
 <form method="POST">
