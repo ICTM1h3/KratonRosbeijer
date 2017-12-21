@@ -8,6 +8,7 @@ $tabs = [
         ['title' => 'Registreren', 'href' => '?p=register'],
         ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
         ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
+        ['title' => 'Nieuws', 'href' => '?p=insight_news'],
     ],
     
     // ROLE_USER => [
@@ -30,7 +31,8 @@ $tabs = [
         ['title' => 'Beheer gebruikers', 'href' => '?p=manageaccounts'],
         ['title' => 'Beheer reserveringen', 'href' => '?p=managereservation'],
         ['title' => 'Beheer cadeaubonnen', 'href' => '?p=manage_giftcard'],
-        ['title' => 'Beheer tafels', 'href' => '?p=managetables']
+        ['title' => 'Beheer tafels', 'href' => '?p=managetables'],
+        ['title' => 'Beheer nieuws', 'href' => '?p=managenews']
     ]
 ];
 
