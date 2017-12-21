@@ -6,7 +6,7 @@ U heeft de volgende cadeaubon(nen) besteld:<br>
 <table>
     <tr>
         <th>Cadeaukaart code</th>
-        <th>Startwaarde</th>
+        <td><b>Startwaarde</b>(in euro)</td>
         </tr>
     <tr>
         <td><?php
@@ -21,8 +21,6 @@ U heeft de volgende cadeaubon(nen) besteld:<br>
         ?></td>
     </tr>
 </table>
-
-Uw email: <?php$parameters['email']?><br><br>
 
 Met vriendelijke groet,<br><br>
 
