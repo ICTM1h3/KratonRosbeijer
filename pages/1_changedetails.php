@@ -36,7 +36,7 @@ $password_success = [];
 // Update the details if requested
 if (isset($_POST['change_details'])) {
     $user_details_errors = validateUserDetailsData();
-    if (empty($errors)) {
+    if (empty($user_details_errors)) {
         base_query("UPDATE User 
         SET Firstname = :firstname,
             MiddleName = :middlename,
@@ -64,9 +64,12 @@ if (isset($_POST['change_password'])) {
         $password_errors[] = "Uw huidig wachtwoord is incorrect.";
     }
     else {
-        // Make sure the confirmation password is the same as the new password.
-        if ($_POST['new_password'] != $_POST['confirm_password']) {
-            $password_errors[] = "Het nieuwe wachtwoord komt niet overeen met het bevstigings wachtwoord.";
+        if (empty($_POST['new_password']) || empty($_POST['confirm_password'])) {
+            $password_errors[] = "U heeft geen wachtwoord ingevult.";
+        }
+        elseif ($_POST['new_password'] != $_POST['confirm_password']) {
+            // Make sure the confirmation password is the same as the new password.
+            $password_errors[] = "Het nieuwe wachtwoord komt niet overeen met het bevestigings wachtwoord.";
         }
         else {
             base_query("UPDATE User SET Password = :password WHERE Id = :id", [
