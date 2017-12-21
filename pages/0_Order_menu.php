@@ -61,15 +61,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         <?=$dishPrice['Name']?>
                     </td>
                     <td>
-                        <?=$dishPrice['Price']?>
+                        <?= number_format($dishPrice['Price'], 2, ',', '.')?>
                     </td>
                     <td>
                         <?=$value?>
                     <td>
-                        <?=$subTotal?>
+                        <?= number_format($subTotal, 2, ',', '.') ?>
                     </td>
                     <td>
-                        <?=$cumulative?>
+                        <?= number_format($cumulative, 2, ',', '.') ?>
                     </td>                        
                 </tr>
             <?php
@@ -94,15 +94,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     <?=$categoryPrice['Name']?><br>
                 </td>
                 <td>
-                    <?=$categoryPrice['Price']?><br>
+                    <?= number_format($categoryPrice['Price'], 2, ',', '.') ?><br>
                 </td>
                 <td>
-                    <?=$value?>
+                    <?= $value ?>
                 <td>
-                    <?=$subTotal?>
+                    <?= number_format($subTotal, 2, ',', '.') ?>
                 </td>
                 <td>
-                    <?=$cumulative?>
+                    <?= number_format($cumulative, 2, ',', '.') ?>
                 </td>                        
             </tr>
         <?php
@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         <b>Totaal:</b>
         </td>
         <td>
-            <?=$total?>
+            <?= number_format($total, 2, ',', '.') ?>
         </td>
         <td>
             <a href="?p=Order_confirm"><button>Bestel!</button></a>
@@ -154,7 +154,7 @@ function echoCategory($categoryId, $size = 1)
             <?= $category['Name']?>
             <!-- Checks if a category has a price attached to itself -->
             <?php if($category['Price'] != 0.00) {
-                ?><span class='categoryPrice'><?= $category['Price'];
+                ?><span class='categoryPrice'><?= number_format($category['Price'], 2, ',', '.');
                 if(!empty($category['Price']) && $category['Price'] != 0.00){
                 ?><input type="number" name="category_amount_<?= $category['Id'] ?>" min="0" value = "0" formmethod="POST" class="inputNumber"></span><?php }
             } ?>
@@ -173,7 +173,7 @@ function echoCategory($categoryId, $size = 1)
                 <li>
                     <span class="dishTitle"><?= $dishValue['Name']?></span>
                     <span class="price"><?php if($dishValue['Price'] != 0.00){?>
-                        <?= $dishValue['Price']?>
+                        <?= number_format($dishValue['Price'], 2, ',', '.')?>
                     <?php }
                     if(!empty($dishValue['Price']) && $dishValue['Price'] != 0.00) {?>
                         <input type="number" name="dish_amount_<?= $dishValue['Id'] ?>" value = "0" min="0" class="inputNumber">
