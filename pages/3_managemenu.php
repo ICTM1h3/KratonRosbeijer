@@ -1,17 +1,18 @@
 <?php
-
+//Set the title of the page.
 setTitle("Beheren menu");
 
-//If requested, remove the provided dishes.
-if (isset($_POST['delete']) && isset($_POST['dishesToRemove'])) {
+//If requested, change the status of the dishes.
+if (isset($_POST['switch_status']) && isset($_POST['dishesToRemove'])) {
     foreach($_POST['dishesToRemove'] as $iddish){
+        base_query("UPDATE dish SET ");
         base_query("DELETE FROM dish WHERE Id = :dishid", [':dishid'=>$iddish]);
 
     }
 }
 
 //If requested, remove the provided dishes, only when a category is empty (no dishes or subcategory).
-if(isset($_POST['delete']) && isset($_POST['categoriesToRemove'])){
+if(isset($_POST['switch_status']) && isset($_POST['categoriesToRemove'])){
     foreach($_POST['categoriesToRemove'] as $idcategory){
         base_query("DELETE FROM dishcategory WHERE Id = :categoryid", [':categoryid'=>$idcategory]);
 
@@ -106,50 +107,96 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
     #price {
         float:right;
     }
+    .menu_button{
+    border-style: solid;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer; 
+    border-radius: 50%; 
+    }
+
+    .menu_button:hover{
+        background-color: #E8E7ED;
+    }
+
+    a {
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
+    }
+
+    a:hover{
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
+    }
+
+    .option_table{
+        width: 100%;
+        text-align: center;
+    }
+
+    .checkbox{
+        float:left;
+        position:relative
+    }
 </style>
 
 
-
+<h2>Beheren menu</h2>
 <!--Form for adding/changing categories/dishes-->
 <form method="POST">
 
 
-<div>
-    <div>
-        <a href="?p=editdish">
-            Gerechten toevoegen
-        </a>
-    </div>
-
-    <div>
-        <a href="?p=editcategory">
-            Categorie toevoegen
-        </a>
-    </div>
-    <div>
-    <div>
-        <?php if($changingModus){?>
+<table class="option_table">
+    <tr>
+        <td>
+        <div class="menu_button">
+            <a href="?p=editdish">
+                Gerecht toevoegen
+            </a>
+        </div>
+        </td>
+        <td>
+        <div class="menu_button">
+            <a href="?p=editcategory">
+                Categorie toevoegen
+            </a>
+        </div>
+        </td>
+        <td>
+        <div>
+        <div class="menu_button">
+            <?php if($changingModus){?>
+            <a href="?p=managemenu">
+                Terug
+            </a>
+            <?php }else{?>
+                <a href="?p=managemenu&changingModus=true">
+                Menu items wijzigen of status wijzigen
+            </a>
+            <?php }?>
+        </div>
+        </td>
+        <td>
+        <div class="menu_button">
+        <?php if($changingPlace){?>
         <a href="?p=managemenu">
             Terug
         </a>
         <?php }else{?>
-            <a href="?p=managemenu&changingModus=true">
-            Menu items wijzigen of verwijderen
+            <a href="?p=managemenu&changingPlace=true">
+            Menu items verplaatsen
         </a>
         <?php }?>
+        </td>
+    </tr>
     </div>
-    <div>
-    <?php if($changingPlace){?>
-    <a href="?p=managemenu">
-        Terug
-    </a>
-    <?php }else{?>
-        <a href="?p=managemenu&changingPlace=true">
-        Menu items verplaatsen
-    </a>
-    <?php }?>
-</div>
-</div>
+</table>
+
 
 <?php
 
@@ -166,9 +213,9 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
 <div style="margin-left:<?= $size * 10 ?>px">
     <!-- Add a checkbox and a url when in changing modus, add buttons when in chaningplace modus.-->
     <?php if ($changingModus){
-            if (empty($subcategories) && empty($dishes)){ ?>
-            <input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $categoryId ?>"/><?php 
-            }
+            ?>
+            <input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:0px" value="<?= $categoryId ?>"/><?php 
+            
         
         } ?>
 
@@ -222,7 +269,7 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
     $price = (($dishValue['Price'] != '0.00') && !empty($dishValue['Price'])) ? $dishValue['Price'] : '';
         ?><li>
             <?php if ($changingModus) { ?>
-                <input type="checkbox" name="dishesToRemove[]" style="float:left;position:relative;left:-20px" value="<?= $dishValue['Id'] ?>"/>
+                <input type="checkbox" name="dishesToRemove[]" class="checkbox" value="<?= $dishValue['Id'] ?>"/>
                 <b><?= $dishValue['Name']?></b>
                 <a href="?p=editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
                 <span id="price"><?= $price ?></span>
@@ -285,7 +332,8 @@ if(($changingModus || $changingPlace) && empty($mainCategories)){
         echo ("Er zijn geen items om te verwijderen/wijzigen. Ga terug."); 
 }elseif($changingModus && !empty($mainCategories)){
         // Show a delete button if we're in delete mode 
-        ?><input type="submit" name="delete" value="Verwijder geselecteerde onderdelen"/><?php
+        echo "Wijzig de status van de geselecteerde onderdelen naar ";
+        ?><input type="submit" name="switch_status" value="Opslaan"/><?php
 }?>
 </form>
 
