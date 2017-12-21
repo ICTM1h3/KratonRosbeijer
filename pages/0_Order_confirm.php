@@ -48,13 +48,13 @@ function countItems($items, $Id){
 }
 
 // Checks how many times the dish is ordered
-function countDishes($items, $Id) {
-    return countItems($items, $Id);
+function countDishes($Id) {
+    return countItems($_SESSION['dishes'], $Id);
 } 
 
 // Checks how many times the category(dish) is ordered
-function countCategories($items, $Id) {
-    return countItems($items, $Id);
+function countCategories($Id) {
+    return countItems($_SESSION['categories'], $Id);
 } 
 
 function createPaymentCode() {
@@ -97,7 +97,7 @@ function insertOrderData() {
 
     // Inserting the dishes into the database
     foreach ($_SESSION["dish"] as $value) {
-        $countedDishes = countDishes($_SESSION["dishes"], $value);
+        $countedDishes = countDishes($value);
         $amountDishes[] = $countedDishes;
         base_query("INSERT INTO Dish_Order (OrderId, DishId, CountDish) VALUES
         (:orderId, :dishId, :countDish)", [
@@ -109,7 +109,7 @@ function insertOrderData() {
 
     // Inserting the categories into the database
     foreach ($_SESSION["category"] as $value) {
-        $countedCategories = countCategories($_SESSION["categories"], $value);
+        $countedCategories = countCategories($value);
         $amountCategories[] = $countedCategories;
         base_query("INSERT INTO Category_Order (OrderId, CategoryId, CountCategory) VALUES
         (:OrderId, :CategoryId, :countCategory)", [
@@ -129,6 +129,53 @@ function getValue($key) {
     }
     return '';
 }
+
+$cumulative = 0;
+?><table class="overview_order">
+    <tr>
+        <th>Gerecht</th>
+        <th>Prijs</th>
+        <th>Aantal</th>
+        <th>Subtotaal</th>
+        <th>Cumulatief</th>
+    <?php
+foreach ($_SESSION['dish'] as $value) {
+    $countedDishes = countDishes($value);
+    $dishPrice = base_query("SELECT * FROM Dish WHERE Id = :id", [
+        ':id' => $value
+    ])->fetch();
+    $subTotal = $dishPrice['Price'] * $countedDishes;
+    $cumulative += $subTotal;
+    ?><tr>
+        <td><?=$dishPrice['Name']?></td>
+        <td><?=$dishPrice['Price']?></td>
+        <td><?=$countedDishes?></td>
+        <td><?=$subTotal?></td>
+        <td><?=$cumulative?></td>
+    </tr><?php
+}
+foreach ($_SESSION['category'] as $value) {
+    $countedCategories = countCategories($value);
+    $categoryPrice = base_query("SELECT * FROM DishCategory WHERE Id = :id", [
+        ':id' => $value
+    ])->fetch();
+    $subTotal = $categoryPrice['Price'] * $countedCategories;
+    $cumulative += $subTotal;
+    ?><tr>
+        <td><?=$categoryPrice['Name']?></td>
+        <td><?=$categoryPrice['Price']?></td>
+        <td><?=$countedCategories?></td>
+        <td><?=$subTotal?></td>
+        <td><?=$cumulative?></td>
+    </tr><?php
+}?>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Totaal:</th>
+    <th><?=$_SESSION['totalPrice']?></th>
+</table><?php
 
 $errors = [];
 
@@ -176,9 +223,6 @@ else {
 <form method="POST">
     <table>
         <tr>
-            <td>Totale prijs: <?=$_SESSION["totalPrice"] ?></td>
-        </tr>
-        <tr>
             <td><b>Naam:</b></td>
             <td>
                 <input type="text" name="inNameOf" value=<?=$userName?>>
@@ -213,6 +257,11 @@ else {
 </form>
 
 <style>
+
+.overview_order {
+    border: 1px solid black;
+    text-align: center;
+}    
 
 .errormsg {
     color:red;

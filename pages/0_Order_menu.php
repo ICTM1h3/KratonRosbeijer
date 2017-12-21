@@ -21,27 +21,10 @@ $dishSubTotal = [];
 $categorySubTotal = [];
 $dishCumulative = [];
 $categoryCumulative = [];
+$dishNames = [];
+$categoryNames = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-
-    ?><table class="overview_dishes">
-        <tr>
-            <td>
-                <b>Gerecht</b>
-            </td>
-            <td>
-                <b>Prijs</b>
-            </td>
-            <td>
-                <b>Aantal</b>
-            </td>
-            <td>
-                <b>Subtotaal</b>
-            </td>
-            <td>
-                <b>Cumulatief</b>
-            </td>
-        </tr><?php
     foreach ($_POST as $key => $value) {
         if (str_starts_with($key, 'dish_amount_') && !empty($value)) { 
             $id = substr($key, 12);
@@ -55,26 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $sDish[] = $dishPrice['Id'];
             $sDishes[] = $dishPrice['Id'];
             $dishName[] = $dishPrice['Name'];
-            ?>
-                <tr>
-                    <td>
-                        <?=$dishPrice['Name']?>
-                    </td>
-                    <td>
-                        <?=$dishPrice['Price']?>
-                    </td>
-                    <td>
-                        <?=$value?>
-                    <td>
-                        <?=$subTotal?>
-                    </td>
-                    <td>
-                        <?=$cumulative?>
-                    </td>                        
-                </tr>
-            <?php
             for ($i = 1; $i < $value; $i++) {
                 $sDishes[] = $dishPrice['Id'];
+                $dishNames[] = $dishPrice['Name'];
             }
         } elseif (str_starts_with($key, 'category_amount_') && !empty($value)) {
             $id = substr($key, 16);
@@ -88,43 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $sCategory[] = $categoryPrice['Id'];
             $sCategories[] = $categoryPrice['Id'];
             $categoryName[] = $categoryPrice["Name"];
-            ?>
-            <tr>
-                <td>
-                    <?=$categoryPrice['Name']?><br>
-                </td>
-                <td>
-                    <?=$categoryPrice['Price']?><br>
-                </td>
-                <td>
-                    <?=$value?>
-                <td>
-                    <?=$subTotal?>
-                </td>
-                <td>
-                    <?=$cumulative?>
-                </td>                        
-            </tr>
-        <?php
         for ($i = 1; $i < $value; $i++) {
             $sCategories[] = $categoryPrice['Id'];
+            $categoryNames[] = $categoryPrice['Name'];
         }
         }
     }
-    ?><tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-        <b>Totaal:</b>
-        </td>
-        <td>
-            <?=$total?>
-        </td>
-        <td>
-            <a href="?p=Order_confirm"><button>Bestel!</button></a>
-        </td>
-    </tr><?php
     // Creating 2 types of sessions for dishes and categories so that the amount for each dish can be counted
     $_SESSION["dishes"] = $sDishes;
     $_SESSION["categories"] = $sCategories;
@@ -140,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $_SESSION["dishCumulative"] = $dishCumulative;
     $_SESSION["categoryCumulative"] = $categoryCumulative;
 }
-?><table><?php
 
 function echoCategory($categoryId, $size = 1) 
 {
@@ -154,7 +88,7 @@ function echoCategory($categoryId, $size = 1)
             <?= $category['Name']?>
             <!-- Checks if a category has a price attached to itself -->
             <?php if($category['Price'] != 0.00) {
-                ?><span class='categoryPrice'><?= $category['Price'];
+                ?><span class='categoryPrice'><?= number_format($category['Price'], 2, ',', '.');
                 if(!empty($category['Price']) && $category['Price'] != 0.00){
                 ?><input type="number" name="category_amount_<?= $category['Id'] ?>" min="0" value = "0" formmethod="POST" class="inputNumber"></span><?php }
             } ?>
@@ -173,7 +107,7 @@ function echoCategory($categoryId, $size = 1)
                 <li>
                     <span class="dishTitle"><?= $dishValue['Name']?></span>
                     <span class="price"><?php if($dishValue['Price'] != 0.00){?>
-                        <?= $dishValue['Price']?>
+                        <?= number_format($dishValue['Price'], 2, ',', '.')?>
                     <?php }
                     if(!empty($dishValue['Price']) && $dishValue['Price'] != 0.00) {?>
                         <input type="number" name="dish_amount_<?= $dishValue['Id'] ?>" value = "0" min="0" class="inputNumber">
@@ -206,7 +140,7 @@ else
     {
         echoCategory($category['Id']);
     }
-    ?><input type="submit" name="orderButton" value="Bestel">
+    ?><input type="submit" name="bestel" value="Bestel!" formaction="?p=Order_confirm">
     </form>
     </div><?php
 }
