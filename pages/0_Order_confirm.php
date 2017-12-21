@@ -47,13 +47,13 @@ function countItems($items, $Id){
 }
 
 // Checks how many times the dish is ordered
-function countDishes($items, $Id) {
-    return countItems($items, $Id);
+function countDishes($Id) {
+    return countItems($_SESSION['dishes'], $Id);
 } 
 
 // Checks how many times the category(dish) is ordered
-function countCategories($items, $Id) {
-    return countItems($items, $Id);
+function countCategories($Id) {
+    return countItems($_SESSION['categories'], $Id);
 } 
 
 function createPaymentCode() {
@@ -96,7 +96,7 @@ function insertOrderData() {
 
     // Inserting the dishes into the database
     foreach ($_SESSION["dish"] as $value) {
-        $countedDishes = countDishes($_SESSION["dishes"], $value);
+        $countedDishes = countDishes($value);
         $amountDishes[] = $countedDishes;
         base_query("INSERT INTO Dish_Order (OrderId, DishId, CountDish) VALUES
         (:orderId, :dishId, :countDish)", [
@@ -108,7 +108,7 @@ function insertOrderData() {
 
     // Inserting the categories into the database
     foreach ($_SESSION["category"] as $value) {
-        $countedCategories = countCategories($_SESSION["categories"], $value);
+        $countedCategories = countCategories($value);
         $amountCategories[] = $countedCategories;
         base_query("INSERT INTO Category_Order (OrderId, CategoryId, CountCategory) VALUES
         (:OrderId, :CategoryId, :countCategory)", [
