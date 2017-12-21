@@ -33,7 +33,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			<input onclick="submit()" type="submit" value="Opslaan">
 
 			<script>
-
 			//Submit the data
 			function submit(){
 
@@ -41,10 +40,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					url: '?p=editcatering', // Url witch deals the request
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
-				}); 
+				}).done(function(){
+					location.search="?p=cateringpage"
+				});
 			}
 			</script>
-
 
 		<!-- Loading javascript for the edit tool -->
 		<script type="text/javascript" src="editplugin/js/jquery.min.js"></script>
