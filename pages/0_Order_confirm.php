@@ -1,4 +1,5 @@
 <?php
+
 setTitle("Bestelling bevestigen");
 
 // Sets the timezone
@@ -68,7 +69,7 @@ function createPaymentCode() {
 // Inserts everything into the database
 $amountDishes = [];
 $amountCategories = [];
-function insertOrderData() {
+function insertOrderData($paymentCode = null) {
 
     // Gets the newest Order Id
     $newOrderId = base_query("SELECT MAX(Id) AS newestOrderId FROM `Order`")->fetchColumn();
@@ -76,7 +77,6 @@ function insertOrderData() {
     // Saves the current time when the Order is made
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
-    $paymentCode = createPaymentCode();
     $_SESSION["paymentCode"] = $paymentCode;
     $_SESSION["name"] = $_POST['inNameOf'];
     $_SESSION["telephoneNumber"] = $_POST['telNumber'];
@@ -184,9 +184,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errors = validateData();
         if (empty($errors)) {
             $_SESSION["e-mail"] = $_POST["email"];
-            insertOrderData();
-            echo "Uw bestelling is aangemaakt<br>";
-            header('Location: ?p=IDEAL_payment_orders');
+            if (!isset($_SESSION['UserId']) || base_query("SELECT Role FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn() != ROLE_ADMINISTRATOR) {
+                $code = createPaymentCode();
+                insertOrderData($code);
+                header('Location: ?p=IDEAL_payment_orders');
+            }
+            else {
+                insertOrderData();
+                echo "<p style='color:green'><b>Uw bestelling is aangemaakt</b></p>";
+            }
         }
         else {
             foreach ($errors as $error) {
@@ -198,30 +204,59 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
+if (isset($_SESSION['UserId'])) {
+    $userData = base_query("SELECT * FROM User WHERE Id = :id", [
+        ':id' => $_SESSION['UserId']
+    ])->fetch();
+    if (!empty($userData['MiddleName'])) {
+        $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
+    }
+    else {
+        $userName = $userData['Firstname'] . " " . $userData['Lastname'];
+    }
+    $userEmail = $userData['Email'];
+    $userTelNumber = $userData['TelephoneNumber'];
+}
+else {
+    $userName = "";
+    $userEmail = "";
+    $userTelNumber = "";
+}
+
 ?>
+
 <form method="POST">
     <table>
         <tr>
             <td><b>Naam:</b></td>
-            <td><input type="text" name="inNameOf" value=<?=getValue('inNameOf')?>><td>
+            <td>
+                <input type="text" name="inNameOf" value=<?=$userName?>>
+            <td>
         </tr>
         <tr>
             <td><b>Emailadres:</b></td>
-            <td><input type="email" name="email" value=<?=getValue('email')?>></td>
+            <td><input type="email" name="email" value=<?=$userEmail?>></td>
         </tr>
         <tr>
             <td><b>Telefoonnummer:</b></td>
-            <td><input type="tel" name="telNumber" value=<?=getValue('telNumber')?>></td>
+            <td><input type="tel" name="telNumber" value=<?=$userTelNumber?>></td>
         <tr>
             <td><b>Datum van afhalen:</b></td>
-            <td><input type="date" name="date" value=<?=getValue('date')?>></td>
+            <td><input type="date" name="date"></td>
         </tr>
         <tr>
             <td><b>Tijdstip van afhalen:</b></td>
-            <td><input type="time" name="time" value=<?=getValue('time')?>></td>
+            <td><input type="time" name="time"></td>
         </tr>
         <tr>
             <td><input type="submit" name="bestelGegevens" value="Bestellen!"/>
+        </tr>
+        <tr>
+            <td><?php
+                if(!isset($_SESSION['UserId'])) {
+                    ?><a href="?p=inlogpage">U kunt hier eventueel inloggen</a><?php
+                }?>
+            </td>
         </tr>
     </table>
 </form>
