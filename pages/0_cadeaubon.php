@@ -115,8 +115,6 @@ if(isset($_POST['order_gift_card'])){
                         ':innameof' => $_POST['InNameOf']
                     ]);
                 }
-        
-            //REMOVE AFTER IDEAL IS WORKING!
             echo"Bestelling is met succes opgeslagen!";
         
             }
@@ -135,7 +133,6 @@ if(isset($_POST['order_gift_card'])){
                     ]);
                 }
         
-            //REMOVE AFTER IDEAL IS WORKING!
             echo"Bestelling is met succes opgeslagen!";
         
             }
@@ -155,7 +152,6 @@ if(isset($_POST['order_gift_card'])){
                 ]);
             }
     
-        //REMOVE AFTER IDEAL IS WORKING!
         echo"Bestelling is met succes opgeslagen!";
     
         }
