@@ -161,13 +161,6 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 </style>
 
 
-    .checkbox{
-        float:left;
-        position:relative
-    }
-</style>
-
-
 <h2>Beheren menu</h2>
 <!--Form for adding/changing categories/dishes-->
 <form method="POST">
@@ -224,9 +217,13 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
 
 function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $isFirst, $isLast) {
+    $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
+    if (!$changingModus && ($category['Activated'] == 0)) {
+        return;
+    }
+    
     //Getting the categories from the database
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
-    $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
     //Getting the dishes from the database and put them in the right (sub)category
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
 
@@ -238,12 +235,12 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
 
 
     <!--Add the right buttons, only when the use can do something when clicking on the button.-->
+    <h<?= $size ?> class="category_header">
+    <?= $category['Name']?> 
+    </h<?= $size ?>> 
     <?php 
     if ($changingModus) { 
     ?>
-        <h<?= $size ?> class="category_header">
-        <?= $category['Name']?> 
-        </h<?= $size ?>> 
         
         <!-- Checks if a category has a price attached to itself, if the price is not set (value is 0) then dont give the price -->
         <?php if(isset($category['Price']) && $category['Price'] != 0.00) { ?>
@@ -251,8 +248,6 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
         <?php } ?>
 
         <p><?= $category['TitleDescription'] ?></p>
-        <!--Add the right buttons, only when the use can do something when clicking on the button.-->
-        <?php if ($changingModus) { ?>
 
         <a href="?p=editcategory&category=<?= $categoryId?>">Wijzig category</a>
         <form method="POST">
@@ -262,10 +257,10 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
     <?php
     } elseif($changingPlace){
     ?>
-        <h<?= $size ?>>
+        <!-- <h<?= $size ?>>
         <?= $category['Name']?> 
         </h<?= $size ?>> 
-        <?= $category['TitleDescription']?>
+        <?= $category['TitleDescription']?> -->
         <?php
         if(!$isLast){
         ?> 
@@ -283,14 +278,12 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
             </form>
         <?php 
         }
-    }elseif($category['Activated'] == 1){?>
-        <h<?= $size ?>>
-        <?= $category['Name']?> 
-        </h<?= $size ?>> 
-        <?= $category['TitleDescription'] ?>
-    <?php
     }
     ?>
+        <!-- <h<?= $size ?>>
+        <?= $category['Name']?> 
+        </h<?= $size ?>> 
+        <?= $category['TitleDescription'] ?> -->
 
  
 <!-- Echo category description -->
