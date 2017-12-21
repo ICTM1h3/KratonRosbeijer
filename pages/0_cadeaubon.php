@@ -112,7 +112,6 @@ if(isset($_POST['order_gift_card'])){
         foreach($_SESSION['giftcards'] as $value => $count){
             for($i= 0; $i<$count; $i++){
                 $code = createRandomCode();
-                $_SESSION['paymentCode'] = $paymentCode;
                 $couponCodes[] = $code;
                 $couponPrizes[] = $value;
                 base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, `PaymentCode`) 
@@ -126,6 +125,7 @@ if(isset($_POST['order_gift_card'])){
                 ]);
             }
         }
+        $_SESSION['paymentCode'] = $paymentCode;
         $_SESSION['couponCodes'] = $couponCodes;
         $_SESSION['couponPrizes'] = $couponPrizes;
         echo "Bestelling van de cadeaubon is opgslagen!";
