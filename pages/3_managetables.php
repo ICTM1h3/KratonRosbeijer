@@ -21,8 +21,19 @@ elseif (isset($_POST['switch_status'])) {
         ':id' => $_POST['tableid']
     ]);
 }
+//Sending the right kitchen capacity to the database. 
+if(isset($_POST['save_kitchen_capacity'])){
+    base_query("UPDATE setting SET `Value` = :capacity WHERE `Name` = 'KitchenCapacity'", [
+        ":capacity" => $_POST['kitchen_capacity']
+    ]);   
+}
 
+//Getting the kitchen capacity from the database.
+$capacity = base_query("SELECT `Value` FROM Setting WHERE `Name`= 'KitchenCapacity'")->fetchColumn();
+
+//Getting the tables from the database.
 $tables = base_query("SELECT * FROM `table` ORDER BY Activated DESC, Id DESC")->fetchAll();
+
 ?>
 
 <h1>Beheer tafels</h1>
@@ -41,6 +52,21 @@ $tables = base_query("SELECT * FROM `table` ORDER BY Activated DESC, Id DESC")->
     }
 </script>
 
+<form method="POST">
+    <table class="table">
+        <tr>
+            <th>Keukencapaciteit aanpassen</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" value="<?= $capacity ?>" name="kitchen_capacity"/>
+            </td>
+            <td>
+                <input type="submit" name="save_kitchen_capacity" value="Opslaan"/>
+            </td>
+        </tr>
+    </table>
+</form>
 <table class="table">
     <thead>
         <th>Capaciteit</th>
