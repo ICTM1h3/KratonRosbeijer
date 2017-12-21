@@ -149,52 +149,46 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 <form method="POST">
 
 
-<table class="option_table">
-    <tr>
-        <td>
-        <div class="menu_button">
-            <a href="?p=editdish">
-                Gerecht toevoegen
-            </a>
-        </div>
-        </td>
-        <td>
-        <div class="menu_button">
-            <a href="?p=editcategory">
-                Categorie toevoegen
-            </a>
-        </div>
-        </td>
-        <td>
-        <div>
-        <div class="menu_button">
-            <?php if($changingModus){?>
-            <a href="?p=managemenu">
-                Terug
-            </a>
-            <?php }else{?>
-                <a href="?p=managemenu&changingModus=true">
-                Menu items wijzigen
-            </a>
-            <?php }?>
-        </div>
-        </td>
-        <td>
-        <div class="menu_button">
-        <?php if($changingPlace){?>
-        <a href="?p=managemenu">
+<div>
+    <div>
+        <a class="btn btn-secondary" href="?p=editdish">
+            Gerechten toevoegen
+        </a>
+    </div>
+
+    <div>
+        <a class="btn btn-secondary" href="?p=editcategory">
+            Categorie toevoegen
+        </a>
+    </div>
+
+    <div>
+        <?php if($changingModus){?>
+        <a class="btn btn-secondary" href="?p=managemenu">
             Terug
         </a>
         <?php }else{?>
-            <a href="?p=managemenu&changingPlace=true">
-            Menu items verplaatsen
+            <a class="btn btn-secondary" href="?p=managemenu&changingModus=true">
+            Menu items wijzigen of verwijderen
         </a>
         <?php }?>
         </td>
     </tr>
     </div>
-</table>
 
+    <div>
+    <?php if($changingPlace){?>
+    <a class="btn btn-secondary" href="?p=managemenu">
+        Terug
+    </a>
+    <?php }else{?>
+        <a class="btn btn-secondary" href="?p=managemenu&changingPlace=true">
+        Menu items verplaatsen
+    </a>
+    <?php }?>
+    </div>
+    
+</div>
 
 <?php
 

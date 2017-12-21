@@ -185,35 +185,31 @@ if (isset($_GET['vacancy'])) {
 
 ?>
 
-<style>
-.errors > p {
-    color: red;
-}
-</style>
-
-<div class="errors">
     <?php foreach ($errors as $error) {
-        ?><p><?= $error ?></p><?php
+        ?><div class="alert alert-danger" role="alert">
+        <p><?= $error ?></p> </div><?php
     }
     ?>
-</div>
-<form method="POST">
-    <table>
+
+<div class="container">
+      <form method="post" class="form-signin">
+      <a class="btn btn-secondary" href="?p=managevacancies">Ga terug naar het overzicht</a>
+        <table>
         <tr>
             <td>Titel</td>
-            <td><input type="text" name="Title" value="<?= getVacancyValue($vacancy, 'Title') ?>" /></td>
+            <td><input class="form-control" type="text" name="Title" value="<?= getVacancyValue($vacancy, 'Title') ?>" /></td>
         </tr>
         <tr>
             <td>Functie</td>
-            <td><input type="text" name="Function" value="<?= getVacancyValue($vacancy, 'Function') ?>" /></td>
+            <td><input class="form-control" type="text" name="Function" value="<?= getVacancyValue($vacancy, 'Function') ?>" /></td>
         </tr>
         <tr>
             <td>Omschrijving</td>
-            <td><textarea name="Description"><?= getVacancyValue($vacancy, 'Description') ?></textarea></td>
+            <td><textarea class="form-control" name="Description"><?= getVacancyValue($vacancy, 'Description') ?></textarea></td>
         </tr>
         <tr>
             <td>Dienstverband</td>
-            <td><input type="text" name="Employment" value="<?= getVacancyValue($vacancy, 'Employment') ?>" /></td>
+            <td><input class="form-control" type="text" name="Employment" value="<?= getVacancyValue($vacancy, 'Employment') ?>" /></td>
         </tr>
         <tr>
             <td id="requirement-td" rowspan="<?= count(getRequirements($requirements)) + 2 ?>">Eisen</td>
@@ -222,8 +218,8 @@ if (isset($_GET['vacancy'])) {
         foreach (getRequirements($requirements) as $requirement) { ?>
             <tr>
                 <td>
-                    <input type="text" name="Requirement[]" value="<?= $requirement ?>" />
-                    <button onclick="delete_requirement(event)"/>Delete</button>
+                    <input class="form-control" type="text" name="Requirement[]" value="<?= $requirement ?>" />
+                    <input class="btn btn-secondary" onclick="delete_requirement(event)" value="Delete "/>
                 </td>
             </tr>
             <?php 
@@ -231,17 +227,19 @@ if (isset($_GET['vacancy'])) {
         ?>
         <tr>
             <td>
-                <input type="submit" name="new_requirement" value="Voeg nieuwe eis toe" />
+                <input class="btn btn-secondary" type="submit" name="new_requirement" value="Voeg nieuwe eis toe" />
             </td>
         </tr>
         <tr>
             <td colspan="2">
-                <input style="width:100%;" type="submit" name="save" value="Opslaan">
+                <input class="btn btn-secondary" style="width:100%;" type="submit" name="save" value="Opslaan">
             </td>
         </tr>
     </table>
 </form>
 <i>Alle velden zijn verplicht.</i>
+
+</div>
 
 <script>
     function delete_requirement(event) {
