@@ -68,7 +68,14 @@ foreach($_POST as $key => $value){
     
 }
 
+function createPaymentCode() {
+    $paymentCode = md5(uniqid(rand(), true));
 
+    while (base_query("SELECT PaymentCode FROM Coupon WHERE PaymentCode = :paymentCode", [':paymentCode' => $paymentCode])->fetch() != false) {
+        $paymentCode = md5(uniqid(rand(), true));
+    }
+    return $paymentCode;
+}
 
 //Create a random unique giftcard code. 
 function createRandomCode() { 
@@ -91,34 +98,42 @@ function createRandomCode() {
     
     return $code; 
     
-} 
+}
 
-
-
+$couponCodes = [];
+$couponPrizes = [];
 //Put the choosen giftcards with the required data into the database. 
 if(isset($_POST['order_gift_card'])){
     $errors = getFilledInDataErrors();
     if(empty($errors)){
+        $_SESSION['email'] = $_POST['Email'];
+        $_SESSION['name'] = $_POST['InNameOf'];
+        $paymentCode = createPaymentCode();
         foreach($_SESSION['giftcards'] as $value => $count){
             for($i= 0; $i<$count; $i++){
                 $code = createRandomCode();
-                base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`) 
-                VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof);", [
+                $couponCodes[] = $code;
+                $couponPrizes[] = $value;
+                base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, `PaymentCode`) 
+                VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof, :paymentCode);", [
                     ':couponcode' => $code,
                     ':initialvalue' => $value,
                     ':currentvalue' => $value,
                     ':email' => $_POST['Email'],
-                    ':innameof' => $_POST['InNameOf']
+                    ':innameof' => $_POST['InNameOf'],
+                    ':paymentCode' => $paymentCode
                 ]);
             }
         }
-        
-        //REMOVE AFTER IDEAL IS WORKING!
-        echo"Bestelling is met succes opgeslagen!";
-
+        $_SESSION['paymentCode'] = $paymentCode;
+        $_SESSION['couponCodes'] = $couponCodes;
+        $_SESSION['couponPrizes'] = $couponPrizes;
+        echo "Bestelling van de cadeaubon is opgslagen!";
+        header('Location: ?p=IDEAL_payment_giftcards');
     }
-
 }
+
+
 
 //Looks if the varied ammount of a giftcard not null is, otherwise add it tho the list of choosen giftcards.
 if(isset($_POST['varied'])){
@@ -140,25 +155,25 @@ if(isset($_POST['varied'])){
     }
 </style>
 
-<h2>Cadeaubon bestellen</h2>
-<p>
--Bonnen kunnen ook in het restaurant worden opgehaald.<br>
--U rekent de bestellde bonnen samen af.<br>
--U ontvangt een mail met per bestelde cadeaubon een unieke code.
-</p>
-
-<!--Print the errors-->
-    <?php foreach ($errors as $error) {
-        ?><div class="alert alert-danger">
-        <p><?= $error ?></p> </div><?php
-    }
-    ?>
-
 <!-- Form for adding giftcard items -->
 <div class="container">
-    <h2>Cadeaubon bestellen</h2>
-    <p>Bonnen kunnen ook in het restaurant worden opgehaald.</p>
-    <h4 class="form-signin-heading">Cadeaubonnen</h4>
+    
+<h2>Cadeaubon bestellen</h2>
+<ul>
+    <li>Bonnen kunnen ook in het restaurant worden opgehaald.</li>
+    <li>U rekent de bestellde bonnen samen af.</li>
+    <li>U ontvangt een mail met per bestelde cadeaubon een unieke code.</li>
+</ul>
+
+
+<!--Print errors if there were any.-->
+    <?php if (!empty($errors)) { ?>
+        <div class="alert alert-danger">
+            <?php foreach ($errors as $error) { ?>
+                    <p><?= $error ?></p> 
+            <?php } ?>
+        </div>
+    <?php } ?>
     <table>
         <tr>
             <th>Cadeaubonnen</th>
@@ -231,6 +246,7 @@ if(isset($_POST['varied'])){
                     </tr>
                 <?php    
             }
+            $_SESSION["totalPrice"] = $total;
         ?>
             <tr>
                 <td>Totaal</td>
