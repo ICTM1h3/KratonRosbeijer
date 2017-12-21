@@ -21,27 +21,10 @@ $dishSubTotal = [];
 $categorySubTotal = [];
 $dishCumulative = [];
 $categoryCumulative = [];
+$dishNames = [];
+$categoryNames = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-
-    ?><table class="overview_dishes">
-        <tr>
-            <td>
-                <b>Gerecht</b>
-            </td>
-            <td>
-                <b>Prijs</b>
-            </td>
-            <td>
-                <b>Aantal</b>
-            </td>
-            <td>
-                <b>Subtotaal</b>
-            </td>
-            <td>
-                <b>Cumulatief</b>
-            </td>
-        </tr><?php
     foreach ($_POST as $key => $value) {
         if (str_starts_with($key, 'dish_amount_') && !empty($value)) { 
             $id = substr($key, 12);
@@ -55,26 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $sDish[] = $dishPrice['Id'];
             $sDishes[] = $dishPrice['Id'];
             $dishName[] = $dishPrice['Name'];
-            ?>
-                <tr>
-                    <td>
-                        <?=$dishPrice['Name']?>
-                    </td>
-                    <td>
-                        <?= number_format($dishPrice['Price'], 2, ',', '.')?>
-                    </td>
-                    <td>
-                        <?=$value?>
-                    <td>
-                        <?= number_format($subTotal, 2, ',', '.') ?>
-                    </td>
-                    <td>
-                        <?= number_format($cumulative, 2, ',', '.') ?>
-                    </td>                        
-                </tr>
-            <?php
             for ($i = 1; $i < $value; $i++) {
                 $sDishes[] = $dishPrice['Id'];
+                $dishNames[] = $dishPrice['Name'];
             }
         } elseif (str_starts_with($key, 'category_amount_') && !empty($value)) {
             $id = substr($key, 16);
@@ -88,43 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $sCategory[] = $categoryPrice['Id'];
             $sCategories[] = $categoryPrice['Id'];
             $categoryName[] = $categoryPrice["Name"];
-            ?>
-            <tr>
-                <td>
-                    <?=$categoryPrice['Name']?><br>
-                </td>
-                <td>
-                    <?= number_format($categoryPrice['Price'], 2, ',', '.') ?><br>
-                </td>
-                <td>
-                    <?= $value ?>
-                <td>
-                    <?= number_format($subTotal, 2, ',', '.') ?>
-                </td>
-                <td>
-                    <?= number_format($cumulative, 2, ',', '.') ?>
-                </td>                        
-            </tr>
-        <?php
         for ($i = 1; $i < $value; $i++) {
             $sCategories[] = $categoryPrice['Id'];
+            $categoryNames[] = $categoryPrice['Name'];
         }
         }
     }
-    ?><tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-        <b>Totaal:</b>
-        </td>
-        <td>
-            <?= number_format($total, 2, ',', '.') ?>
-        </td>
-        <td>
-            <a href="?p=Order_confirm"><button>Bestel!</button></a>
-        </td>
-    </tr><?php
     // Creating 2 types of sessions for dishes and categories so that the amount for each dish can be counted
     $_SESSION["dishes"] = $sDishes;
     $_SESSION["categories"] = $sCategories;
@@ -140,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $_SESSION["dishCumulative"] = $dishCumulative;
     $_SESSION["categoryCumulative"] = $categoryCumulative;
 }
-?><table><?php
 
 function echoCategory($categoryId, $size = 1) 
 {
@@ -206,7 +140,7 @@ else
     {
         echoCategory($category['Id']);
     }
-    ?><input type="submit" name="orderButton" value="Bestel">
+    ?><a href="?p=Order_confirm"><button>Bestel!</button></a>
     </form>
     </div><?php
 }

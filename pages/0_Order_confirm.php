@@ -129,6 +129,53 @@ function getValue($key) {
     return '';
 }
 
+$cumulative = 0;
+?><table class="overview_order">
+    <tr>
+        <th>Gerecht</th>
+        <th>Prijs</th>
+        <th>Aantal</th>
+        <th>Subtotaal</th>
+        <th>Cumulatief</th>
+    <?php
+foreach ($_SESSION['dish'] as $value) {
+    $countedDishes = countDishes($_SESSION['dishes'], $value);
+    $dishPrice = base_query("SELECT * FROM Dish WHERE Id = :id", [
+        ':id' => $value
+    ])->fetch();
+    $subTotal = $dishPrice['Price'] * $countedDishes;
+    $cumulative += $subTotal;
+    ?><tr>
+        <td><?=$dishPrice['Name']?></td>
+        <td><?=$dishPrice['Price']?></td>
+        <td><?=$countedDishes?></td>
+        <td><?=$subTotal?></td>
+        <td><?=$cumulative?></td>
+    </tr><?php
+}
+foreach ($_SESSION['category'] as $value) {
+    $countedCategories = countCategories($_SESSION['categories'], $value);
+    $categoryPrice = base_query("SELECT * FROM DishCategory WHERE Id = :id", [
+        ':id' => $value
+    ])->fetchAll();
+    $subTotal = $categoryPrice['Price'] * $countedCategories;
+    $cumulative += $subTotal;
+    ?><tr>
+        <td><?=$categoryPrice['Name']?></td>
+        <td><?=$categoryPrice['Price']?></td>
+        <td><?=$countedCategories?></td>
+        <td><?=$subTotal?></td>
+        <td><?=$cumulative?></td>
+    </tr><?php
+}?>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Totaal:</th>
+    <th><?=$_SESSION['totalPrice']?></th>
+</table><?php
+
 $errors = [];
 
 // Checks for errors. If there are, it will show errors
@@ -155,9 +202,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <form method="POST">
     <table>
         <tr>
-            <td>Totale prijs: <?=$_SESSION["totalPrice"] ?></td>
-        </tr>
-        <tr>
             <td><b>Naam:</b></td>
             <td><input type="text" name="inNameOf" value=<?=getValue('inNameOf')?>><td>
         </tr>
@@ -183,6 +227,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 </form>
 
 <style>
+
+.overview_order {
+    border: 1px solid black;
+    text-align: center;
+}    
 
 .errormsg {
     color:red;
