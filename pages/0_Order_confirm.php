@@ -1,8 +1,7 @@
 <?php
+
 setTitle("Bestelling bevestigen");
 
-var_dump($_SESSION['categoryname']);
-var_dump($_SESSION['dishname']);
 // Sets the timezone
 date_default_timezone_set("Europe/Amsterdam");
 
@@ -153,7 +152,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
+if (isset($_SESSION['UserId'])) {
+    $userData = base_query("SELECT * FROM User WHERE Id = :id", [
+        ':id' => $_SESSION['UserId']
+    ])->fetch();
+    $userName = $userData['Lastname'];
+    $userEmail = $userData['Email'];
+    $userTelNumber = $userData['TelephoneNumber'];
+}
+else {
+    $userName = "";
+    $userEmail = "";
+    $userTelNumber = "";
+}
+
 ?>
+
 <form method="POST">
     <table>
         <tr>
@@ -161,25 +175,34 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         </tr>
         <tr>
             <td><b>Naam:</b></td>
-            <td><input type="text" name="inNameOf" value=<?=getValue('inNameOf')?>><td>
+            <td>
+                <input type="text" name="inNameOf" value=<?=$userName?>>
+            <td>
         </tr>
         <tr>
             <td><b>Emailadres:</b></td>
-            <td><input type="email" name="email" value=<?=getValue('email')?>></td>
+            <td><input type="email" name="email" value=<?=$userEmail?>></td>
         </tr>
         <tr>
             <td><b>Telefoonnummer:</b></td>
-            <td><input type="tel" name="telNumber" value=<?=getValue('telNumber')?>></td>
+            <td><input type="tel" name="telNumber" value=<?=$userTelNumber?>></td>
         <tr>
             <td><b>Datum van afhalen:</b></td>
-            <td><input type="date" name="date" value=<?=getValue('date')?>></td>
+            <td><input type="date" name="date"></td>
         </tr>
         <tr>
             <td><b>Tijdstip van afhalen:</b></td>
-            <td><input type="time" name="time" value=<?=getValue('time')?>></td>
+            <td><input type="time" name="time"></td>
         </tr>
         <tr>
             <td><input type="submit" name="bestelGegevens" value="Bestellen!"/>
+        </tr>
+        <tr>
+            <td><?php
+                if(!isset($_SESSION['UserId'])) {
+                    ?><a href="?p=inlogpage">U kunt hier eventueel inloggen</a><?php
+                }?>
+            </td>
         </tr>
     </table>
 </form>

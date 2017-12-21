@@ -1,5 +1,5 @@
 <?php 
-
+var_dump($_SESSION);
 //Set title
 setTitle("Cadeaubon");
 
