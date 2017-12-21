@@ -1,5 +1,4 @@
 <?php 
-
 //Set title
 setTitle("Cadeaubon");
 
@@ -124,7 +123,7 @@ if(isset($_POST['order_gift_card'])){
 if(isset($_POST['varied'])){
     $add = $_POST['varied_ammount'];
     if($add <= 0){
-        $errors[] = "Geen geldig bedrag of het gekozen bedrag is kleiner of gelijk aan 0!";   
+        $errors[] = "Het gekozen bedrag is kleiner of gelijk aan 0!";   
     }
     else {
         addCard($add);
@@ -141,11 +140,7 @@ if(isset($_POST['varied'])){
 </style>
 
 <h2>Cadeaubon bestellen</h2>
-<p>
--Bonnen kunnen ook in het restaurant worden opgehaald.<br>
--U rekent de bestellde bonnen samen af.<br>
--U ontvangt een mail met per bestelde cadeaubon een unieke code.
-</p>
+<p>Bonnen kunnen ook in het restaurant worden opgehaald.</p>
 
 <!--Print the errors-->
 <div class="errors">
@@ -155,57 +150,70 @@ if(isset($_POST['varied'])){
     ?>
 </div>
 
-<!-- Form for adding giftcard items -->
 
-<table>
-    <tr>
-        <th>Cadeaubonnen</th>
-    </tr>
-    <tr>
-        <td>Cadeaubon € 25</td>
-        <td>
-            <form method="POST">
+
+<?php
+
+if(isset($_SESSION['UserId'])) {
+    $userData = base_query("SELECT * FROM User WHERE Id = :id", [
+        ':id' => $_SESSION["UserId"]
+    ])->fetch();
+    if (!empty($userData['MiddleName'])) {
+        $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
+    }
+    else {
+        $userName = $userData['Firstname'] . " " . $userData['Lastname'];
+    }
+    $userEmail = $userData['Email'];
+}
+else {
+    $userName = "";
+    $userEmail = "";
+}
+?>
+<!-- Form for adding giftcard items -->
+<form method="POST">
+
+    <table>
+        <tr>
+            <th>Cadeaubonnen</th>
+        </tr>
+        <tr>
+            <td>Cadeaubon € 25</td>
+            <td>
                 <input type="submit" name="add_25" value="Toevoegen"/>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td>Cadeaubon € 50</td>
-        <td>
-            <form method="POST">
+            </td>
+        </tr>
+        <tr>
+            <td>Cadeaubon € 50</td>
+            <td>
                 <input type="submit" name="add_50" value="Toevoegen"/>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td>Cadeaubon € 75</td>
-        <td>
-            <form method="POST">
+            </td>
+        </tr>
+        <tr>
+            <td>Cadeaubon € 75</td>
+            <td>
                 <input type="submit" name="add_75" value="Toevoegen"/>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td>Cadeaubon € 100</td>
-        <td>
-            <form method="POST">
+            </td>
+        </tr>
+        <tr>
+            <td>Cadeaubon € 100</td>
+            <td>
                 <input type="submit" name="add_100" value="Toevoegen"/>
-            </form>
-        </td>
-    </tr>
-    <tr>
-        <td>Cadeaubon variable € </td>
-        <td>
-            <form method="POST">
-                <input min="0" step="1" type="number" name="varied_ammount" value="0"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Cadeaubon variable € </td>
+            <td>
+                <input type="number" step="1" name="varied_ammount" value="0"/>
                 <input type="submit" name="varied" value="Toevoegen"/>
-            </form>
-        </td>
-    </tr>
-</table>
+            </td>
+        </tr>
+    </table>
+</form>
 
 <!--Form for choosen gift cart items. -->
-
+<form method="POST">
     <table>
         <?php
         //If there is an item to show, print it. Also give the option to order the giftcard.
@@ -220,11 +228,7 @@ if(isset($_POST['varied'])){
                     <tr>
                         <td><?= $count ?> X Cadeaubon € <?= $value ?></td>
                         <td> € <?= $subtotal ?></td>
-                        <td>
-                            <form method="POST">
-                                <input type="submit" name="remove_<?= $value?>" value = "Delete" />
-                            </form>
-                        </td>
+                        <td><input type="submit" name="remove_<?= $value?>" value = "Delete" /></td>
                     </tr>
                 <?php    
             }
@@ -234,19 +238,15 @@ if(isset($_POST['varied'])){
                 <td>€ <?= $total ?>
             </tr>
             <tr>
-                <td>Op naam van (verplicht):</td>
-                <td><input form="order_giftcard" type="text" name="InNameOf" required/></td>
+                <td>Op naam van (verplicht):</td>   
+                <td><input type="text" name="InNameOf" value="<?=$userName?>"></td>
             </tr>
             <tr>
                 <td>E-mail adres (verplicht):</td>
-                <td><input form="order_giftcard" type="email" name="Email" required/></td>
+                <td><input type="text" name="Email" value=<?=$userEmail?>></td>
             </tr>
             <tr>
-                <td>
-                    <form id="order_giftcard" method="POST">
-                        <input type="submit" name="order_gift_card" value="Cadeaubon afrekenen"/>
-                    </form>
-                </td>
+                <td><input type="submit" name="order_gift_card" value="Cadeaubon afrekenen"/></td>
             </tr>
         
         <?php } ?>
