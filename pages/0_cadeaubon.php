@@ -99,6 +99,23 @@ function createRandomCode() {
     
 }
 
+function createCoupons($paymentCode = NULL) {
+    foreach($_SESSION['giftcards'] as $value => $count){
+        for($i= 0; $i<$count; $i++){
+            $code = createRandomCode();
+            base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, PaymentCode) 
+            VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof, :paymentCode);", [
+                ':couponcode' => $code,
+                ':initialvalue' => $value,
+                ':currentvalue' => $value,
+                ':email' => $_POST['Email'],
+                ':innameof' => $_POST['InNameOf'],
+                ':paymentCode' => $paymentCode
+            ]);
+        }
+    }
+}
+
 $couponCodes = [];
 $couponPrizes = [];
 //Put the choosen giftcards with the required data into the database. 
@@ -110,39 +127,34 @@ if(isset($_POST['order_gift_card'])){
         ])->fetch();
         if ($userData['Role'] == ROLE_ADMINISTRATOR) {
             $errors = NULL;
-            foreach($_SESSION['giftcards'] as $value => $count){
-                for($i= 0; $i<$count; $i++){
-                    $code = createRandomCode();
-                    base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`) 
-                    VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof);", [
-                        ':couponcode' => $code,
-                        ':initialvalue' => $value,
-                        ':currentvalue' => $value,
-                        ':email' => $_POST['Email'],
-                        ':innameof' => $_POST['InNameOf']
-                    ]);
-                }
+            createCoupons();
             echo"Bestelling is met succes opgeslagen!";
-        
-            }
         }
         elseif (empty($errors)) {
+            $_SESSION['email'] = $_POST['Email'];
+            $_SESSION['name'] = $_POST['InNameOf'];
+            $paymentCode = createPaymentCode();
             foreach($_SESSION['giftcards'] as $value => $count){
                 for($i= 0; $i<$count; $i++){
                     $code = createRandomCode();
-                    base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`) 
-                    VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof);", [
+                    $couponCodes[] = $code;
+                    $couponPrizes[] = $value;
+                    base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, `PaymentCode`) 
+                    VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof, :paymentCode);", [
                         ':couponcode' => $code,
                         ':initialvalue' => $value,
                         ':currentvalue' => $value,
                         ':email' => $_POST['Email'],
-                        ':innameof' => $_POST['InNameOf']
+                        ':innameof' => $_POST['InNameOf'],
+                        ':paymentCode' => $paymentCode
                     ]);
                 }
-        
-            echo"Bestelling is met succes opgeslagen!";
-        
             }
+            $_SESSION['paymentCode'] = $paymentCode;
+            $_SESSION['couponCodes'] = $couponCodes;
+            $_SESSION['couponPrizes'] = $couponPrizes;
+            echo "Bestelling van de cadeaubon is opgslagen!";
+            header('Location: ?p=IDEAL_payment_giftcards');
         }
     }
     elseif(empty($errors)){
@@ -207,7 +219,7 @@ if(isset($_SESSION['UserId'])) {
     ])->fetch();
     if ($userData['Role'] == ROLE_ADMINISTRATOR) {
         $userName = "administrator";
-        $userEmail = "administrator";
+        $userEmail = $userData['Email'];
     }
     elseif (!empty($userData['MiddleName'])) {
         $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
@@ -323,11 +335,11 @@ else {
             </tr>
             <tr>
                 <td>Op naam van (verplicht):</td>
-                <td><input form="order_giftcard" class="form-control" type="text" name="InNameOf" required/></td>
+                <td><input form="order_giftcard" class="form-control" type="text" name="InNameOf" value="<?=$userName?>" required/></td>
             </tr>
             <tr>
                 <td>E-mail adres (verplicht):</td>
-                <td><input form="order_giftcard" class="form-control" type="email" name="Email" required/></td>
+                <td><input form="order_giftcard" class="form-control" type="email" name="Email" value="<?=$userEmail?>" required/></td>
             </tr>
             <tr>
                 <td>
