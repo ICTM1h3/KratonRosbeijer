@@ -23,7 +23,7 @@ elseif (isset($_POST['switch_status'])) {
 }
 //Sending the right kitchen capacity to the database. 
 if(isset($_POST['save_kitchen_capacity'])){
-    base_query("UPDATE setting SET `Value` = :capacity", [
+    base_query("UPDATE setting SET `Value` = :capacity WHERE `Name` = 'KitchenCapacity'", [
         ":capacity" => $_POST['kitchen_capacity']
     ]);   
 }
