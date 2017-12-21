@@ -10,13 +10,15 @@ $tabs = [
         ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
     ],
     
-    // ROLE_USER => [
-    //     ['title' => 'Registreren', 'href' => '?p=register'],
-    //     ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
-    //     ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
-    //     ['title' => 'Menu', 'href' => '?p=insight_menu'],
-    //     ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
-    // ],
+    ROLE_USER => [
+        // ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
+        // ['title' => 'Menu', 'href' => '?p=insight_menu'],
+        // ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
+        // ['title' => 'Registreren', 'href' => '?p=register'],
+        // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
+        // ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
+        ['title'=> 'Gegevens bewerken', 'href' => '?p=changedetails'],
+    ],
     
     ROLE_ADMINISTRATOR => [
         ['title' => 'Registreren', 'href' => '?p=register'],
