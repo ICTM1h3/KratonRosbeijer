@@ -1,5 +1,4 @@
 <?php 
-
 //Set title
 setTitle("Cadeaubon");
 
@@ -100,12 +99,65 @@ function createRandomCode() {
     
 }
 
+function createCoupons($paymentCode = NULL) {
+    foreach($_SESSION['giftcards'] as $value => $count){
+        for($i= 0; $i<$count; $i++){
+            $code = createRandomCode();
+            base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, PaymentCode) 
+            VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof, :paymentCode);", [
+                ':couponcode' => $code,
+                ':initialvalue' => $value,
+                ':currentvalue' => $value,
+                ':email' => $_POST['Email'],
+                ':innameof' => $_POST['InNameOf'],
+                ':paymentCode' => $paymentCode
+            ]);
+        }
+    }
+}
+
 $couponCodes = [];
 $couponPrizes = [];
 //Put the choosen giftcards with the required data into the database. 
 if(isset($_POST['order_gift_card'])){
     $errors = getFilledInDataErrors();
-    if(empty($errors)){
+    if (isset($_SESSION['UserId'])) {
+        $userData = base_query("SELECT * FROM User WHERE Id = :id", [
+            ':id' => $_SESSION["UserId"]
+        ])->fetch();
+        if ($userData['Role'] == ROLE_ADMINISTRATOR) {
+            $errors = NULL;
+            createCoupons();
+            echo"Bestelling is met succes opgeslagen!";
+        }
+        elseif (empty($errors)) {
+            $_SESSION['email'] = $_POST['Email'];
+            $_SESSION['name'] = $_POST['InNameOf'];
+            $paymentCode = createPaymentCode();
+            foreach($_SESSION['giftcards'] as $value => $count){
+                for($i= 0; $i<$count; $i++){
+                    $code = createRandomCode();
+                    $couponCodes[] = $code;
+                    $couponPrizes[] = $value;
+                    base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, `PaymentCode`) 
+                    VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof, :paymentCode);", [
+                        ':couponcode' => $code,
+                        ':initialvalue' => $value,
+                        ':currentvalue' => $value,
+                        ':email' => $_POST['Email'],
+                        ':innameof' => $_POST['InNameOf'],
+                        ':paymentCode' => $paymentCode
+                    ]);
+                }
+            }
+            $_SESSION['paymentCode'] = $paymentCode;
+            $_SESSION['couponCodes'] = $couponCodes;
+            $_SESSION['couponPrizes'] = $couponPrizes;
+            echo "Bestelling van de cadeaubon is opgslagen!";
+            header('Location: ?p=IDEAL_payment_giftcards');
+        }
+    }
+    elseif(empty($errors)){
         $_SESSION['email'] = $_POST['Email'];
         $_SESSION['name'] = $_POST['InNameOf'];
         $paymentCode = createPaymentCode();
@@ -139,7 +191,7 @@ if(isset($_POST['order_gift_card'])){
 if(isset($_POST['varied'])){
     $add = $_POST['varied_ammount'];
     if($add <= 0){
-        $errors[] = "Geen geldig bedrag of het gekozen bedrag is kleiner of gelijk aan 0!";   
+        $errors[] = "Het gekozen bedrag is kleiner of gelijk aan 0!";   
     }
     else {
         addCard($add);
@@ -159,6 +211,32 @@ if(isset($_POST['varied'])){
 <div class="container">
     
 <h2>Cadeaubon bestellen</h2>
+
+<?php
+if(isset($_SESSION['UserId'])) {
+    $userData = base_query("SELECT * FROM User WHERE Id = :id", [
+        ':id' => $_SESSION["UserId"]
+    ])->fetch();
+    if ($userData['Role'] == ROLE_ADMINISTRATOR) {
+        $userName = "administrator";
+        $userEmail = $userData['Email'];
+    }
+    elseif (!empty($userData['MiddleName'])) {
+        $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
+        $userEmail = $userData['Email'];
+    }
+    else {
+        $userName = $userData['Firstname'] . " " . $userData['Lastname'];
+        $userEmail = $userData['Email'];
+    }
+    
+}
+else {
+    $userName = "";
+    $userEmail = "";
+}
+?>
+
 <ul>
     <li>Bonnen kunnen ook in het restaurant worden opgehaald.</li>
     <li>U rekent de bestellde bonnen samen af.</li>
@@ -174,6 +252,9 @@ if(isset($_POST['varied'])){
             <?php } ?>
         </div>
     <?php } ?>
+
+<!-- Form for adding giftcard items -->
+<form method="POST">
     <table>
         <tr>
             <th>Cadeaubonnen</th>
@@ -221,8 +302,8 @@ if(isset($_POST['varied'])){
         </tr>
     </table>
 <!-- </div> -->
-
-
+</form>
+  
 <!--Form for choosen gift cart items. -->
     <table>
         <?php
@@ -254,11 +335,11 @@ if(isset($_POST['varied'])){
             </tr>
             <tr>
                 <td>Op naam van (verplicht):</td>
-                <td><input form="order_giftcard" class="form-control" type="text" name="InNameOf" required/></td>
+                <td><input form="order_giftcard" class="form-control" type="text" name="InNameOf" value="<?=$userName?>" required/></td>
             </tr>
             <tr>
                 <td>E-mail adres (verplicht):</td>
-                <td><input form="order_giftcard" class="form-control" type="email" name="Email" required/></td>
+                <td><input form="order_giftcard" class="form-control" type="email" name="Email" value="<?=$userEmail?>" required/></td>
             </tr>
             <tr>
                 <td>
