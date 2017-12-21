@@ -27,7 +27,6 @@ elseif (base_query("SELECT PaymentCode FROM Coupon WHERE PaymentCode = :paymentC
     if ($payment->isPaid())
     {
         echo "Uw Cadeaukaart Bestelling is geslaagd";
-        base_query("UPDATE Coupon SET PaymentCode = NULL WHERE PaymentCode = :paymentCode", [':paymentCode' => $payCode]);
     }
     elseif ($payment->isOpen())
     {
