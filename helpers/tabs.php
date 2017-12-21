@@ -11,18 +11,28 @@ $tabs = [
     ],
     
     ROLE_USER => [
-        // ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
-        // ['title' => 'Menu', 'href' => '?p=insight_menu'],
-        // ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
+        ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
+        ['title' => 'Menu', 'href' => '?p=insight_menu'],
+        ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
         // ['title' => 'Registreren', 'href' => '?p=register'],
         // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
-        // ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
+        ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
+        ['title'=> 'Gegevens bewerken', 'href' => '?p=changedetails'],
+    ],
+
+    ROLE_VIP_USER => [
+        ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
+        ['title' => 'Menu', 'href' => '?p=insight_menu'],
+        ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
+        // ['title' => 'Registreren', 'href' => '?p=register'],
+        // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
+        ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
         ['title'=> 'Gegevens bewerken', 'href' => '?p=changedetails'],
     ],
     
     ROLE_ADMINISTRATOR => [
-        ['title' => 'Registreren', 'href' => '?p=register'],
-        ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
+        // ['title' => 'Registreren', 'href' => '?p=register'],
+        // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
         ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
         ['title' => 'Menu', 'href' => '?p=insight_menu'],
         ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
@@ -32,12 +42,13 @@ $tabs = [
         ['title' => 'Beheer gebruikers', 'href' => '?p=manageaccounts'],
         ['title' => 'Beheer reserveringen', 'href' => '?p=managereservation'],
         ['title' => 'Beheer cadeaubonnen', 'href' => '?p=manage_giftcard'],
-        ['title' => 'Beheer tafels', 'href' => '?p=managetables']
+        ['title' => 'Beheer tafels', 'href' => '?p=managetables'],
+        ['title'=> 'Gegevens bewerken', 'href' => '?p=changedetails'],
     ]
 ];
 
 // Quick fix: Users and VIP Users get the same tabs as the visitor.
-$tabs[ROLE_VIP_USER] = $tabs[ROLE_USER] = $tabs[ROLE_VISITOR];
+// $tabs[ROLE_VIP_USER] = $tabs[ROLE_USER] = $tabs[ROLE_VISITOR];
 
 // Returns the tabs for the requested role.
 function getTabsFor($role) {
