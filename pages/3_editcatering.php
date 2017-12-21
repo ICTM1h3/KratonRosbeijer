@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			</textarea>
 
 			<!-- Submit data by a submit button-->
-            <input onclick="submit()" type="submit" value="Opslaan">
+			<input onclick="submit()" type="submit" value="Opslaan">
 
 			<script>
 
@@ -47,4 +47,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		<script type="text/javascript" src="editplugin/js/jquery.min.js"></script>
 		<script type="text/javascript" src="editplugin/plugin/tinymce/js/tinymce/tinymce.min.js"></script>
 		<script type="text/javascript" src="editplugin/plugin/tinymce/js/tinymce/init-tinymce.js"></script>
-        <script type="text/javascript" src="editplugin/js/getdata.js"></script>
+		<script type="text/javascript" src="editplugin/js/getdata.js"></script>
