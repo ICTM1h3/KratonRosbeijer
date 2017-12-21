@@ -1,94 +1,93 @@
--- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Gegenereerd op: 27 nov 2017 om 14:58
--- Serverversie: 10.1.26-MariaDB
--- PHP-versie: 7.1.8
+INSERT INTO `dishcategory` (`Id`, `Name`, `TitleDescription`, `Description`, `ParentCategoryId`, `Position`, `Price`) VALUES
+(7, 'Voorgerechten', '', ' ', NULL, 0, '0.00'),
+(8, 'Hoofdgerechten', '', ' ', NULL, 1, '0.00'),
+(9, 'Rijsttafel Kraton (p.p.)', '', '', 8, 2, '31.00'),
+(10, 'Rijsttafel Pasar Kembang', '(vegetarisch)', ' ', 8, 3, '26.00'),
+(11, 'Bami /nasi goreng Kali Urang', '', '( Pittige ) nasi of bami met gamba\'s geserveerd met :', 8, 4, '25.95'),
+(12, '3 gangen Nasi Rames Malioboro', '', ' ', 8, 5, '29.95'),
+(13, 'Soto', 'Javaanse kippensoep met glasvermicelli, taugÃ', ' ', 12, 6, '0.00'),
+(14, 'Nasi Rames', 'Op een bord  geserveerd e witte rijst met:', ' ', 12, 7, '0.00'),
+(15, '2 bolletjes ijs met slagroom', '', '  ', 12, 8, '0.00'),
+(16, 'A la carte gerechten', 'Ons hoofdgerecht bestaat uit minimaal 2 gerec', 'Ons hoofdgerecht bestaat uit minimaal 2 gerechten bestaat', 8, 9, '0.00');
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `kratonrosbeijer`
---
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `dish`
---
-
-CREATE TABLE `dish` (
-  `Id` int(11) NOT NULL,
-  `Category` int(11) NOT NULL,
-  `Name` varchar(45) NOT NULL,
-  `Description` varchar(500) NOT NULL,
-  `Price` decimal(5,2) NOT NULL,
-  `Position` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Gegevens worden geëxporteerd voor tabel `dish`
---
 
 INSERT INTO `dish` (`Id`, `Category`, `Name`, `Description`, `Price`, `Position`) VALUES
-(1, 2, 'Pannekoek', 'Weet ik veel man', '6.00', 0),
-(2, 2, 'Leven', 'Zuigt', '999.00', 1),
-(3, 4, 'Maar', 'Waarom', '10.00', 1),
-(4, 4, 'Kroepoek', 'Lekker hoor', '1.00', 2),
-(5, 7, 'Het ', 'Leven kan niet zo door', '0.00', 1),
-(6, 8, 'Zo ', 'Zuigend', '0.00', 2),
-(7, 7, 'Life', 'Is Shit', '0.00', 3),
-(8, 8, 'Zooo', 'Leuk...', '0.00', 4),
-(9, 9, 'Leven', 'Leven', '999.00', 1),
-(10, 9, 'But', 'Why?', '999.99', 2),
-(11, 11, 'Vanille ijs', 'wooooooooo', '4.00', 1),
-(12, 11, 'YESSS', 'WAAAROOOMMMM', '7.00', 2),
-(13, 12, 'Limonade', 'HAHA', '2.00', 3),
-(14, 12, 'Drinken', 'Alcohol', '19.00', 4),
-(15, 7, 'I', 'Don\'t Understand It', '0.00', 5);
-
---
--- Indexen voor geëxporteerde tabellen
---
-
---
--- Indexen voor tabel `dish`
---
-ALTER TABLE `dish`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `Category_idx` (`Category`);
-
---
--- AUTO_INCREMENT voor geëxporteerde tabellen
---
-
---
--- AUTO_INCREMENT voor een tabel `dish`
---
-ALTER TABLE `dish`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- Beperkingen voor geëxporteerde tabellen
---
-
---
--- Beperkingen voor tabel `dish`
---
-ALTER TABLE `dish`
-  ADD CONSTRAINT `DishCategory` FOREIGN KEY (`Category`) REFERENCES `dishcategory` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+(1, 7, 'Soto', 'Javaanse kippensoep geserveerd met taugÃ©, ei en glasvermicelli', '7.35', 0),
+(2, 7, 'Laksa soep', 'Kruidige kokosmelksoep geserveerd met gambaâ€™s, taugÃ© en glasvermicelli', '8.35', 1),
+(3, 7, 'Oedang  Bakar', 'Gegrilde gamba\'s met pittige sojasaus', '10.25', 2),
+(4, 7, 'Martabak', 'In filodeeg gebakken kipkerrie op een bedje van verse salade', '7.85', 3),
+(5, 7, 'Pangsit goreng', 'Gebakken bladerdeeg met een vulling van gehakt en garnalen, geserveerd opeen bedje van verse salade', '6.95', 4),
+(6, 7, 'Djadjan tiga warna', 'Combinatie van tempura gamba, martabak en pangsit goreng', '8.45', 5),
+(7, 7, 'Loempia Sajoer', 'Vegetarische loempia', '6.00', 6),
+(8, 7, 'Lemper', 'Kleefrijst rolletje met een vulling van kruidige kip', '6.50', 7),
+(9, 7, 'SatÃ© ajam', '3 stokjes satÃ© van kippendijfilet', '7.85', 8),
+(10, 7, 'SatÃ© babi', '3 stokjes satÃ© van varkenshaas', '8.85', 9),
+(11, 7, 'SatÃ© kambing', '3 stokjes satÃ© van geitenhaas', '10.35', 10),
+(12, 7, 'Cicipan satÃ© Kraton', 'Proeverij bestaande uit satÃ© ajam (kippendijfilet), satÃ© babi (varkenshaas), satÃ© kambing (geitenhaas)  enoedangbakar (gegrilde gambaâ€™s met pittige sojasaus)', '11.95', 11),
+(13, 9, 'Voorgerecht Soto(optioneel)', 'Javaanse kippensoep met glasvermicelli, taugÃ© en ei', '4.85', 0),
+(14, 9, 'Sambal goreng daging', 'Pittig rundvlees met een vleugje kaneel', '0.00', 1),
+(15, 9, 'Babi ketjap', 'Varkensvleesin zoete sojasaus', '0.00', 2),
+(16, 9, 'Ajam  besengeh', 'Kippendijfilet in milde kokosmelksaus', '0.00', 3),
+(17, 9, 'Ikan boemboe bali', 'Gebakken pangafilet in pittige balisaus', '0.00', 4),
+(18, 9, 'Oedang mentega', 'Gambaâ€™s in kruidige botersojasaus', '0.00', 5),
+(19, 9, 'Sajoer lodeh', 'Gemengde groenten in romige kokosmelk', '0.00', 6),
+(20, 9, 'Sajoer boontjes', 'Snijboontjes in milde kokosmelk', '0.00', 7),
+(21, 9, 'Gado-gado', 'Geblancheerde gemengde groenten met pindasaus', '0.00', 8),
+(22, 9, 'Roedjak manis', 'Gemengde fruit met zoet pittige Javaanse suiker', '0.00', 9),
+(23, 9, 'SatÃ© ayam', 'SatÃ© van kippendijfilet', '0.00', 10),
+(24, 9, 'SatÃ© babi', 'SatÃ© van varkenshaas', '0.00', 11),
+(25, 9, 'Telor koening', 'Ei in mild pittige kokosmelksaus', '0.00', 12),
+(26, 9, 'Pisang goreng', 'Gebakken banaan', '0.00', 13),
+(27, 9, 'Kentang blado', 'Frietjes in zoet pittige glazuur', '0.00', 14),
+(28, 9, 'Perkedel daging', 'Indische gehaktbal', '0.00', 15),
+(29, 9, 'Atjar ketimoen', 'Zoetzure komkommer', '0.00', 16),
+(30, 9, 'Seroendeng', 'Drooggebakken kokos met pindaâ€™s', '0.00', 17),
+(31, 10, 'Telor koening', 'Ei in mild pittige gele kokosmelksaus', '0.00', 0),
+(32, 10, 'Sajoer  buncis', 'Snijboontjes in milde kokosmelksaus', '0.00', 1),
+(33, 10, 'Sajoer lodeh', 'Gemengde groenten in romige kokosmelk', '0.00', 2),
+(34, 10, 'Oerapan', 'Geblancheerde gemengde groenten met mild pittige kokos', '0.00', 3),
+(35, 10, 'Gado-gado', 'Geblancheerde gemengde groenten met pindasaus', '0.00', 4),
+(36, 10, 'Oseng Oseng tahoe', 'Zoet pittige roergebakken tahoe', '0.00', 5),
+(37, 10, 'Roedjak manis', 'Gemengde fruit met zoet pittige Javaanse suiker', '0.00', 6),
+(38, 10, 'Perkedel jagung', 'Maiskoek', '0.00', 7),
+(39, 10, 'Pisang goreng', 'Gebakken banaan', '0.00', 8),
+(40, 10, 'Atjar ketimoen', 'Zoetzure komkommers', '0.00', 9),
+(41, 10, 'Kentang blado', 'Frietjes in zoet pittige glazuur', '0.00', 10),
+(42, 10, 'Kering tempÃ©', 'Droog gebakken tempÃ© in zoet pittige glazuur', '0.00', 11),
+(43, 10, 'Seroendeng', 'Drooggebakken kokos met pindaâ€™s', '0.00', 12),
+(44, 11, 'Rendang', 'Rundvlees in pittige kokosmelksaus', '0.00', 0),
+(45, 11, 'Sajoer buncis', 'Snijboontjes in mild pittige kokosmelksaus', '0.00', 1),
+(46, 11, 'Gado-gado', 'Geblancheerde groenten met pindasaus', '0.00', 2),
+(47, 11, 'SatÃ© ayam', 'SatÃ© van kippendijfilet', '0.00', 3),
+(48, 11, 'SatÃ© babi', 'SatÃ© van varkenshaas', '0.00', 4),
+(49, 11, 'SatÃ© kambing', 'SatÃ© van geitenhaas', '0.00', 5),
+(50, 11, 'Telor  Koening', 'Ei in mild pittige gele kokosmelksaus', '0.00', 6),
+(51, 11, 'Kentang blado', 'Frietjes in zoet pittige glazuur', '0.00', 7),
+(52, 11, 'Seroendeng', 'Droog gebakken kokos met pindaâ€™s', '0.00', 8),
+(53, 11, 'Atjar ketimoen', 'Zoetzure komkommer', '0.00', 9),
+(54, 14, 'Sambal goreng daging', 'Pittige rundvlees met een vleugje kaneel', '0.00', 0),
+(55, 14, 'Babi ketjap', 'Varkensvlees in zoete sojasaus', '0.00', 1),
+(56, 14, 'Telor koening', 'Ei in mildpittige gele kokosmelksaus', '0.00', 2),
+(57, 14, 'Sajoer Lodeh', 'Gemende groenten in romige kokosmelksaus', '0.00', 3),
+(58, 14, 'Gado-gado', 'Geblancheerde gemengde groenten met pindasaus', '0.00', 4),
+(59, 14, 'SatÃ© ajam', 'SatÃ© van kippendijfilet', '0.00', 5),
+(60, 14, 'Perkedel', 'Indische gehaktbal', '0.00', 6),
+(61, 14, 'Seroendeng', 'Droog gebakken kokos met pindaâ€™s', '0.00', 7),
+(62, 14, 'Atjar ketimoen', 'Zoetzure komkommers', '0.00', 8),
+(63, 16, 'Ayam  Bakar Kraton', 'Op midden Javaanse wijze gegrilde kip (met bot)', '12.25', 0),
+(64, 8, 'Ayam Pedis', 'Kippendijfilet (met vel) in pittige saus', '12.25', 0),
+(65, 16, 'Ayam Pedis', 'Kippendijfilet (met vel) in pittige saus', '12.25', 0),
+(66, 16, 'Deng - deng Blado', 'Krokant gebakken rundvlees met pittige saus', '13.25', 1),
+(67, 16, 'Rendang', 'Gesmoord rundvlees in pittige kokossaus', '13.25', 2),
+(68, 16, 'Empal Kelem', 'Gesmoorde rundvlees in zoetige Javaanse kruiden', '13.25', 3),
+(69, 16, 'Oedang Bakar Pedas', 'In schil gegrilde pittige gambas', '13.50', 4),
+(70, 16, 'Sambal Goreng Oedang Peteh', 'Gambaâ€™s en â€˜stinkâ€™ bonen in mild pittige kokosmelksaus ', '13.50', 5),
+(71, 16, 'Ikan  Pepesan ', 'Gestoomde makreel in pittige kemirie notensaus', '13.95', 6),
+(72, 16, 'Vis van de week', 'Informeer bij onze medewerker wat de vis van de week is', '0.00', 7),
+(73, 16, 'Tahoe telor', 'Tahoe omelet geserveerd op een bedje van taugÃ©, afgeblust met sojasaus', '11.95', 8),
+(74, 16, 'Oseng Oseng Tahoe', 'Roergebakken tahoe met zoete sojasaus en peteh bonen', '10.95', 9),
+(75, 16, 'Kambing Kraton', 'Geroosterde lambsrack afgeblust met kruidige sojasaus', '14.25', 10),
+(76, 16, 'Gule kambing', 'Gesmoorde lamsbout in kruidige kokosmelksaus', '13.75', 11),
+(77, 16, 'Oerapan', 'Geblancheerde gemengde groenten met pittig gekruide kokos', '10.95', 12),
+(78, 16, 'Petjel', 'Geblancheerde gemengde groenten met pittige pindasaus', '10.95', 13),
+(79, 16, 'Sajoer lodeh', 'Gemengde groenten in romige kokosmelk', '10.95', 14);
