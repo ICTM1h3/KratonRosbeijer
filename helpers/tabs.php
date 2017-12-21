@@ -8,6 +8,7 @@ $tabs = [
         // ['title' => 'Registreren', 'href' => '?p=register'],
         // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
         ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
+        ['title' => 'Bestellen', 'href' => '?p=Order_menu'],
     ],
     
     ROLE_USER => [
