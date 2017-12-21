@@ -83,6 +83,11 @@ function insertOrderData($paymentCode = null) {
     $_SESSION["date"] = $_POST['date'];
     $_SESSION["time"] = $_POST['time'];
 
+    $discount = 0;
+    if (isset($_SESSION['UserId'])) {
+        $discount = base_query("SELECT Discount FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn();
+    }
+
     base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email, Price, PaymentCode) VALUES
     (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email, :price, :paymentCode)", [
         ':orderDate' => $currentDateTime,
@@ -90,7 +95,7 @@ function insertOrderData($paymentCode = null) {
         'inNameOf' => $_POST['inNameOf'],
         ':telephoneNumber' => $_POST['telNumber'],
         ':email' => $_POST['email'],
-        ':price' => $_SESSION['totalPrice'],
+        ':price' => $_SESSION['totalPrice'] * ((100 - $discount) / 100),
         ':paymentCode' => $paymentCode
     ]);
 
@@ -167,13 +172,57 @@ foreach ($_SESSION['category'] as $value) {
         <td><?=$subTotal?></td>
         <td><?=$cumulative?></td>
     </tr><?php
-}?>
+}
+
+if (isset($_SESSION['UserId'])) {
+    $userData = base_query("SELECT * FROM User WHERE Id = :id", [
+        ':id' => $_SESSION['UserId']
+    ])->fetch();
+    if (!empty($userData['MiddleName'])) {
+        $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
+    }
+    else {
+        $userName = $userData['Firstname'] . " " . $userData['Lastname'];
+    }
+    $role = $userData['Role'];
+    $userEmail = $userData['Email'];
+    $userTelNumber = $userData['TelephoneNumber'];
+    $discount = ($role == ROLE_VIP_USER) ? $userData['Discount'] : 0;
+}
+else {
+    $userName = "";
+    $userEmail = "";
+    $userTelNumber = "";
+    $discount = 0;
+    $role = ROLE_VISITOR;
+}
+
+?>
+
+
 <tr>
     <td></td>
     <td></td>
     <td></td>
     <th>Totaal:</th>
     <th><?=$_SESSION['totalPrice']?></th>
+</tr>
+<?php if ($role == ROLE_VIP_USER) {?>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Korting:</th>
+    <th><?= $discount ?>%</th>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <th>Berekend totaal:</th>
+    <th><?= $_SESSION['totalPrice'] * ((100 - $discount) / 100) ?></th>
+</tr>
+<?php } ?>
 </table><?php
 
 $errors = [];
@@ -202,25 +251,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
-}
-
-if (isset($_SESSION['UserId'])) {
-    $userData = base_query("SELECT * FROM User WHERE Id = :id", [
-        ':id' => $_SESSION['UserId']
-    ])->fetch();
-    if (!empty($userData['MiddleName'])) {
-        $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
-    }
-    else {
-        $userName = $userData['Firstname'] . " " . $userData['Lastname'];
-    }
-    $userEmail = $userData['Email'];
-    $userTelNumber = $userData['TelephoneNumber'];
-}
-else {
-    $userName = "";
-    $userEmail = "";
-    $userTelNumber = "";
 }
 
 ?>

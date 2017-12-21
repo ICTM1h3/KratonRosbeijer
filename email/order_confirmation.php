@@ -79,6 +79,23 @@ if (isset($parameters['categoryCumulative'])) {
         <td></td>
         <th>Totaal: </th>
         <td><?=$parameters['totalPrice']?></td>
+    </tr>
+    <?php if ($parameters['isVipUser']) {?>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th>Korting:</th>
+        <th><?= $parameters['discount'] ?>%</th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th>Berekend totaal:</th>
+        <th><?= $_SESSION['totalPrice'] * ((100 - $parameters['discount']) / 100) ?></th>
+    </tr>
+    <?php } ?>
 </table>
 
 Daarnaast heeft u de volgende gegevens opgegeven:<br><br>
