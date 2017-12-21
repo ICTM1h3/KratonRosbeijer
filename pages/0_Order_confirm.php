@@ -180,6 +180,7 @@ if (isset($_SESSION['UserId'])) {
     $userEmail = $userData['Email'];
     $userTelNumber = $userData['TelephoneNumber'];
     $discount = ($role == ROLE_VIP_USER) ? $userData['Discount'] : 0;
+    $_SESSION['discount'] = $discount;
 }
 else {
     $userName = "";
@@ -188,6 +189,8 @@ else {
     $discount = 0;
     $role = ROLE_VISITOR;
 }
+
+$_SESSION['newPrice'] = $_SESSION['totalPrice'] * ((100 - $discount) / 100)
 
 ?>
 

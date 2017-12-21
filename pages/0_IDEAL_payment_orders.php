@@ -57,7 +57,7 @@ try
 	$payCode = $_SESSION["paymentCode"];
 	$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['SCRIPT_NAME']);
 	$payment = $mollie->payments->create(array(
-		"amount"       => $_SESSION["totalPrice"],
+		"amount"       => $_SESSION["newPrice"],
 		"method"       => Mollie_API_Object_Method::IDEAL,
 		"description"  => "My first iDEAL payment",
 		"redirectUrl"  => "$url/?p=completePayOrder&PaymentCode=$payCode",

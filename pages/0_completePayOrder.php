@@ -24,6 +24,10 @@ elseif (base_query("SELECT PaymentCode FROM `Order` WHERE PaymentCode = :payment
     if ($payment->isPaid())
     {
         echo "Uw bestelling is geslaagd en opgeslagen!";
+        $isVipUser = false;
+        if (isset($_SESSION['UserId'])) {
+            $isVipUser = base_query("SELECT Role FROM USER WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn() == ROLE_VIP_USER;
+        }
         send_email_to($_SESSION['e-mail'], "Bevestiging bestelling", "order_confirmation", [
             'dishes' => $_SESSION['dishname'],
             'amountDishes' => $_SESSION['amountDishes'],
@@ -40,7 +44,9 @@ elseif (base_query("SELECT PaymentCode FROM `Order` WHERE PaymentCode = :payment
             'email' => $_SESSION['e-mail'],
             'telNumber' => $_SESSION['telephoneNumber'],
             'date' => $_SESSION['date'],
-            'time' => $_SESSION['time']
+            'time' => $_SESSION['time'],
+            'discount' => $_SESSION['discount'],
+            'isVipUser' => $isVipUser
         ]);
     }
     elseif ($payment->isOpen())
