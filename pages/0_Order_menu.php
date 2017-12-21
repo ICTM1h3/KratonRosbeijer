@@ -74,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $_SESSION["categorySubTotal"] = $categorySubTotal;
     $_SESSION["dishCumulative"] = $dishCumulative;
     $_SESSION["categoryCumulative"] = $categoryCumulative;
+    header("Location: ?p=Order_confirm");
 }
 
 function echoCategory($categoryId, $size = 1) 
@@ -140,7 +141,7 @@ else
     {
         echoCategory($category['Id']);
     }
-    ?><input type="submit" name="bestel" value="Bestel!" formaction="?p=Order_confirm">
+    ?><input type="submit" name="bestel" value="Bestel!">
     </form>
     </div><?php
 }
