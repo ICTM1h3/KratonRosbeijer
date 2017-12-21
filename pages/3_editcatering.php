@@ -1,6 +1,9 @@
 <?php
+
+// set the correct title name.
 setTitle("Beheren Catering Pagina");
 
+//get the correct info from the database
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 	$info = file_get_contents('php://input');
 	base_query("UPDATE setting SET value = :value WHERE name = 'CateringText'", array(':value' => $info));
@@ -21,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 			<?php $text = base_query("SELECT * FROM setting WHERE name = 'CateringText' ")->fetch();
       			echo($text['Value']);
-   			 	//used the function base_query to execute a query and echo's the result 
+   			//used the function base_query to execute a query and echo's the result 
  			?> 
 
 			</textarea>
