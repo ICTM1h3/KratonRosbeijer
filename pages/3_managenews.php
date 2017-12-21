@@ -12,6 +12,7 @@ $news = base_query("SELECT * FROM news ORDER BY Id DESC");
     }
 </style>
 
+<? // Loop through every news item and echo a table containing the title, date, contant and an edit button. ?>
 <?php foreach ($news as $newsItem) { ?>
     <table class="table">
         <tr>
