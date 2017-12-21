@@ -139,7 +139,7 @@ $cumulative = 0;
         <th>Cumulatief</th>
     <?php
 foreach ($_SESSION['dish'] as $value) {
-    $countedDishes = countDishes($_SESSION['dishes'], $value);
+    $countedDishes = countDishes($value);
     $dishPrice = base_query("SELECT * FROM Dish WHERE Id = :id", [
         ':id' => $value
     ])->fetch();
@@ -154,7 +154,7 @@ foreach ($_SESSION['dish'] as $value) {
     </tr><?php
 }
 foreach ($_SESSION['category'] as $value) {
-    $countedCategories = countCategories($_SESSION['categories'], $value);
+    $countedCategories = countCategories($value);
     $categoryPrice = base_query("SELECT * FROM DishCategory WHERE Id = :id", [
         ':id' => $value
     ])->fetch();
