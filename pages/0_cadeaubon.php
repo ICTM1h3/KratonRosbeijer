@@ -100,15 +100,21 @@ function createRandomCode() {
     
 }
 
+$couponCodes = [];
+$couponPrizes = [];
 //Put the choosen giftcards with the required data into the database. 
 if(isset($_POST['order_gift_card'])){
     $errors = getFilledInDataErrors();
     if(empty($errors)){
+        $_SESSION['email'] = $_POST['Email'];
+        $_SESSION['name'] = $_POST['InNameOf'];
         $paymentCode = createPaymentCode();
         foreach($_SESSION['giftcards'] as $value => $count){
             for($i= 0; $i<$count; $i++){
                 $code = createRandomCode();
                 $_SESSION['paymentCode'] = $paymentCode;
+                $couponCodes[] = $code;
+                $couponPrizes[] = $value;
                 base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`, `PaymentCode`) 
                 VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof, :paymentCode);", [
                     ':couponcode' => $code,
@@ -120,10 +126,14 @@ if(isset($_POST['order_gift_card'])){
                 ]);
             }
         }
+        $_SESSION['couponCodes'] = $couponCodes;
+        $_SESSION['couponPrizes'] = $couponPrizes;
         echo "Bestelling van de cadeaubon is opgslagen!";
         header('Location: ?p=IDEAL_payment_giftcards');
     }
 }
+
+
 
 //Looks if the varied ammount of a giftcard not null is, otherwise add it tho the list of choosen giftcards.
 if(isset($_POST['varied'])){
