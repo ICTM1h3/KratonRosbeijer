@@ -5,6 +5,10 @@ U heeft de volgende cadeaubon(nen) besteld:<br>
 
 <table>
     <tr>
+        <th>Cadeaukaart code</th>
+        <th>Startwaarde</th>
+    </tr>
+    <tr>
         <td><?php
             foreach ($parameters['couponCodes'] as $value) {
                 echo $value . "<br>";
@@ -16,3 +20,4 @@ U heeft de volgende cadeaubon(nen) besteld:<br>
             }
         ?></td>
     </tr>
+</table>

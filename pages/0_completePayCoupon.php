@@ -27,12 +27,12 @@ elseif (base_query("SELECT PaymentCode FROM Coupon WHERE PaymentCode = :paymentC
     if ($payment->isPaid())
     {
         echo "Uw Cadeaukaart Bestelling is geslaagd";
-        send_email_to($_SESSION['email'], "Bevestiging cadeaukaart(en)", "giftcard_confirmation", [
+        send_email_to($_SESSION['email'], "Bevestiging cadeaukaart(en)", "giftcard_confirmation.php", [
             'name' => $_SESSION['name'],
             'email' => $_SESSION['email'],
             'couponCodes' => $_SESSION['couponCodes'],
             'couponPrizes' => $_SESSION['couponPrizes']
-        ])
+        ]);
     }
     elseif ($payment->isOpen())
     {
