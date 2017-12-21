@@ -6,6 +6,7 @@ if (!isset($_GET["PaymentCode"])) {
     echo "Betaling is niet gelukt.";
     return;
 }
+
 elseif (base_query("SELECT PaymentCode FROM `Order` WHERE PaymentCode = :paymentCode", [':paymentCode' => $payCode])->fetch()) {
 
     $payment_id = $_SESSION["paymentId"];
