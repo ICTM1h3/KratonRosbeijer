@@ -79,13 +79,14 @@ function insertOrderData() {
     $paymentCode = createPaymentCode();
     $_SESSION["paymentCode"] = $paymentCode;
 
-    base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email, PaymentCode) VALUES
-    (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email, :paymentCode)", [
+    base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email, Price, PaymentCode) VALUES
+    (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email, :price, :paymentCode)", [
         ':orderDate' => $currentDateTime,
         ':targetDate' => $targetTime,
         'inNameOf' => $_POST['inNameOf'],
         ':telephoneNumber' => $_POST['telNumber'],
         ':email' => $_POST['email'],
+        ':price' => $_SESSION['totalPrice'],
         ':paymentCode' => $paymentCode
     ]);
 
