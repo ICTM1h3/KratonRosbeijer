@@ -85,10 +85,6 @@ catch (Mollie_API_Exception $e)
 	echo "API call failed: " . htmlspecialchars($e->getMessage());
 }
 
-
-/*
- * NOTE: This example uses a text file as a database. Please use a real database like MySQL in production code.
- */
 function database_write ($order_id, $status)
 {
 	$order_id = intval($order_id);

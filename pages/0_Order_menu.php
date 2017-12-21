@@ -156,7 +156,7 @@ function echoCategory($categoryId, $size = 1)
             <?php if($category['Price'] != 0.00) {
                 ?><span class='categoryPrice'><?= $category['Price'];
                 if(!empty($category['Price']) && $category['Price'] != 0.00){
-                ?><input type="number" name="category_amount_<?= $category['Id'] ?>" value = "0" formmethod="POST" class="inputNumber"></span><?php }
+                ?><input type="number" name="category_amount_<?= $category['Id'] ?>" min="0" value = "0" formmethod="POST" class="inputNumber"></span><?php }
             } ?>
         </h<?= $size ?>> 
 
@@ -176,7 +176,7 @@ function echoCategory($categoryId, $size = 1)
                         <?= $dishValue['Price']?>
                     <?php }
                     if(!empty($dishValue['Price']) && $dishValue['Price'] != 0.00) {?>
-                        <input type="number" name="dish_amount_<?= $dishValue['Id'] ?>" value = "0" size="4" class="inputNumber">
+                        <input type="number" name="dish_amount_<?= $dishValue['Id'] ?>" value = "0" min="0" class="inputNumber">
                     <?php } ?>
                     </span>
                     <p><?=  $dishValue['Description']?></p>
