@@ -82,6 +82,22 @@ if (isset($_POST['move_dish_up'])){
 }
 
 
+//Change status of the dish.
+if (isset($_POST['switch_status_dish'])) {
+    // Deactivate the specified dish
+    base_query("UPDATE dish SET Activated = NOT Activated WHERE Id = :id", [
+        ':id' => $_POST['iddish']
+    ]);
+}
+
+//Change status of the category.
+if (isset($_POST['switch_status_category'])) {
+    // Deactivate the specified dish
+    base_query("UPDATE dishcategory SET Activated = NOT Activated WHERE Id = :id", [
+        ':id' => $_POST['idcategory']
+    ]);
+}
+
 // Boolean. true when the user is trying to delete vacancies, false otherwise.
 $changingModus = isset($_GET['changingModus']) ? ($_GET['changingModus'] == 'true') : false;
 $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'true') : false;
@@ -89,6 +105,10 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
 <!-- Style of the page-->
 <style>
+    ul {
+        list-style: none;
+    }
+
     */
     ul {
         list-style: none;
@@ -176,7 +196,7 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
             </a>
             <?php }else{?>
                 <a href="?p=managemenu&changingModus=true">
-                Menu items wijzigen of status wijzigen
+                Menu items wijzigen
             </a>
             <?php }?>
         </div>
@@ -200,54 +220,72 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
 
 <?php
 
+
 function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $isFirst, $isLast) {
     //Getting the categories from the database
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
-   
     //Getting the dishes from the database and put them in the right (sub)category
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
+
+    
 ?>
 
 <!-- Echo category name -->
 <div style="margin-left:<?= $size * 10 ?>px">
-    <!-- Add a checkbox and a url when in changing modus, add buttons when in chaningplace modus.-->
-    <?php if ($changingModus){
-            ?>
-            <input type="checkbox" name="categoriesToRemove[]" style="float:left;position:relative;left:0px" value="<?= $categoryId ?>"/><?php 
-            
-        
-        } ?>
 
+    <!--Add the right buttons, only when the use can do something when clicking on the button.-->
+    <?php 
+    if ($changingModus) { 
+    ?>
         <h<?= $size ?>>
         <?= $category['Name']?> 
         </h<?= $size ?>> 
         <?= $category['TitleDescription'] ?>
-        <!--Add the right buttons, only when the use can do something when clicking on the button.-->
-        <?php if ($changingModus) { ?>
         <a href="?p=editcategory&category=<?= $categoryId?>">Wijzig category</a>
-        <?php } elseif($changingPlace){
-            if(!$isLast){
-           ?> <form method="POST">
-               <input type='submit' name="move_category_down" value="Naar beneden"/>
-               <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
-                </form>
-            <?php } 
-                if(!$isFirst){?>
-                <form method="POST">
+        <form method="POST">
+            <input type="hidden" name="idcategory" value="<?= $categoryId?>" />
+            <input type="submit" name="switch_status_category" value="<?= $category['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>"/>
+        </form>
+    <?php
+    } elseif($changingPlace){
+    ?>
+        <h<?= $size ?>>
+        <?= $category['Name']?> 
+        </h<?= $size ?>> 
+        <?= $category['TitleDescription']?>
+        <?php
+        if(!$isLast){
+        ?> 
+        <form method="POST">
+            <input type='submit' name="move_category_down" value="Naar beneden"/>
+            <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
+        </form>
+        <?php 
+        }   
+        if(!$isFirst){
+        ?>
+            <form method="POST">
                <input type='submit' name="move_category_up" value="Naar boven"/>
                <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
-                </form>
-
+            </form>
         <?php 
-                }
-        } ?>
+        }
+    }elseif($category['Activated'] == 1){?>
+        <h<?= $size ?>>
+        <?= $category['Name']?> 
+        </h<?= $size ?>> 
+        <?= $category['TitleDescription'] ?>
+    <?php
+    }
+    ?>
 
         
         <!-- Checks if a category has a price attached to itself, if the price is not set (value is 0) then dont give the price -->
-        <?php if(isset($category['Price']) && $category['Price'] != 0.00) {
-            ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
-        } 
+    <?php 
+    if(isset($category['Price']) && $category['Price'] != 0.00) {
+        ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
+    } 
     ?>
  
 <!-- Echo category description -->
@@ -257,9 +295,8 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
 
 
  
-  <ul> <?php
-
-
+<ul> 
+<?php
 //Printing the right dishes and put the right chaning options.
 $maxValueDish = count($dishes) - 1;
 for ($i = 0; $i <= $maxValueDish; $i++) {
@@ -267,36 +304,43 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
     $isFirst = $i == 0;
     $isLast = $i == $maxValueDish;
     $price = (($dishValue['Price'] != '0.00') && !empty($dishValue['Price'])) ? $dishValue['Price'] : '';
-        ?><li>
-            <?php if ($changingModus) { ?>
-                <input type="checkbox" name="dishesToRemove[]" class="checkbox" value="<?= $dishValue['Id'] ?>"/>
-                <b><?= $dishValue['Name']?></b>
-                <a href="?p=editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
-                <span id="price"><?= $price ?></span>
-                <?= "<br>" . "" . $dishValue['Description']?>
-                
-                <?php
-            } elseif($changingPlace){ ?>
-                <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
-                <?php if(!$isLast){ ?>
-                    <form method="POST">
-                        <input type='submit' name="move_dish_down" value="Naar beneden"/>
-                        <input type='hidden' name="dishid" value="<?= $dishValue['Id']?>"/>
-                    </form>
+    if ($changingModus){ 
+    ?>
+        <b><?= $dishValue['Name']?></b>
+        <a href="?p=editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
+        <form method="POST">
+            <input type="hidden" name="iddish" value="<?= $dishValue['Id']?>" />
+            <input type="submit" name="switch_status_dish" value="<?= $dishValue['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>">
+        </form>
+        <span id="price"><?= $price ?></span>
+        <?= "<br>" . "" . $dishValue['Description']?> 
+    <?php
+    }elseif($changingPlace){ 
+    ?>
+        <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
+        <?php if(!$isLast){ ?>
+            <form method="POST">
+                <input type='submit' name="move_dish_down" value="Naar beneden"/>
+                <input type='hidden' name="dishid" value="<?= $dishValue['Id']?>"/>
+            </form>
 
-                <?php } 
-                if(!$isFirst){ ?>
-                <form method="POST">
-                    <input type='submit' name="move_dish_up" value="Naar boven"/>
-                    <input type='hidden' name="dishid" value="<?= $dishValue['Id'] ?>"/>
-                </form> 
-                <?php } ?>
-            <?php } else{ ?>
-        
-                <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
-            <?php }
+        <?php } 
+        if(!$isFirst){ ?>
+        <form method="POST">
+            <input type='submit' name="move_dish_up" value="Naar boven"/>
+            <input type='hidden' name="dishid" value="<?= $dishValue['Id'] ?>"/>
+        </form> 
+        <?php 
+        } 
+        ?>
+    <?php 
+    }elseif($dishValue['Activated'] == 1 && $category['Activated'] == 1){ ?>
+        <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
+    <?php 
+    }
 }
-?> </ul>
+?> 
+</ul>
 <?php 
 
 // If there are still subcategories the function will keep being called upon
@@ -327,18 +371,9 @@ for($i = 0; $i <= $maxValueHeadCategories; $i++){
         echoCategory($category['Id'], $changingModus, $changingPlace, 1, $isFirst, $isLast);
 }
 
-//Only show the button for deleting things when there are itmes in the menu. Give an message when there are no items when in changingmodus or in changingplacemodus.
+//Give an message when there are no items when in changingmodus or in changingplacemodus.
 if(($changingModus || $changingPlace) && empty($mainCategories)){
         echo ("Er zijn geen items om te verwijderen/wijzigen. Ga terug."); 
-}elseif($changingModus && !empty($mainCategories)){
-        // Show a delete button if we're in delete mode 
-        echo "Wijzig de status van de geselecteerde onderdelen naar ";
-        ?><input type="submit" name="switch_status" value="Opslaan"/><?php
-}?>
+}
+?>
 </form>
-
-<style>
-    ul {
-        list-style: none;
-    }
-</style>
