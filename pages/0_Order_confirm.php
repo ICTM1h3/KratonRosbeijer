@@ -69,7 +69,7 @@ function createPaymentCode() {
 // Inserts everything into the database
 $amountDishes = [];
 $amountCategories = [];
-function insertOrderData() {
+function insertOrderData($paymentCode = null) {
 
     // Gets the newest Order Id
     $newOrderId = base_query("SELECT MAX(Id) AS newestOrderId FROM `Order`")->fetchColumn();
@@ -77,7 +77,6 @@ function insertOrderData() {
     // Saves the current time when the Order is made
     $currentDateTime = date('Y-m-d H:i:s');
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
-    $paymentCode = createPaymentCode();
     $_SESSION["paymentCode"] = $paymentCode;
     $_SESSION["name"] = $_POST['inNameOf'];
     $_SESSION["telephoneNumber"] = $_POST['telNumber'];
@@ -185,9 +184,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errors = validateData();
         if (empty($errors)) {
             $_SESSION["e-mail"] = $_POST["email"];
-            insertOrderData();
-            echo "Uw bestelling is aangemaakt<br>";
-            header('Location: ?p=IDEAL_payment_orders');
+            if (!isset($_SESSION['UserId']) || base_query("SELECT Role FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn() != ROLE_ADMINISTRATOR) {
+                $code = createPaymentCode();
+                insertOrderData($code);
+                header('Location: ?p=IDEAL_payment_orders');
+            }
+            else {
+                insertOrderData();
+                echo "<p style='color:green'><b>Uw bestelling is aangemaakt</b></p>";
+            }
         }
         else {
             foreach ($errors as $error) {
