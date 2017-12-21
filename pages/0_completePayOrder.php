@@ -24,7 +24,6 @@ elseif (base_query("SELECT PaymentCode FROM `Order` WHERE PaymentCode = :payment
     if ($payment->isPaid())
     {
         echo "Uw bestelling is geslaagd en opgeslagen!";
-        base_query("UPDATE`Order` SET PaymentCode = NULL WHERE PaymentCode = :paymentCode", [':paymentCode' => $payCode]);
     }
     elseif ($payment->isOpen())
     {
