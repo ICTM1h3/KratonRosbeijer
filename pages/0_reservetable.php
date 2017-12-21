@@ -238,70 +238,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<style>
-    .error-box {
-        color:red;
-    }
-
-    .success-box {
-        color:green;
-    }
-</style>
-<h1>Reserveren</h1>
 <?php
-    if (!empty($errors)) { ?>
-        <div class="error-box"> <?php
-            foreach ($errors as $error) {
-                ?> <p><?= $error ?></p> <?php
-            }
-        ?> </div> 
-    <?php }
+        if (!empty($errors)) { ?>
+            <div class="alert alert-danger" role="alert"> <?php
+                foreach ($errors as $error) {
+                    ?> <p><?= $error ?></p> <?php
+                }
+            ?> </div> 
+        <?php }
 
-    if (!empty($successes)) { ?>
-        <div class="success-box"> <?php
-            foreach ($successes as $msg) {
-                ?> <p><?= $msg ?></p> <?php
+        if (!empty($successes)) { ?>
+            <div class="alert alert-success" role="alert"> <?php
+                foreach ($successes as $msg) {
+                    ?> <p><?= $msg ?></p> <?php
+                }
+            ?> </div> 
+            <?php
+            newCSRFToken();
+            return;
             }
-        ?> </div> 
-        <?php
-        newCSRFToken();
-        return;
-    }
     
-?>
-<form method="POST">
-    <input type="hidden" value="<?= newCSRFToken()?>" name="CSRFToken" />
-    <table>
-        <tr>
-            <td>Op naam van*</td>
-            <td><input type="text" name="InNameOf" value="<?= getValue('InNameOf') ?>" /></td>
-        </tr>
-        <tr>
-            <td>Email*</td>
-            <td><input type="email" name="Email" value="<?= getValue('Email') ?>"/></td>
-        </tr>
-        <tr>
-            <td>Telefoon*</td>
-            <td><input type="text" name="Telephone" value="<?= getValue('Telephone') ?>" /></td>
-        </tr>
-        <tr>
-            <td>Aantal personen*</td>
-            <td><input type="number" name="AmountPersons" value="<?= getValue('AmountPersons') ?>" /></td>
-        </tr>
-        <tr>
-            <td>Datum en tijdstip*</td>
-            <td>
-                <input type="date" name="Date" placeholder="YYYY-MM-DD" min="<?= date("Y-m-d") ?>" value="<?= getValue('Date') ?>" />
-                <input type="time" name="Time" placeholder="HH:mm" value="<?= getValue('Time') ?>" />
-            </td>
-        </tr>
-        <tr>
-            <td>Bijzonderheden</td>
-            <td><textarea name="Notes"><?= getValue('Notes') ?></textarea></td>
-        </tr>
-    </table>
+            ?>
 
-    <i>Velden met een * zijn verplicht</i>
+<div class="container">
+      <form method="post" class="form-signin">
 
-    <input type="submit" value="Reserveren" />
+        <input type="hidden" value="<?= newCSRFToken()?>" name="CSRFToken" />
+        <h2 class="form-signin-heading">Reserveren</h2>
+        <label for="inputText">Op naam van *</label>
+        <input type="text" name="InNameOf" value="<?= getValue('InNameOf') ?>" type="text" id="inputEmail" class="form-control" placeholder="Naam"/>
+        
+        <label for="inputText">Email *</label>
+        <input type="email" name="Email" value="<?= getValue('Email') ?>" type="text" id="inputEmail" class="form-control" placeholder="E-mailadres"/>
+        
+        <label for="inputText">Telefoon *</label>
+        <input type="text" name="Telephone" value="<?= getValue('Telephone') ?>" type="text" id="inputEmail" class="form-control" placeholder="Telefoonnummer"/>
+        
+        <label for="inputText">Aantal personen *</label>
+        <input type="number" name="AmountPersons" value="<?= getValue('AmountPersons') ?>" type="text" id="inputEmail" class="form-control" placeholder="Aantal Personen"/>
+        
+        <label for="inputEmail">Datum en tijdstip *</label>
+        <input type="date" name="Date" placeholder="YYYY-MM-DD" min="<?= date("Y-m-d") ?>" value="<?= getValue('Date') ?>" id="inputEmail" class="form-control" required="" autofocus="" />
+        <input type="time" name="Time" placeholder="HH:mm" value="<?= getValue('Time') ?>" id="inputEmail" class="form-control" required="" autofocus=""/>
+
+        <label for="inputEmail">Bijzonderheden</label>
+        <textarea id="inputEmail" class="form-control" name="Notes" placeholder="Bijzonderheden"><?= getValue('Notes') ?></textarea>
+        
+        <i>Velden met een * zijn verplicht</i>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Reserveren</button>
 </form>
+
+</div>

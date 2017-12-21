@@ -30,12 +30,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<form method="post" class="container">
-    <h2>Nieuw Wachtwoord</h2>
-        <div class="form-group">
-            <label>Nieuw Wachtwoord</label></br>
-            <input type="password" name="password1" placeholder="Wachtwoord"></br>
-            <input type="password" name="password2" placeholder="Herhaal Wachtwoord"></br>
-        </div>
-        <button class="btn btn-primary" type="submit" name="submit">RESET</button>
-</form>
+<div class="container">
+      <form method="post" class="form-signin">
+      <h2 class="form-signin-heading">Reset Wachtwoord</h2>
+        <label for="inputPassword">Nieuw Wachtwoord</label>
+        <input name="password1" type="password" id="inputPassword" class="form-control" placeholder="Nieuw Wachtwoord">
+        
+        <label for="inputPassword">Bevestig Nieuw Wachtwoord</label>
+        <input name="password2" type="password" id="inputPassword" class="form-control" placeholder=" Herhaal Nieuw Wachtwoord">
+        
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
+    </form>
+</div>
