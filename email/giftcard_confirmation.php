@@ -7,7 +7,7 @@ U heeft de volgende cadeaubon(nen) besteld:<br>
     <tr>
         <th>Cadeaukaart code</th>
         <th>Startwaarde</th>
-    </tr>
+        </tr>
     <tr>
         <td><?php
             foreach ($parameters['couponCodes'] as $value) {
@@ -21,3 +21,9 @@ U heeft de volgende cadeaubon(nen) besteld:<br>
         ?></td>
     </tr>
 </table>
+
+Uw email: <?php$parameters['email']?><br><br>
+
+Met vriendelijke groet,<br><br>
+
+Kraton Rosbeijer
