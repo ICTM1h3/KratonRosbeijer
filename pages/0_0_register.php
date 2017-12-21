@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 // If there are errors create a div with each error in it's own paragraph (<p>)
 if (!empty($errors)) { ?>
-    <div class="error-box">
+    <div class="alert alert-danger" role="alert">
         <?php foreach ($errors as $error ) { ?>
             <p><?= $error ?></p>
         <?php } ?>
@@ -119,7 +119,7 @@ if (!empty($errors)) { ?>
 // If there is a message that things went well, create a div and fill it with the provided messages. 
 // Do not continue with the rest of the page afterwards as the action went well.
 if (!empty($successes)) { ?>
-    <div>
+    <div class="alert alert-succes" role="alert">
         <?php foreach ($successes as $success ) { ?>
             <p><?= $success ?></p>
         <?php } ?>
@@ -128,46 +128,32 @@ if (!empty($successes)) { ?>
     return;
 } ?>
 
-<style>
-.error-box {
-    color: red;
-}
-</style>
-<form method="POST">
-    <table>
-        <tr>
-            <td>Voornaam</td>
-            <td><input name="firstName" value="<?= getValue("firstName") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Tussenvoegsel</td>
-            <td><input name="middleName" value="<?= getValue("middleName") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Achternaam</td>
-            <td><input name="lastName" value="<?= getValue("lastName") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Telefoonnummer</td>
-            <td><input name="telephoneNumber" value="<?= getValue("telephoneNumber") ?>" type="text" /></td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td><input name="email" value="<?= getValue("email") ?>" type="email" /></td>
-        </tr>
-        <tr>
-            <td>Wachtwoord</td>
-            <td><input name="password" type="password" /></td>
-        </tr>
-        <tr>
-            <td>Bevestig wachtwoord</td>
-            <td><input name="password_confirmation" type="password" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" style="width:100%;" value="Registreren">
-            </td>
-        </tr>
+<div class="container">
+      <form method="post" class="form-signin">
+        <h2 class="form-signin-heading">Registreren</h2>
 
-    </table>
-</form>
+        <label for="inputText">Voornaam</label>
+        <input name="firstName" value="<?= getValue("firstName") ?>" type="text" id="inputText" class="form-control" placeholder="Voornaam"/>
+        
+        <label for="inputText">Tussenvoegsel</label>
+        <input name="middleName" value="<?= getValue("middleName") ?>" type="text" id="inputText" class="form-control" placeholder="Tussenvoegsel"/>
+        
+        <label for="inputText">Achternaam</label>
+        <input name="lastName" value="<?= getValue("lastName") ?>" type="text" id="inputText" class="form-control" placeholder="Achternaam"/>
+        
+        <label for="inputText">Telefoonnummer</label>
+        <input name="telephoneNumber" value="<?= getValue("telephoneNumber") ?>" type="text" id="inputText" class="form-control" placeholder="Telefoonnummer"/>
+        
+        <label for="inputEmail">E-mailadres</label>
+        <input name="email" value="<?= getValue("email") ?>" type="email" id="inputEmail" class="form-control" placeholder="E-mailadres">
+        
+        <label for="inputPassword">Wachtwoord</label>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Wachtwoord">
+        
+        <label for="inputPassword">Bevestig Wachtwoord</label>
+        <input name="password_confirmation" type="password" id="inputPassword" class="form-control" placeholder="Wachtwoord">
+        
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Registreren</button>
+      </form>
+
+    </div>

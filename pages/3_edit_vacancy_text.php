@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 <!-- Option to go back to manage vacancies.-->
-<a href="?p=admin_managevacancies"><button>Ga terug naar het overzicht van de vacatures</button></a>
+<a class="btn btn-secondary" href="?p=managevacancies">Ga terug naar het overzicht</a>
 
 <p>Beheren vacature informatie. Wijzig hieronder de vacature informatie.</p>
 
@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			</textarea>
 
 			<!-- Submit data by a submit button-->
-			<input onclick="submit()" type="submit" value="Opslaan">
+			<input class="btn btn-secondary"onclick="submit()" type="submit" value="Opslaan">
 
 			<script>
 
