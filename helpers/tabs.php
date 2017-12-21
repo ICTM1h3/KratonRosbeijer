@@ -8,6 +8,7 @@ $tabs = [
         // ['title' => 'Registreren', 'href' => '?p=register'],
         // ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
         ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
+        ['title' => 'Nieuws', 'href' => '?p=insight_news'],
         ['title' => 'Bestellen', 'href' => '?p=Order_menu'],
     ],
     
@@ -48,6 +49,7 @@ $tabs = [
                 ['title' => 'Reserveringen', 'href' => '?p=managereservation'],
                 ['title' => 'Cadeaubonnen', 'href' => '?p=manage_giftcard'],
                 ['title' => 'Tafels', 'href' => '?p=managetables'],
+                ['title' => 'Beheer nieuws', 'href' => '?p=managenews']
             ]
         ],
     ]
