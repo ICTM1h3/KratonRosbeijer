@@ -101,7 +101,7 @@ if(isset($_POST['order_gift_card'])){
         $userData = base_query("SELECT * FROM User WHERE Id = :id", [
             ':id' => $_SESSION["UserId"]
         ])->fetch();
-        if (ROLE_ADMINISTRATOR) {
+        if ($userData['Role'] == ROLE_ADMINISTRATOR) {
             $errors = NULL;
             foreach($_SESSION['giftcards'] as $value => $count){
                 for($i= 0; $i<$count; $i++){
@@ -202,7 +202,7 @@ if(isset($_SESSION['UserId'])) {
     $userData = base_query("SELECT * FROM User WHERE Id = :id", [
         ':id' => $_SESSION["UserId"]
     ])->fetch();
-    if (ROLE_ADMINISTRATOR) {
+    if ($userData['Role'] == ROLE_ADMINISTRATOR) {
         $userName = "administrator";
         $userEmail = "administrator";
     }
