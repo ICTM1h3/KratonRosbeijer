@@ -121,14 +121,6 @@ function insertOrderData($paymentCode = null) {
     $_SESSION["amountCategories"] = $amountCategories;
 }
 
-
-function getValue($key) {
-    if (isset($_POST[$key])) {
-        return $_POST[$key];
-    }
-    return '';
-}
-
 $cumulative = 0;
 ?><table class="overview_order">
     <tr>
