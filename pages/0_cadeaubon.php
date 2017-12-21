@@ -97,7 +97,32 @@ function createRandomCode() {
 //Put the choosen giftcards with the required data into the database. 
 if(isset($_POST['order_gift_card'])){
     $errors = getFilledInDataErrors();
-    if(empty($errors)){
+    if (isset($_SESSION['UserId'])) {
+        $userData = base_query("SELECT * FROM User WHERE Id = :id", [
+            ':id' => $_SESSION["UserId"]
+        ])->fetch();
+        if ($userData['Role'] = 3) {
+            $errors = NULL;
+            foreach($_SESSION['giftcards'] as $value => $count){
+                for($i= 0; $i<$count; $i++){
+                    $code = createRandomCode();
+                    base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`) 
+                    VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof);", [
+                        ':couponcode' => $code,
+                        ':initialvalue' => $value,
+                        ':currentvalue' => $value,
+                        ':email' => $_POST['Email'],
+                        ':innameof' => $_POST['InNameOf']
+                    ]);
+                }
+        
+            //REMOVE AFTER IDEAL IS WORKING!
+            echo"Bestelling is met succes opgeslagen!";
+        
+            }
+        }
+    }
+    elseif (empty($errors)) {
         foreach($_SESSION['giftcards'] as $value => $count){
             for($i= 0; $i<$count; $i++){
                 $code = createRandomCode();
@@ -110,13 +135,12 @@ if(isset($_POST['order_gift_card'])){
                     ':innameof' => $_POST['InNameOf']
                 ]);
             }
-        }
-        
+    
         //REMOVE AFTER IDEAL IS WORKING!
         echo"Bestelling is met succes opgeslagen!";
-
+    
+        }
     }
-
 }
 
 //Looks if the varied ammount of a giftcard not null is, otherwise add it tho the list of choosen giftcards.
@@ -143,9 +167,11 @@ if(isset($_POST['varied'])){
 <p>Bonnen kunnen ook in het restaurant worden opgehaald.</p>
 
 <!--Print the errors-->
-<div class="errors">
-    <?php foreach ($errors as $error) {
-        ?><p><?= $error ?></p><?php
+        <div class="errors"><?php
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                ?><p><?= $error ?></p><?php
+            }
     }
     ?>
 </div>
@@ -153,18 +179,23 @@ if(isset($_POST['varied'])){
 
 
 <?php
-
 if(isset($_SESSION['UserId'])) {
     $userData = base_query("SELECT * FROM User WHERE Id = :id", [
         ':id' => $_SESSION["UserId"]
     ])->fetch();
-    if (!empty($userData['MiddleName'])) {
+    if ($userData['Role'] == 3) {
+        $userName = "administrator";
+        $userEmail = "administrator";
+    }
+    elseif (!empty($userData['MiddleName'])) {
         $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
+        $userEmail = $userData['Email'];
     }
     else {
         $userName = $userData['Firstname'] . " " . $userData['Lastname'];
+        $userEmail = $userData['Email'];
     }
-    $userEmail = $userData['Email'];
+    
 }
 else {
     $userName = "";
