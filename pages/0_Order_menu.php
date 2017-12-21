@@ -140,7 +140,7 @@ else
     {
         echoCategory($category['Id']);
     }
-    ?><a href="?p=Order_confirm"><button>Bestel!</button></a>
+    ?><input type="submit" name="bestel" value="Bestel!" formaction="?p=Order_confirm">
     </form>
     </div><?php
 }

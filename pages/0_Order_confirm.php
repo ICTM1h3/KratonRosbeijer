@@ -157,7 +157,7 @@ foreach ($_SESSION['category'] as $value) {
     $countedCategories = countCategories($_SESSION['categories'], $value);
     $categoryPrice = base_query("SELECT * FROM DishCategory WHERE Id = :id", [
         ':id' => $value
-    ])->fetchAll();
+    ])->fetch();
     $subTotal = $categoryPrice['Price'] * $countedCategories;
     $cumulative += $subTotal;
     ?><tr>
