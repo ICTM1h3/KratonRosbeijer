@@ -2,23 +2,6 @@
 //Set the title of the page.
 setTitle("Beheren menu");
 
-//If requested, change the status of the dishes.
-if (isset($_POST['switch_status']) && isset($_POST['dishesToRemove'])) {
-    foreach($_POST['dishesToRemove'] as $iddish){
-        base_query("UPDATE dish SET ");
-        base_query("DELETE FROM dish WHERE Id = :dishid", [':dishid'=>$iddish]);
-
-    }
-}
-
-//If requested, remove the provided dishes, only when a category is empty (no dishes or subcategory).
-if(isset($_POST['switch_status']) && isset($_POST['categoriesToRemove'])){
-    foreach($_POST['categoriesToRemove'] as $idcategory){
-        base_query("DELETE FROM dishcategory WHERE Id = :categoryid", [':categoryid'=>$idcategory]);
-
-    }
-
-}
 //Move a category down when requested.
 if (isset($_POST['move_category_down'])) {
     $categoryId = $_POST['categoryid'];
