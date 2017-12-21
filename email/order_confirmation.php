@@ -13,43 +13,63 @@ U heeft het volgende besteld bij Kraton Rosbeijer:<br><br>
     </tr>
     <tr>
         <td><?php
-foreach ($parameters['dishes'] as $value) {
-    echo $value . "<br>";
+if (isset($parameters['dishes'])) {
+    foreach ($parameters['dishes'] as $value) {
+        echo $value . "<br>";
+    }
 }
-foreach ($parameters['categories'] as $value) {
-    echo $value . "<br>";
-}
-        ?></td>
-        <td><?php
-foreach ($parameters['dishPrices'] as $value) {
-    echo $value . "<br>";
-}
-foreach ($parameters['categoryPrices'] as $value) {
-    echo $value . "<br>";
+if (isset($parameters['categories'])) {
+    foreach ($parameters['categories'] as $value) {
+        echo $value . "<br>";
+    }
 }
         ?></td>
         <td><?php
-foreach ($parameters['amountDishes'] as $value) {
-    echo $value . "<br>";
+if (isset($parameters['dishPrices'])) {
+    foreach ($parameters['dishPrices'] as $value) {
+        echo $value . "<br>";
+    }
 }
-foreach ($parameters['amountCategories'] as $value) {
-    echo $value . "<br>";
-}
-        ?></td>
-        <td><?php
-foreach ($parameters['dishSubTotal'] as $value) {
-    echo $value . "<br>";
-}
-foreach ($parameters['categorySubTotal'] as $value) {
-    echo $value . "<br>";
+if (isset($parameters['categoryPrices'])) {
+    foreach ($parameters['categoryPrices'] as $value) {
+        echo $value . "<br>";
+    }
 }
         ?></td>
         <td><?php
-foreach ($parameters['dishCumulative'] as $value) {
-    echo $value . "<br>";
+if (isset($parameters['amountDishes'])) {
+    foreach ($parameters['amountDishes'] as $value) {
+        echo $value . "<br>";
+    }
 }
-foreach ($parameters['categoryCumulative'] as $value) {
-    echo $value . "<br>";
+if (isset($parameters['amountCategories'])) {
+    foreach ($parameters['amountCategories'] as $value) {
+        echo $value . "<br>";
+    }
+}
+        ?></td>
+        <td><?php
+if (isset($parameters['dishSubTotal'])) {
+    foreach ($parameters['dishSubTotal'] as $value) {
+        echo $value . "<br>";
+    }
+}
+if (isset($parameters['categorySubTotal'])) {
+    foreach ($parameters['categorySubTotal'] as $value) {
+        echo $value . "<br>";
+    }
+}
+        ?></td>
+        <td><?php
+if (isset($parameters['dishCumulative'])) {
+    foreach ($parameters['dishCumulative'] as $value) {
+        echo $value . "<br>";
+    }
+}
+if (isset($parameters['categoryCumulative'])) {
+    foreach ($parameters['categoryCumulative'] as $value) {
+        echo $value . "<br>";
+    }
 }
         ?></td>
     </tr>
