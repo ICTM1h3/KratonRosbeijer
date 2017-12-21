@@ -32,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<form method="post" class="container">
-    <h2>Wachtwoord vergeten</h2>
-    <div class="form-group">
-        <label>E-mailadres</label>
-        <input type="email" name="email" placeholder="E-mailadres"/>
+<div class="container">
+      <form method="post" class="form-signin">
+        <h2 class="form-signin-heading">Wachtwoord Vergeten</h2>
+        <label for="inputEmail">E-mailadres</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="E-mailadres">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Versturen</button>
+      </form>
     </div>
-        <button class="btn btn-primary" type="submit" name="send">VERSTUREN</button>
-</form>
 

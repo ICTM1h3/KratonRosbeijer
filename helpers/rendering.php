@@ -13,7 +13,7 @@ function setTitle($title)
 //Function looks if page excists and put it in the index.php
 function renderPage()
 {
-	$page = "index";
+	$page = "infopage";
 	if (isset($_GET['p'])) {
 		$page = $_GET['p'];
 	}
