@@ -121,6 +121,25 @@ if(isset($_POST['order_gift_card'])){
         
             }
         }
+        elseif (empty($errors)) {
+            foreach($_SESSION['giftcards'] as $value => $count){
+                for($i= 0; $i<$count; $i++){
+                    $code = createRandomCode();
+                    base_query("INSERT INTO `coupon` (`CouponCode`, `InitialValue`, `Currentvalue`, `Email`, `InNameOf`) 
+                    VALUES (:couponcode, :initialvalue, :currentvalue, :email, :innameof);", [
+                        ':couponcode' => $code,
+                        ':initialvalue' => $value,
+                        ':currentvalue' => $value,
+                        ':email' => $_POST['Email'],
+                        ':innameof' => $_POST['InNameOf']
+                    ]);
+                }
+        
+            //REMOVE AFTER IDEAL IS WORKING!
+            echo"Bestelling is met succes opgeslagen!";
+        
+            }
+        }
     }
     elseif (empty($errors)) {
         foreach($_SESSION['giftcards'] as $value => $count){
