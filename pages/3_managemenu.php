@@ -108,25 +108,21 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
     ul {
         list-style: none;
     }
-
-    */
-    ul {
-        list-style: none;
-    }
     
     * {
         font-family: Arial;
     }
     
-    #categoryPrice {
+    .categoryPrice {
         float:right;
         font-weight: normal;
         font-size:17px;
     }
     
-    #price {
+    .price {
         float:right;
     }
+
     .menu_button{
     border-style: solid;
     color: black;
@@ -158,6 +154,12 @@ $changingPlace = isset($_GET['changingPlace']) ? ($_GET['changingPlace'] == 'tru
         width: 100%;
         text-align: center;
     }
+  
+    .category_header {
+        display: inline-block
+    }
+</style>
+
 
     .checkbox{
         float:left;
@@ -234,14 +236,24 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
 <!-- Echo category name -->
 <div style="margin-left:<?= $size * 10 ?>px">
 
+
     <!--Add the right buttons, only when the use can do something when clicking on the button.-->
     <?php 
     if ($changingModus) { 
     ?>
-        <h<?= $size ?>>
+        <h<?= $size ?> class="category_header">
         <?= $category['Name']?> 
         </h<?= $size ?>> 
-        <?= $category['TitleDescription'] ?>
+        
+        <!-- Checks if a category has a price attached to itself, if the price is not set (value is 0) then dont give the price -->
+        <?php if(isset($category['Price']) && $category['Price'] != 0.00) { ?>
+            <span class='categoryPrice'><?= number_format($category['Price'], 2, ',', '.') ?></span>
+        <?php } ?>
+
+        <p><?= $category['TitleDescription'] ?></p>
+        <!--Add the right buttons, only when the use can do something when clicking on the button.-->
+        <?php if ($changingModus) { ?>
+
         <a href="?p=editcategory&category=<?= $categoryId?>">Wijzig category</a>
         <form method="POST">
             <input type="hidden" name="idcategory" value="<?= $categoryId?>" />
@@ -280,13 +292,6 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
     }
     ?>
 
-        
-        <!-- Checks if a category has a price attached to itself, if the price is not set (value is 0) then dont give the price -->
-    <?php 
-    if(isset($category['Price']) && $category['Price'] != 0.00) {
-        ?><span id='categoryPrice'><?= $category['Price'] ?></span><?php
-    } 
-    ?>
  
 <!-- Echo category description -->
      <i><p>
@@ -303,41 +308,39 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
     $dishValue = $dishes[$i];
     $isFirst = $i == 0;
     $isLast = $i == $maxValueDish;
-    $price = (($dishValue['Price'] != '0.00') && !empty($dishValue['Price'])) ? $dishValue['Price'] : '';
-    if ($changingModus){ 
-    ?>
-        <b><?= $dishValue['Name']?></b>
-        <a href="?p=editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
-        <form method="POST">
-            <input type="hidden" name="iddish" value="<?= $dishValue['Id']?>" />
-            <input type="submit" name="switch_status_dish" value="<?= $dishValue['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>">
-        </form>
-        <span id="price"><?= $price ?></span>
-        <?= "<br>" . "" . $dishValue['Description']?> 
-    <?php
-    }elseif($changingPlace){ 
-    ?>
-        <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
-        <?php if(!$isLast){ ?>
-            <form method="POST">
-                <input type='submit' name="move_dish_down" value="Naar beneden"/>
-                <input type='hidden' name="dishid" value="<?= $dishValue['Id']?>"/>
-            </form>
 
-        <?php } 
-        if(!$isFirst){ ?>
-        <form method="POST">
-            <input type='submit' name="move_dish_up" value="Naar boven"/>
-            <input type='hidden' name="dishid" value="<?= $dishValue['Id'] ?>"/>
-        </form> 
-        <?php 
-        } 
-        ?>
-    <?php 
-    }elseif($dishValue['Activated'] == 1 && $category['Activated'] == 1){ ?>
-        <b><?= $dishValue['Name']?></b><span id="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
-    <?php 
-    }
+    $price = (($dishValue['Price'] != '0.00') && !empty($dishValue['Price'])) ? number_format($dishValue['Price'], 2, ',', '.') : '';
+        ?><li>
+            <?php if ($changingModus) { ?>
+                <form method="POST">
+                    <input type="hidden" name="iddish" value="<?= $dishValue['Id']?>" />
+                    <input type="submit" name="switch_status_dish" value="<?= $dishValue['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>">
+                </form>
+                <b><?= $dishValue['Name']?></b>
+                <a href="?p=editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
+                <span class="price"><?= $price ?></span>
+                <?= "<br>" . "" . $dishValue['Description']?>
+                
+                <?php
+            } elseif($changingPlace){ ?>
+                <b><?= $dishValue['Name']?></b><span class="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
+                <?php if(!$isLast){ ?>
+                    <form method="POST">
+                        <input type='submit' name="move_dish_down" value="Naar beneden"/>
+                        <input type='hidden' name="dishid" value="<?= $dishValue['Id']?>"/>
+                    </form>
+
+                <?php } 
+                if(!$isFirst){ ?>
+                <form method="POST">
+                    <input type='submit' name="move_dish_up" value="Naar boven"/>
+                    <input type='hidden' name="dishid" value="<?= $dishValue['Id'] ?>"/>
+                </form> 
+                <?php } ?>
+            <?php } else{ ?>
+        
+                <b><?= $dishValue['Name']?></b><span class="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
+            <?php }
 }
 ?> 
 </ul>

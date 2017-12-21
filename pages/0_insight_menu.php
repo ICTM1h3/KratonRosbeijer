@@ -15,7 +15,7 @@ function echoCategory($categoryId, $size = 1)
             <?= $category['Name']?>
             <!-- Checks if a category has a price attached to itself -->
             <?php if($category['Price'] != 0.00) {
-                ?><span class='categoryPrice'><?= $category['Price'] ?></span><?php
+                ?><span class='categoryPrice'><?= number_format($category['Price'], 2, ',', '.') ?></span><?php
             } ?>
         </h<?= $size ?>> 
 
@@ -32,7 +32,7 @@ function echoCategory($categoryId, $size = 1)
                 <li>
                     <span class="dishTitle"><?= $dishValue['Name']?></span>
                     <span class="price"><?php if($dishValue['Price'] != 0.00){?>
-                        <?= $dishValue['Price']?>
+                        <?= number_format($dishValue['Price'], 2, ',', '.') ?>
                     <?php }?>
                     </span>
                     <p><?=  $dishValue['Description']?></p>
