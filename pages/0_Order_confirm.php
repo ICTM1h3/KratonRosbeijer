@@ -156,7 +156,12 @@ if (isset($_SESSION['UserId'])) {
     $userData = base_query("SELECT * FROM User WHERE Id = :id", [
         ':id' => $_SESSION['UserId']
     ])->fetch();
-    $userName = $userData['Lastname'];
+    if (!empty($userData['MiddleName'])) {
+        $userName = $userData['Firstname'] . " " . $userData['MiddleName'] . " " . $userData['Lastname'];
+    }
+    else {
+        $userName = $userData['Firstname'] . " " . $userData['Lastname'];
+    }
     $userEmail = $userData['Email'];
     $userTelNumber = $userData['TelephoneNumber'];
 }
