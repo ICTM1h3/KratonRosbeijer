@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <form method="POST">
     <table>
         <tr>
-            <td>Totale prijs: <?=$_SESSION["totalPrice"] ?></td>
+            <td>Totale prijs: <?= number_format($_SESSION["totalPrice"], 2, ',', '.') ?></td>
         </tr>
         <tr>
             <td><b>Naam:</b></td>
