@@ -1,6 +1,8 @@
 <?php
 setTitle("Bestelling bevestigen");
 
+var_dump($_SESSION['categoryname']);
+var_dump($_SESSION['dishname']);
 // Sets the timezone
 date_default_timezone_set("Europe/Amsterdam");
 
@@ -68,6 +70,8 @@ function countCategories($Id) {
 } 
 
 // Inserts everything into the database
+$amountDishes = [];
+$amountCategories = [];
 function insertOrderData() {
 
     // Gets the newest Order Id
@@ -78,6 +82,10 @@ function insertOrderData() {
     $targetTime = ($_POST['date'] . " " . $_POST['time']);
     $paymentCode = createPaymentCode();
     $_SESSION["paymentCode"] = $paymentCode;
+    $_SESSION["name"] = $_POST['inNameOf'];
+    $_SESSION["telephoneNumber"] = $_POST['telNumber'];
+    $_SESSION["date"] = $_POST['date'];
+    $_SESSION["time"] = $_POST['time'];
 
     base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email, Price, PaymentCode) VALUES
     (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email, :price, :paymentCode)", [
@@ -93,6 +101,7 @@ function insertOrderData() {
     // Inserting the dishes into the database
     foreach ($_SESSION["dish"] as $value) {
         $countedDishes = countDishes($value);
+        $amountDishes[] = $countedDishes;
         base_query("INSERT INTO Dish_Order (OrderId, DishId, CountDish) VALUES
         (:orderId, :dishId, :countDish)", [
             ':orderId' => $newOrderId,
@@ -104,6 +113,7 @@ function insertOrderData() {
     // Inserting the categories into the database
     foreach ($_SESSION["category"] as $value) {
         $countedCategories = countCategories($value);
+        $amountCategories[] = $countedCategories;
         base_query("INSERT INTO Category_Order (OrderId, CategoryId, CountCategory) VALUES
         (:OrderId, :CategoryId, :countCategory)", [
             ':OrderId' => $newOrderId,
@@ -111,6 +121,8 @@ function insertOrderData() {
             ':countCategory' => $countedCategories
         ]);
     }
+    $_SESSION["amountDishes"] = $amountDishes;
+    $_SESSION["amountCategories"] = $amountCategories;
 }
 
 
@@ -128,6 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST['bestelGegevens'])) {
         $errors = validateData();
         if (empty($errors)) {
+            $_SESSION["e-mail"] = $_POST["email"];
             insertOrderData();
             echo "Uw bestelling is aangemaakt<br>";
             header('Location: ?p=IDEAL_payment_orders');

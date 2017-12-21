@@ -13,6 +13,14 @@ $sDishes = [];
 $sCategories = [];
 $sDish = [];
 $sCategory = [];
+$dishName = [];
+$categoryName = [];
+$dishPrices = [];
+$categoryPrices = [];
+$dishSubTotal = [];
+$categorySubTotal = [];
+$dishCumulative = [];
+$categoryCumulative = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 
@@ -41,8 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $total += ($value * $dishPrice['Price']);
             $subTotal = ($value * $dishPrice['Price']);
             $cumulative += $subTotal;
+            $dishPrices[] = $dishPrice['Price'];
+            $dishSubTotal[] = $subTotal;
+            $dishCumulative[] = $cumulative;
             $sDish[] = $dishPrice['Id'];
             $sDishes[] = $dishPrice['Id'];
+            $dishName[] = $dishPrice['Name'];
             ?>
                 <tr>
                     <td>
@@ -70,8 +82,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $total += ($value * $categoryPrice['Price']);
             $subTotal = ($value * $categoryPrice['Price']);
             $cumulative += $subTotal;
+            $categoryPrices[] = $categoryPrice['Price'];
+            $categorySubTotal[] = $subTotal;
+            $categoryCumulative[] = $cumulative;
             $sCategory[] = $categoryPrice['Id'];
             $sCategories[] = $categoryPrice['Id'];
+            $categoryName[] = $categoryPrice["Name"];
             ?>
             <tr>
                 <td>
@@ -115,7 +131,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $_SESSION["dish"] = $sDish;
     $_SESSION["category"] = $sCategory;
     $_SESSION["totalPrice"] = $total;
-
+    $_SESSION["categoryname"] = $categoryName;
+    $_SESSION["dishname"] = $dishName;
+    $_SESSION["dishPrices"] = $dishPrices;
+    $_SESSION["categoryPrices"] = $categoryPrices;
+    $_SESSION["dishSubTotal"] = $dishSubTotal;
+    $_SESSION["categorySubTotal"] = $categorySubTotal;
+    $_SESSION["dishCumulative"] = $dishCumulative;
+    $_SESSION["categoryCumulative"] = $categoryCumulative;
 }
 ?><table><?php
 

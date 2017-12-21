@@ -24,6 +24,24 @@ elseif (base_query("SELECT PaymentCode FROM `Order` WHERE PaymentCode = :payment
     if ($payment->isPaid())
     {
         echo "Uw bestelling is geslaagd en opgeslagen!";
+        send_email_to($_SESSION['e-mail'], "Bevestiging bestelling", "order_confirmation", [
+            'dishes' => $_SESSION['dishname'],
+            'amountDishes' => $_SESSION['amountDishes'],
+            'categories' => $_SESSION['categoryname'],
+            'amountCategories' => $_SESSION['amountCategories'],
+            'dishPrices' => $_SESSION['dishPrices'],
+            'categoryPrices' => $_SESSION['categoryPrices'],
+            'dishSubTotal' => $_SESSION['dishSubTotal'],
+            'categorySubTotal' => $_SESSION['categorySubTotal'],
+            'dishCumulative' => $_SESSION['dishCumulative'],
+            'categoryCumulative' => $_SESSION['categoryCumulative'],
+            'totalPrice' => $_SESSION['totalPrice'],
+            'name' => $_SESSION['name'],
+            'email' => $_SESSION['e-mail'],
+            'telNumber' => $_SESSION['telephoneNumber'],
+            'date' => $_SESSION['date'],
+            'time' => $_SESSION['time']
+        ]);
     }
     elseif ($payment->isOpen())
     {
