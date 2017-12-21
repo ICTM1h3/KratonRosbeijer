@@ -289,11 +289,11 @@ else {
             </tr>
             <tr>
                 <td>Op naam van (verplicht):</td>   
-                <td><input type="text" name="InNameOf" value="<?=$userName?>"></td>
+                <td><input type="text" name="InNameOf" value="<?=$userName?>"required/></td>
             </tr>
             <tr>
                 <td>E-mail adres (verplicht):</td>
-                <td><input type="text" name="Email" value=<?=$userEmail?>></td>
+                <td><input type="text" name="Email" value=<?=$userEmail?> required/></td>
             </tr>
             <tr>
                 <td><input type="submit" name="order_gift_card" value="Cadeaubon afrekenen"/></td>
