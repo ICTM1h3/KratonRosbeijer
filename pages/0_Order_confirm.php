@@ -36,16 +36,25 @@ function validateData() {
     return $errors;
 }
 
-// Checks how many times the dish is ordered
-function countDishes($Id) {
+function countItems($items, $Id){
     $count = 0;
-    foreach ($_SESSION["dishes"] as $value) {
+    foreach($items as $value) {
         if ($value == $Id) {
             $count++;
         }
     }
     return $count;
+}
+
+// Checks how many times the dish is ordered
+function countDishes($Id) {
+    return countItems($_SESSION['dishes'], $Id);
 } 
+
+// Checks how many times the category(dish) is ordered
+function countCategories($Id) {
+    return countItems($_SESSION['categories'], $Id);
+}
 
 function createPaymentCode() {
     $paymentCode = md5(uniqid(rand(), true));
@@ -55,17 +64,6 @@ function createPaymentCode() {
     }
     return $paymentCode;
 }
-
-// Checks how many times the category(dish) is ordered
-function countCategories($Id) {
-    $count = 0;
-    foreach ($_SESSION["categories"] as $value) {
-        if ($value == $Id) {
-            $count++;
-        }
-    }
-    return $count;
-} 
 
 // Inserts everything into the database
 function insertOrderData() {
