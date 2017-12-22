@@ -263,7 +263,7 @@ else {
         <td>Cadeaubon € 25</td>
         <td>
             <form method="POST">
-                <input class="btn btn-secondary" type="submit" name="add_25" value="Toevoegen"/>
+                <input class="btn btn-primary" type="submit" name="add_25" value="Toevoegen"/>
             </form>
         </td>
     </tr>
@@ -271,7 +271,7 @@ else {
         <td>Cadeaubon € 50</td>
         <td>
             <form method="POST">
-                <input class="btn btn-secondary" type="submit" name="add_50" value="Toevoegen"/>
+                <input class="btn btn-primary" type="submit" name="add_50" value="Toevoegen"/>
             </form>
         </td>
     </tr>
@@ -279,7 +279,7 @@ else {
         <td>Cadeaubon € 75</td>
         <td>
             <form method="POST">
-                <input class="btn btn-secondary" type="submit" name="add_75" value="Toevoegen"/>
+                <input class="btn btn-primary" type="submit" name="add_75" value="Toevoegen"/>
             </form>
         </td>
     </tr>
@@ -287,7 +287,7 @@ else {
         <td>Cadeaubon € 100</td>
         <td>
             <form method="POST">
-                <input class="btn btn-secondary" type="submit" name="add_100" value="Toevoegen"/>
+                <input class="btn btn-primary" type="submit" name="add_100" value="Toevoegen"/>
             </form>
         </td>
     </tr>
@@ -296,7 +296,7 @@ else {
         <td>
             <form method="POST">
                 <input class="form-control"  min="0" step="1" type="number" name="varied_ammount" value="0"/>
-                <input class="btn btn-secondary" type="submit" name="varied" value="Toevoegen"/>
+                <input class="btn btn-primary" type="submit" name="varied" value="Toevoegen"/>
             </form>
         </td>
     </tr>
@@ -320,7 +320,7 @@ else {
                         <td> € <?= $subtotal ?></td>
                         <td>
                             <form method="POST">
-                                <input class="btn btn-secondary" type="submit" name="remove_<?= $value?>" value = "Delete" />
+                                <input class="btn btn-primary" type="submit" name="remove_<?= $value?>" value = "Delete" />
                             </form>
                         </td>
                     </tr>
@@ -343,7 +343,7 @@ else {
             <tr>
                 <td>
                     <form id="order_giftcard" method="POST">
-                        <input type="submit" class="btn btn-secondary" name="order_gift_card" value="Cadeaubon afrekenen"/>
+                        <input class="btn btn-primary" type="submit" name="order_gift_card" value="Cadeaubon afrekenen"/>
                     </form>
                 </td>
             </tr>

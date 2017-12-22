@@ -127,7 +127,7 @@ if (isset($_POST['change_password'])) {
             <td><input type="email" class="form-control" name="Email" value="<?= $user['Email'] ?>"></td>
         </tr>
         <tr>
-            <td colspan="2"><input name="change_details" class="btn btn-secondary" style="width:100%;" type="submit" value="Opslaan" /></td>
+            <td colspan="2"><input name="change_details" class="btn btn-primary" style="width:100%;" type="submit" value="Opslaan" /></td>
         </tr>
     </table>
 </form>
