@@ -126,7 +126,7 @@ $tabs = getTabsForCurrentUser();
 		  echo $body;
 		  ?>
           </div>
-          <div class="col-6 col-lg-4">
+          <div class="col-6 col-lg-4" style="max-width:100%">
             <!-- facebook and twitter plugins, on the right of the website -->
             <div class="sidebar" style="min-height:258px;">
               <a class="text" href="https://www.facebook.com/KratonRosbeijer/">KratonRosbeijer op Facebook</a>
