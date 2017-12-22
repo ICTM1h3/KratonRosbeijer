@@ -74,7 +74,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $_SESSION["categorySubTotal"] = $categorySubTotal;
     $_SESSION["dishCumulative"] = $dishCumulative;
     $_SESSION["categoryCumulative"] = $categoryCumulative;
+    if (empty($sDish) && empty($sCategory)){
+        echo "U heeft geen gerechten geselecteerd";
+    }
+    else {
     header("Location: ?p=Order_confirm");
+    }
 }
 
 function echoCategory($categoryId, $size = 1) 
