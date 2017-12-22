@@ -96,7 +96,7 @@ function echoCategory($categoryId, $size = 1)
             <?php if($category['Price'] != 0.00) {
                 ?><span class='categoryPrice'><?= number_format($category['Price'], 2, ',', '.');
                 if(!empty($category['Price']) && $category['Price'] != 0.00){
-                ?><input type="number" name="category_amount_<?= $category['Id'] ?>" min="0" value = "0" formmethod="POST" class="inputNumber"></span><?php }
+                ?><input class="form-control" type="number" name="category_amount_<?= $category['Id'] ?>" min="0" value = "0" formmethod="POST" class="inputNumber"></span><?php }
             } ?>
         </h<?= $size ?>> 
 
@@ -116,7 +116,7 @@ function echoCategory($categoryId, $size = 1)
                         <?= number_format($dishValue['Price'], 2, ',', '.')?>
                     <?php }
                     if(!empty($dishValue['Price']) && $dishValue['Price'] != 0.00) {?>
-                        <input type="number" name="dish_amount_<?= $dishValue['Id'] ?>" value = "0" min="0" class="inputNumber">
+                        <input class="form-control" type="number" name="dish_amount_<?= $dishValue['Id'] ?>" value = "0" min="0" class="inputNumber">
                     <?php } ?>
                     </span>
                     <p><?=  $dishValue['Description']?></p>
@@ -146,7 +146,7 @@ else
     {
         echoCategory($category['Id']);
     }
-    ?><input class="btn btn-secondary" type="submit" name="bestel" value="Bestel!">
+    ?><input class="btn btn-primary" type="submit" name="bestel" value="Bestel!">
     </form>
     </div><?php
 }
@@ -157,6 +157,11 @@ else
 ?>
 
 <style>
+
+.form-control {
+    margin: 0px;
+    width: 30%;
+}
 
 .inputNumber {
     width: 17%;

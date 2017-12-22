@@ -31,7 +31,7 @@ ORDER BY date", [
 <form action="?p=managereservation">
     <input type="hidden" name="p" value="<?= $_GET['p'] ?>">
     <label for="date">Reserveringen voor</label>
-    <input id="date" value="<?= $date ?>" type="date" name="date" onchange="this.form.submit()" />
+    <input class="form-control" id="date" value="<?= $date ?>" type="date" name="date" onchange="this.form.submit()" />
 </form>
 
 <?php if (empty($reservations)) { ?>

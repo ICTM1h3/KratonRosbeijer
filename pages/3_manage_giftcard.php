@@ -59,10 +59,10 @@ table, tr, td {
             <tr>
                 <td><?= $card['CouponCode']?></td>
                 <td><?= $card['InitialValue']?></td>
-                <td><input type="text" name="currentvalue[<?= $card['CouponCode']?>]" value="<?= $card['CurrentValue']?>"/></td>
+                <td><input class="form-control" type="text" name="currentvalue[<?= $card['CouponCode']?>]" value="<?= $card['CurrentValue']?>"/></td>
                 <td><?= $card['Email']?></td>
                 <td><?= $card['InNameOf']?></td>
-                <td><input type="submit" name="changecoupon[<?= $card['CouponCode']?>]" value="Opslaan"/></td>
+                <td><input class="btn btn-secondary" type="submit" name="changecoupon[<?= $card['CouponCode']?>]" value="Opslaan"/></td>
             </tr><?php 
             }
         }else{
