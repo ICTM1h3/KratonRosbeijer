@@ -2,7 +2,6 @@
 
 $tabs = [
     ROLE_VISITOR => [
-        ['title' => 'Home', 'href' => '?p=homepage'],
         ['title' => 'Nieuws', 'href' => '?p=insight_news'],
         ['title' => 'Menu', 'href' => '?p=insight_menu'],
         ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
@@ -10,13 +9,10 @@ $tabs = [
         ['title' => 'Cadeaubon', 'href' => '?p=cadeaubon'],
         ['title' => 'Catering', 'href' => '?p=cateringpage'],
         ['title' => 'Vacatures', 'href' => '?p=insight_vacancies'],
-        ['title' => 'Registreren', 'href' => '?p=register'],
-        ['title' => 'Inloggen', 'href' => '?p=inlogpage'],
 
     ],
     
     ROLE_USER => [
-        ['title' => 'Home', 'href' => '?p=homepage'],
         ['title' => 'Nieuws', 'href' => '?p=insight_news'],
         ['title' => 'Menu', 'href' => '?p=insight_menu'],
         ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
@@ -28,7 +24,6 @@ $tabs = [
     ],
 
     ROLE_VIP_USER => [
-        ['title' => 'Home', 'href' => '?p=homepage'],
         ['title' => 'Nieuws', 'href' => '?p=insight_news'],
         ['title' => 'Menu', 'href' => '?p=insight_menu'],
         ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
@@ -40,7 +35,6 @@ $tabs = [
     ],
     
     ROLE_ADMINISTRATOR => [
-        ['title' => 'Home', 'href' => '?p=homepage'],
         ['title' => 'Nieuws', 'href' => '?p=insight_news'],
         ['title' => 'Menu', 'href' => '?p=insight_menu'],
         ['title' => 'Reserveer tafel', 'href' => '?p=reservetable'],
