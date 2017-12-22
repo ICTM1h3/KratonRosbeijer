@@ -159,19 +159,19 @@ function getValue($user, $key) {
         <?php if (!$inChangingMode) { ?>
         <tr>
             <td>Hoeveelheid reserveringen</td>
-            <td class="form-control" ><?= $user['AmountReservations'] ?> </td>
+            <td><?= $user['AmountReservations'] ?> </td>
         </tr>
         <tr>
             <td>Hoeveelheid bestellingen</td>
-            <td class="form-control"><?= $user['AmountOrders'] ?> </td>
+            <td><?= $user['AmountOrders'] ?> </td>
         </tr>
         <tr>
             <td>Hoeveelheid no show reserveringen</td>
-            <td class="form-control"><?= $user['AmountNoShowReservations'] ?> </td>
+            <td><?= $user['AmountNoShowReservations'] ?> </td>
         </tr>
         <tr>
             <td>Hoeveelheid no show bestellingen</td>
-            <td class="form-control"><?= $user['AmountNoShowOrders'] ?> </td>
+            <td><?= $user['AmountNoShowOrders'] ?> </td>
         </tr>
         <?php } else { ?>
         <tr>
