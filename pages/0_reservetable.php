@@ -86,7 +86,10 @@ function getFreeTables($date, $reservedHours) {
         AND r.activated = 1
     )
     AND t.Activated = 1
-    ORDER BY t.capacity DESC;", [':date' => $date])->fetchAll();
+    ORDER BY t.capacity DESC;", [
+        ':date' => $date,
+        ':reservedHours' => $reservedHours
+    ])->fetchAll();
 
     return $tables;
 }

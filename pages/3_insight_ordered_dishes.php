@@ -156,7 +156,7 @@ if($person['Activated'] == 0){
     echo "Bestelling is geannuleerd";
 } else { ?>
     <form method="POST">
-        <input type="submit" name="cancel_order" value="Annuleren"/> 
+        <input class="btn btn-danger" style="width:66%;margin-top:1px;" type="submit" name="cancel_order" value="Annuleren"/> 
     </form>
 <?php } ?>
 

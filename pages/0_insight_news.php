@@ -1,7 +1,7 @@
 <?php
 // function to set the tilte page
 setTitle('Menukaart inzien');
-$news = base_query("SELECT * FROM news ORDER BY Id DESC");
+$news = base_query("SELECT * FROM news ORDER BY Id DESC")->fetchAll();
 
 ?>
 
