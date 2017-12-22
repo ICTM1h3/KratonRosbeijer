@@ -141,7 +141,7 @@ else
     {
         echoCategory($category['Id']);
     }
-    ?><input type="submit" name="bestel" value="Bestel!">
+    ?><input class="btn btn-secondary" type="submit" name="bestel" value="Bestel!">
     </form>
     </div><?php
 }

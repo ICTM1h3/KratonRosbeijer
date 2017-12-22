@@ -255,26 +255,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <tr>
             <td><b>Naam:</b></td>
             <td>
-                <input type="text" name="inNameOf" value=<?=$userName?>>
+                <input class="form-control" type="text" name="inNameOf" value=<?=$userName?>>
             <td>
         </tr>
         <tr>
             <td><b>Emailadres:</b></td>
-            <td><input type="email" name="email" value=<?=$userEmail?>></td>
+            <td><input class="form-control" type="email" name="email" value=<?=$userEmail?>></td>
         </tr>
         <tr>
             <td><b>Telefoonnummer:</b></td>
-            <td><input type="tel" name="telNumber" value=<?=$userTelNumber?>></td>
+            <td><input class="form-control" type="tel" name="telNumber" value=<?=$userTelNumber?>></td>
         <tr>
             <td><b>Datum van afhalen:</b></td>
-            <td><input type="date" name="date"></td>
+            <td><input class="form-control" type="date" name="date"></td>
         </tr>
         <tr>
             <td><b>Tijdstip van afhalen:</b></td>
-            <td><input type="time" name="time"></td>
+            <td><input class="form-control" type="time" name="time"></td>
         </tr>
         <tr>
-            <td><input type="submit" name="bestelGegevens" value="Bestellen!"/>
+            <td><input class="btn btn-primary" type="submit" name="bestelGegevens" value="Bestellen!"/>
         </tr>
         <tr>
             <td><?php
