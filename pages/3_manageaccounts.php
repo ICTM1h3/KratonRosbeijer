@@ -77,7 +77,7 @@ $users = base_query("SELECT * FROM User LIMIT $currentRow, $pageSize")->fetchAll
                 <td>
                     <form method="POST">
                         <input type="hidden" name="user_id" value="<?= $user['Id'] ?>" />
-                        <select <?= $disabled ?> name="new_role"onchange="this.form.submit()">
+                        <select <?= $disabled ?> name="new_role"onchange="this.form.submit()" class="form-control">
                                 <?= createOptionsFor($user); ?>
                         </select>
                     </form>
