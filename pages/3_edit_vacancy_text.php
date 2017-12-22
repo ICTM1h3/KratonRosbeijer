@@ -38,7 +38,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
 				}).done(function() {
-					location.search="?p=admin_managevacancies"
+					location.search="?p=managevacancies"
 				});
 				
 			}
