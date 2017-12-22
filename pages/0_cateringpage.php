@@ -5,7 +5,12 @@
  $text = base_query("SELECT * FROM setting WHERE name = 'CateringText' ")->fetch();
 ?>
 
-<div>
+
+<div style="margin-bottom: 10px;">
+<?php
+  //the catering text from the database
+  echo($text['Value']);
+?>
 <!-- the photo carousel-->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -34,10 +39,7 @@
     </div>
   </div>
 </div>
-<?php
-//the catering text from the database
-echo($text['Value']);
-?>
+
 </div>
 <!-- the script the make the carousel work-->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
