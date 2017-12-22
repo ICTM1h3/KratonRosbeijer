@@ -118,7 +118,7 @@ function getValue($user, $key) {
 </h2>
 
 <?php if (!empty($errors)) { ?>
-    <div style="color:red">
+    <div class="alert alert-danger">
         <?php foreach ($errors as $error ) { ?>
             <p><?= $error ?></p>
         <?php } ?>

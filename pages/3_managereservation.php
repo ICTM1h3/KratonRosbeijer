@@ -1,4 +1,5 @@
 <?php
+//set title to the correct name
 setTitle("Beheer reserveringen");
 
 if (isset($_POST['IsNoShow'])) {

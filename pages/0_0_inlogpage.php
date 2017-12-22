@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <form method="post" class="form-signin">
         <?php
         if (!empty($errors)) { ?>
-                <div style="color:red">
+                <div class="alert alert-danger" role="alert">
         <?php
                 foreach ($errors as $error) {
                         ?><p><?= $error ?></p> <?php

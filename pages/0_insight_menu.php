@@ -1,5 +1,5 @@
 <?php
-
+// function to set the tilte page
 setTitle('Menukaart inzien');
 
 
@@ -10,7 +10,7 @@ function echoCategory($categoryId, $size = 1)
     if ($category['Activated'] == 0) {
         return;
     }
-
+// variabels with queries to get the correct info from the database
     $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     ?>

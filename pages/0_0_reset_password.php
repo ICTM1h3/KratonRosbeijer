@@ -3,7 +3,7 @@
 //function to change the page name
 setTitle("Wachtwoord veranderen");
 
-
+// checks if both field are filled in
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["password1"] || (empty($_POST["password2"])))){
         echo("Vul beide velden in om uw wachtwoord te resetten.");

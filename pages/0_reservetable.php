@@ -1,4 +1,5 @@
 <?php
+//set title to the correct name
 setTitle("Reserveren");
 
 // Validates all posted data and returns a list of errors.

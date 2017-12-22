@@ -1,5 +1,5 @@
 <?php
-
+//set title to the correct name
 setTitle("Gerechten toevoegen");
 
 function str_starts_with($value, $start){

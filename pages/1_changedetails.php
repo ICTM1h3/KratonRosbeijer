@@ -94,12 +94,12 @@ if (isset($_POST['change_password'])) {
     }
 </style>
 <h2>Details veranderen</h2>
-<div class="errors">
+<div class="alert alert-danger" role="alert">
     <?php foreach ($user_details_errors as $error) {
         ?><p><?= $error ?></p>
     <?php } ?>
 </div>
-<div class="success">
+<div class="alert alert-succes" role="alert">
     <?php foreach ($user_details_success as $success) {
         ?><p><?= $success ?></p>
     <?php } ?>
@@ -133,12 +133,12 @@ if (isset($_POST['change_password'])) {
 </form>
 
 <h2>Wachtwoord</h2>
-<div class="errors">
+<div class="alert alert-danger" role="alert">
     <?php foreach ($password_errors as $error) { ?>
         <p><?= $error ?></p>
     <?php } ?>
 </div>
-<div class="success">
+<div class="alert alert-succes" role="alert">
     <?php foreach ($password_success as $success) { ?>
         <p><?= $success ?></p>
     <?php } ?>
