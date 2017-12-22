@@ -135,52 +135,52 @@ function getValue($user, $key) {
     <table>
         <tr>
             <td>Voornaam</td>
-            <td><input <?= $disabled ?> name="Firstname" value="<?= htmlentities(getValue($user, "Firstname")) ?>" type="text" /></td>
+            <td><input class="form-control" <?= $disabled ?> name="Firstname" value="<?= htmlentities(getValue($user, "Firstname")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Tussenvoegsel</td>
-            <td><input <?= $disabled ?> name="MiddleName" value="<?= htmlentities(getValue($user, "MiddleName")) ?>" type="text" /></td>
+            <td><input class="form-control" <?= $disabled ?> name="MiddleName" value="<?= htmlentities(getValue($user, "MiddleName")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Achternaam</td>
-            <td><input <?= $disabled ?> name="Lastname" value="<?= htmlentities(getValue($user, "Lastname")) ?>" type="text" /></td>
+            <td><input class="form-control" <?= $disabled ?> name="Lastname" value="<?= htmlentities(getValue($user, "Lastname")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Telefoonnummer</td>
-            <td><input <?= $disabled ?> name="TelephoneNumber" value="<?= htmlentities(getValue($user, "TelephoneNumber")) ?>" type="text" /></td>
+            <td><input class="form-control" <?= $disabled ?> name="TelephoneNumber" value="<?= htmlentities(getValue($user, "TelephoneNumber")) ?>" type="text" /></td>
         </tr>
         <tr>
             <td>Email</td>
-            <td><input <?= $disabled ?> name="Email" value="<?= htmlentities(getValue($user, "Email")) ?>" type="Email" /></td>
+            <td><input class="form-control" <?= $disabled ?> name="Email" value="<?= htmlentities(getValue($user, "Email")) ?>" type="Email" /></td>
         </tr>
         <?php if ($user['Role'] == ROLE_VIP_USER) { ?>
             <tr>
                 <td>Korting (%)</td>
-                <td><input <?= $disabled ?> min="0" name="Discount" value="<?= htmlentities(getValue($user, "Discount")) ?>" type="number" /></td>
+                <td><input class="form-control" <?= $disabled ?> min="0" name="Discount" value="<?= htmlentities(getValue($user, "Discount")) ?>" type="number" /></td>
             </tr>
         <?php } ?>
         
         <?php if (!$inChangingMode) { ?>
         <tr>
             <td>Hoeveelheid reserveringen</td>
-            <td><?= $user['AmountReservations'] ?> </td>
+            <td class="form-control" ><?= $user['AmountReservations'] ?> </td>
         </tr>
         <tr>
             <td>Hoeveelheid bestellingen</td>
-            <td><?= $user['AmountOrders'] ?> </td>
+            <td class="form-control"><?= $user['AmountOrders'] ?> </td>
         </tr>
         <tr>
             <td>Hoeveelheid no show reserveringen</td>
-            <td><?= $user['AmountNoShowReservations'] ?> </td>
+            <td class="form-control"><?= $user['AmountNoShowReservations'] ?> </td>
         </tr>
         <tr>
             <td>Hoeveelheid no show bestellingen</td>
-            <td><?= $user['AmountNoShowOrders'] ?> </td>
+            <td class="form-control"><?= $user['AmountNoShowOrders'] ?> </td>
         </tr>
         <?php } else { ?>
         <tr>
             <td colspan="2">
-                <input type="submit" style="width:100%;" name="save" value="Opslaan">
+                <input class="btn btn-secondary" type="submit" style="width:100%;" name="save" value="Opslaan">
             </td>
         </tr>
         <?php } ?>
