@@ -195,6 +195,7 @@ $errors = [];
 if (isset($_POST['Save'])) {
     $errors = validateData();
     if (empty($errors)) {
+        // With list you can 'unfold' an array into individual.
         list($success, $msg) = update_reservation();
         if ($success) {
             header("Location: ?p=managereservation");
@@ -207,6 +208,15 @@ if (isset($_POST['Save'])) {
 
 $reservation = base_query("SELECT * FROM Reservation WHERE Id = :id", [':id' => $_GET['reservationId']])->fetch();
 
+foreach ($errors as $error) {
+    ?><div class="alert alert-danger">
+    <p><?= $error ?></p></div><?php
+}
+
+foreach ($success as $succes){
+    ?><div class="alert alert-succes">
+    <p><?= $succes ?></p></div><?php
+}
 ?>
 
 <form method="POST">

@@ -1,5 +1,5 @@
 <?php
-
+// set title page to the correct name
 setTitle("Bestelling bevestigen");
 
 // Sets the timezone
@@ -87,7 +87,7 @@ function insertOrderData($paymentCode = null) {
     if (isset($_SESSION['UserId'])) {
         $discount = base_query("SELECT Discount FROM User WHERE Id = :id", [':id' => $_SESSION['UserId']])->fetchColumn();
     }
-
+    //add the new info in the database
     base_query("INSERT INTO `Order` (OrderDate, TargetDate, InNameOf, TelephoneNumber, Email, Price, PaymentCode) VALUES
     (:orderDate, :targetDate, :inNameOf, :telephoneNumber, :email, :price, :paymentCode)", [
         ':orderDate' => $currentDateTime,
@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
         else {
             foreach ($errors as $error) {
-                ?><div class="errormsg">
+                ?><div class="alert alert-danger" role="alert">
                     <?=$error?>
                 </div><?php
             }

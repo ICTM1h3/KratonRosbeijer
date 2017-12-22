@@ -1,5 +1,5 @@
 <?php
-
+// If registration is missing the following messages will apear.
 if (!isset($_GET['registrationCode'])) {
     ?>U mist een registratiecode<?php
     return;

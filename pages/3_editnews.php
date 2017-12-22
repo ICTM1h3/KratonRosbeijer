@@ -1,4 +1,5 @@
 <?php
+//set title to the correct name
 setTitle("Aanpassen nieuws");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
