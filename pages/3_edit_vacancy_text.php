@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			function submit(){
 
 				$.ajax({
-					url: '?p=3_edit_vacancy_text', // Url witch deals the request
+					url: '?p=edit_vacancy_text', // Url witch deals the request
 					data: tinyMCE.activeEditor.getContent(),
 					method: "POST"
 				}).done(function() {
