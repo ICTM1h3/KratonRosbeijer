@@ -97,10 +97,6 @@ function getValue($user, $key) {
 ?>
 
 <style>
-    .edit {
-        font-size:15px;
-    }
-
     [disabled] {
         border: none;
         color: black;
@@ -114,10 +110,10 @@ function getValue($user, $key) {
 
 <h2>Gebruiker details
     <?php if (!$inChangingMode) { ?>
-        <a class="edit" href="?<?= $_SERVER['QUERY_STRING'] ?>&changemode=true">(Wijzig)</a>
+        <a class="btn btn-secondary btn-sm" href="?<?= $_SERVER['QUERY_STRING'] ?>&changemode=true">(Wijzig)</a>
     <?php } else {
         unset($_GET['changemode']); ?>
-        <a class="edit" href="?<?= http_build_query($_GET) ?>">(Terug)</a>
+        <a class="btn btn-secondary btn-sm" href="?<?= http_build_query($_GET) ?>">(Terug)</a>
     <?php } ?>
 </h2>
 
