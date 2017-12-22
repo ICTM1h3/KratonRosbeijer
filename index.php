@@ -128,7 +128,7 @@ $tabs = getTabsForCurrentUser();
           </div>
           <div class="col-6 col-lg-4">
             <!-- facebook and twitter plugins, on the right of the website -->
-            <div class="sidebar ">
+            <div class="sidebar" style="min-height:258px;">
               <a class="text" href="https://www.facebook.com/KratonRosbeijer/">KratonRosbeijer op Facebook</a>
               <div class="fb-page" data-href="https://www.facebook.com/KratonRosbeijer/"
               data-width="250" data-small-header="false" data-adapt-container-width="true"
@@ -136,7 +136,7 @@ $tabs = getTabsForCurrentUser();
               class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/KratonRosbeijer/">Kraton Rosbeijer</a></blockquote>
               </div>
             </div>
-            <div class="sidebar">
+            <div class="sidebar" style="min-height:258px;">
               <a class="twitter-follow-button" href="https://twitter.com/kratonrosbeijer">Follow @Kraton Rosbeijer</a>
               <a class="twitter-timeline" data-width="250" data-height="250" data-theme="light" href="https://twitter.com/kratonrosbeijer?ref_src=twsrc%5Etfw">Tweets by kratonrosbeijer</a>
               <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
