@@ -209,19 +209,20 @@ $reservation = base_query("SELECT * FROM Reservation WHERE Id = :id", [':id' => 
 
 ?>
 
+<h2>Reservering aanpassen</h2>
 <form method="POST">
     <table class="table">
         <tr>
             <td><label for="InNameOf">Op naam van</label></td>
-            <td><input id="InNameOf" type="text" name="InNameOf" value="<?= htmlentities(getValue($reservation, "InNameOf")) ?>" /></td>
+            <td><input class="form-control" id="InNameOf" type="text" name="InNameOf" value="<?= htmlentities(getValue($reservation, "InNameOf")) ?>" /></td>
         </tr>
         <tr>
             <td><label for="Email">Email<label></td>
-            <td><input id="Email" type="email" name="Email" value="<?= htmlentities(getValue($reservation, "Email")) ?>" /></td>
+            <td><input class="form-control" id="Email" type="email" name="Email" value="<?= htmlentities(getValue($reservation, "Email")) ?>" /></td>
         </tr>
         <tr>
             <td><label label="TelephoneNumber">Telefoonnummer</label></td>
-            <td><input id="TelephoneNumber" type="text" name="TelephoneNumber" value="<?= htmlentities(getValue($reservation, "TelephoneNumber")) ?>" /></td>
+            <td><input class="form-control" id="TelephoneNumber" type="text" name="TelephoneNumber" value="<?= htmlentities(getValue($reservation, "TelephoneNumber")) ?>" /></td>
         </tr>
         <tr>
             <td><label for="Activated">Geactiveerd</label></td>
@@ -232,22 +233,22 @@ $reservation = base_query("SELECT * FROM Reservation WHERE Id = :id", [':id' => 
         </tr>
         <tr>
             <td><label for="AmountPersons">Hoeveelheid personen</label></td>
-            <td><input id="AmountPersons" type="number" name="AmountPersons" value="<?= htmlentities(getValue($reservation, "AmountPersons")) ?>" /></td>
+            <td><input class="form-control" id="AmountPersons" type="number" name="AmountPersons" value="<?= htmlentities(getValue($reservation, "AmountPersons")) ?>" /></td>
         </tr>
         <tr>
             <td><label for="Date">Datum</label></td>
-            <td><input id="Date" type="date" name="Date" value="<?= htmlentities(explode(' ', getValue($reservation, "Date"))[0]) ?>" /></td>
+            <td><input class="form-control" id="Date" type="date" name="Date" value="<?= htmlentities(explode(' ', getValue($reservation, "Date"))[0]) ?>" /></td>
         </tr>
         <tr>
             <td><label for="Time">Tijd</label></td>
-            <td><input id="Time" type="time" name="Time" value="<?= htmlentities(isset($_POST['Time']) ? $_POST['Time'] : explode(' ', getValue($reservation, "Date"))[1]) ?>" /></td>
+            <td><input class="form-control" id="Time" type="time" name="Time" value="<?= htmlentities(isset($_POST['Time']) ? $_POST['Time'] : explode(' ', getValue($reservation, "Date"))[1]) ?>" /></td>
         </tr>
         <tr>
             <td><label for="Notes">Bijzonderheden</label></td>
-            <td><textarea id="Notes" name="Notes"><?= htmlentities(getValue($reservation, "Notes"))?></textarea></td>
+            <td><textarea class="form-control" id="Notes" name="Notes"><?= htmlentities(getValue($reservation, "Notes"))?></textarea></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" name="Save" value="Opslaan" /></td>
+            <td colspan="2"><input style="width:100%;" class="btn btn-secondary" type="submit" name="Save" value="Opslaan" /></td>
         </tr>
     </table>
 </form>

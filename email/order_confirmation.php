@@ -27,12 +27,12 @@ if (isset($parameters['categories'])) {
         <td><?php
 if (isset($parameters['dishPrices'])) {
     foreach ($parameters['dishPrices'] as $value) {
-        echo $value . "<br>";
+        echo number_format($value, 2, ',', '.') . "<br>";
     }
 }
 if (isset($parameters['categoryPrices'])) {
     foreach ($parameters['categoryPrices'] as $value) {
-        echo $value . "<br>";
+        echo number_format($value, 2, ',', '.') . "<br>";
     }
 }
         ?></td>
@@ -51,24 +51,24 @@ if (isset($parameters['amountCategories'])) {
         <td><?php
 if (isset($parameters['dishSubTotal'])) {
     foreach ($parameters['dishSubTotal'] as $value) {
-        echo $value . "<br>";
+        echo number_format($value, 2, ',', '.') . "<br>";
     }
 }
 if (isset($parameters['categorySubTotal'])) {
     foreach ($parameters['categorySubTotal'] as $value) {
-        echo $value . "<br>";
+        echo number_format($value, 2, ',', '.') . "<br>";
     }
 }
         ?></td>
         <td><?php
 if (isset($parameters['dishCumulative'])) {
     foreach ($parameters['dishCumulative'] as $value) {
-        echo $value . "<br>";
+        echo number_format($value, 2, ',', '.') . "<br>";
     }
 }
 if (isset($parameters['categoryCumulative'])) {
     foreach ($parameters['categoryCumulative'] as $value) {
-        echo $value . "<br>";
+        echo number_format($value, 2, ',', '.') . "<br>";
     }
 }
         ?></td>
@@ -78,7 +78,7 @@ if (isset($parameters['categoryCumulative'])) {
         <td></td>
         <td></td>
         <th>Totaal: </th>
-        <td><?=$parameters['totalPrice']?></td>
+        <td><?= number_format($parameters['totalPrice'], 2, ',', '.') ?></td>
     </tr>
     <?php if ($parameters['isVipUser']) {?>
     <tr>
@@ -93,7 +93,7 @@ if (isset($parameters['categoryCumulative'])) {
         <td></td>
         <td></td>
         <th>Berekend totaal:</th>
-        <th><?= $_SESSION['totalPrice'] * ((100 - $parameters['discount']) / 100) ?></th>
+        <th><?= number_format($_SESSION['totalPrice'] * ((100 - $parameters['discount']) / 100), 2, ',', '.') ?></th>
     </tr>
     <?php } ?>
 </table>

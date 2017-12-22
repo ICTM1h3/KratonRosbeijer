@@ -144,10 +144,10 @@ foreach ($_SESSION['dish'] as $value) {
     $cumulative += $subTotal;
     ?><tr>
         <td><?=$dishPrice['Name']?></td>
-        <td><?=$dishPrice['Price']?></td>
+        <td><?= number_format($dishPrice['Price'], 2, ',', '.') ?></td>
         <td><?=$countedDishes?></td>
-        <td><?=$subTotal?></td>
-        <td><?=$cumulative?></td>
+        <td><?= number_format($subTotal, 2, ',', '.') ?></td>
+        <td><?= number_format($cumulative, 2, ',', '.') ?></td>
     </tr><?php
 }
 foreach ($_SESSION['category'] as $value) {
@@ -159,10 +159,10 @@ foreach ($_SESSION['category'] as $value) {
     $cumulative += $subTotal;
     ?><tr>
         <td><?=$categoryPrice['Name']?></td>
-        <td><?=$categoryPrice['Price']?></td>
+        <td><?= number_format($categoryPrice['Price'], 2, ',', '.') ?></td>
         <td><?=$countedCategories?></td>
-        <td><?=$subTotal?></td>
-        <td><?=$cumulative?></td>
+        <td><?= number_format($subTotal, 2, ',', '.') ?></td>
+        <td><?= number_format($cumulative, 2, ',', '.') ?></td>
     </tr><?php
 }
 
@@ -200,7 +200,7 @@ $_SESSION['newPrice'] = $_SESSION['totalPrice'] * ((100 - $discount) / 100)
     <td></td>
     <td></td>
     <th>Totaal:</th>
-    <th><?=$_SESSION['totalPrice']?></th>
+    <th><?= number_format($_SESSION['totalPrice'], 2, ',', '.') ?></th>
 </tr>
 <?php if ($role == ROLE_VIP_USER) {?>
 <tr>
@@ -215,7 +215,7 @@ $_SESSION['newPrice'] = $_SESSION['totalPrice'] * ((100 - $discount) / 100)
     <td></td>
     <td></td>
     <th>Berekend totaal:</th>
-    <th><?= $_SESSION['totalPrice'] * ((100 - $discount) / 100) ?></th>
+    <th><?= number_format($_SESSION['totalPrice'] * ((100 - $discount) / 100), 2, ',', '.')  ?></th>
 </tr>
 <?php } ?>
 </table><?php
