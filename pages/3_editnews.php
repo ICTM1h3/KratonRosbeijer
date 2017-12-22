@@ -57,8 +57,8 @@ else {
             <input name="title" class="form-control" style="float:left" value="<?= $title ?>">
         </td>
         <td>
-            <input type="time" name="time" style="float:right" value="<?= $time ?>">
-            <input type="date" name="date" style="float:right" value="<?= $date ?>">
+            <input  class="form-control" type="time" name="time" style="float:right" value="<?= $time ?>">
+            <input  class="form-control" type="date" name="date" style="float:right" value="<?= $date ?>">
         </td>
     </tr>
     <tr>
