@@ -8,7 +8,13 @@ $query = base_query('SELECT * FROM Vacancy')->fetchAll();
 $VacancyInfo = base_query('SELECT Value FROM setting Where Name = "VacancyInfo"')->fetchColumn();
 
 echo $VacancyInfo;
-?> 
+?>
+
+<?php if (empty($query)) { ?>
+    <i>Op dit moment zijn er geen vacatures</i>
+    <?php
+    return;
+} ?>
 
 <!-- Styling for 2 tables next to eachother -->
 <style>
@@ -38,6 +44,7 @@ echo $VacancyInfo;
         border-radius: 15px;
     }
 </style>
+
 
 <!--Putting the data to the right place-->
 <div class="vacancy_container">
