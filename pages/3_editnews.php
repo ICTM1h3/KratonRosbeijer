@@ -54,11 +54,11 @@ else {
 <table class="table">
     <tr>
         <td>
-            <input name="title" class="form-control" style="float:left" value="<?= $title ?>">
+            <input placeholder="Titel" name="title" class="form-control" style="float:left" value="<?= $title ?>">
         </td>
         <td>
-            <input type="time" name="time" style="float:right" value="<?= $time ?>">
-            <input type="date" name="date" style="float:right" value="<?= $date ?>">
+            <input placeholder="YYY-MM-DD" type="time" name="time" style="float:right" value="<?= $time ?>">
+            <input placeholder="HH:MM" type="date" name="date" style="float:right" value="<?= $date ?>">
         </td>
     </tr>
     <tr>
