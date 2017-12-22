@@ -121,8 +121,7 @@ $inDeleteMode = isset($_GET['deleteMode']) ? ($_GET['deleteMode'] == 'true') : f
 </table>
 </form>
 
-<h3>Vacature tekst</h3>
-
+<h3>Voorbeeld vacature tekst</h3>
 <?php
 $VacancyInfo = base_query('SELECT Value FROM setting Where Name = "VacancyInfo"')->fetchColumn();
 
