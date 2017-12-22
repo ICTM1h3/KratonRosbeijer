@@ -5,8 +5,13 @@ setTitle('Menukaart inzien');
 
 function echoCategory($categoryId, $size = 1) 
 {
-    $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $category = base_query("SELECT * FROM DishCategory WHERE Id = :categoryId", [':categoryId' => $categoryId])->fetch();
+    // Don't show categories which are disabled
+    if ($category['Activated'] == 0) {
+        return;
+    }
+
+    $subcategories = base_query("SELECT * FROM DishCategory WHERE ParentCategoryId = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     $dishes = base_query("SELECT * FROM Dish WHERE Category = :categoryId ORDER BY Position", [':categoryId' => $categoryId])->fetchAll();
     ?>
     <!-- Echo category name -->
