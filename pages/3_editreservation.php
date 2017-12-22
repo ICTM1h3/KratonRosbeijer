@@ -214,7 +214,7 @@ foreach ($errors as $error) {
 }
 
 foreach ($success as $succes){
-    ?><div class="alert alert-succes">
+    ?><div class="alert alert-success">
     <p><?= $succes ?></p></div><?php
 }
 ?>

@@ -119,7 +119,7 @@ if (!empty($errors)) { ?>
 // If there is a message that things went well, create a div and fill it with the provided messages. 
 // Do not continue with the rest of the page afterwards as the action went well.
 if (!empty($successes)) { ?>
-    <div class="alert alert-succes" role="alert">
+    <div class="alert alert-success" role="alert">
         <?php foreach ($successes as $success ) { ?>
             <p><?= $success ?></p>
         <?php } ?>
