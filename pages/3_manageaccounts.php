@@ -88,11 +88,11 @@ $users = base_query("SELECT * FROM User LIMIT $currentRow, $pageSize")->fetchAll
                     <form method="POST">
                         <input type="hidden" name="user_id" value="<?= $user['Id'] ?>" />
                         <input type="hidden" name="switch_user_status" value="<?= $user['Id'] ?>" />
-                        <input <?= $disabled ?> type="submit" value="<?= $activated ?>" onclick="requestUserStatusChange(event, '<?= $user['Email'] ?>', '<?= $activatedVerb ?>')" />
+                        <input class="btn btn-secondary" <?= $disabled ?> type="submit" value="<?= $activated ?>" onclick="requestUserStatusChange(event, '<?= $user['Email'] ?>', '<?= $activatedVerb ?>')" />
                     </form>
                 </td>
                 <td>
-                    <button onclick="location.search = '?p=userdetails&userId=<?= $user['Id'] ?>'">Details</button>
+                    <button class="btn btn-secondary" onclick="location.search = '?p=userdetails&userId=<?= $user['Id'] ?>'">Details</button>
                 </td>
             </tr>
         <?php } ?>
