@@ -100,7 +100,7 @@ if (isset($_POST['change_password'])) {
     </div>
 <?php } ?>
 <?php foreach ($user_details_success as $success) { ?>
-    <div class="alert alert-succes" role="alert">
+    <div class="alert alert-success" role="alert">
         <p><?= $success ?></p>
     </div>
 <?php } ?>
@@ -139,7 +139,7 @@ if (isset($_POST['change_password'])) {
     </div>
 <?php } ?>
 <?php foreach ($password_success as $success) { ?>
-    <div class="alert alert-succes" role="alert">
+    <div class="alert alert-success" role="alert">
         <p><?= $success ?></p>
     </div>
 <?php } ?>
