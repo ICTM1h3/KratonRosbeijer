@@ -255,55 +255,53 @@ else {
     <?php } ?>
 
 <!-- Form for adding giftcard items -->
-<form method="POST">
-    <table>
-        <tr>
-            <th>Cadeaubonnen</th>
-        </tr>
-        <tr>
-            <td>Cadeaubon € 25</td>
-            <td>
-                <form method="POST">
-                    <input class="btn btn-secondary" type="submit" name="add_25" value="Toevoegen"/>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Cadeaubon € 50</td>
-            <td>
-                <form method="POST">
-                    <input class="btn btn-secondary" type="submit" name="add_50" value="Toevoegen"/>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Cadeaubon € 75</td>
-            <td>
-                <form method="POST">
-                    <input class="btn btn-secondary" type="submit" name="add_75" value="Toevoegen"/>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Cadeaubon € 100</td>
-            <td>
-                <form method="POST">
-                    <input class="btn btn-secondary" type="submit" name="add_100" value="Toevoegen"/>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Cadeaubon variable € </td>
-            <td>
-                <form method="POST">
-                    <input class="form-control"  min="0" step="1" type="number" name="varied_ammount" value="0"/>
-                    <input class="btn btn-secondary" type="submit" name="varied" value="Toevoegen"/>
-                </form>
-            </td>
-        </tr>
-    </table>
+<table>
+    <tr>
+        <th>Cadeaubonnen</th>
+    </tr>
+    <tr>
+        <td>Cadeaubon € 25</td>
+        <td>
+            <form method="POST">
+                <input class="btn btn-secondary" type="submit" name="add_25" value="Toevoegen"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Cadeaubon € 50</td>
+        <td>
+            <form method="POST">
+                <input class="btn btn-secondary" type="submit" name="add_50" value="Toevoegen"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Cadeaubon € 75</td>
+        <td>
+            <form method="POST">
+                <input class="btn btn-secondary" type="submit" name="add_75" value="Toevoegen"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Cadeaubon € 100</td>
+        <td>
+            <form method="POST">
+                <input class="btn btn-secondary" type="submit" name="add_100" value="Toevoegen"/>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Cadeaubon variable € </td>
+        <td>
+            <form method="POST">
+                <input class="form-control"  min="0" step="1" type="number" name="varied_ammount" value="0"/>
+                <input class="btn btn-secondary" type="submit" name="varied" value="Toevoegen"/>
+            </form>
+        </td>
+    </tr>
+</table>
 <!-- </div> -->
-</form>
   
 <!--Form for choosen gift cart items. -->
     <table>

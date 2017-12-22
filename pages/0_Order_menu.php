@@ -176,7 +176,7 @@ ul {
 }
 
 * {
-    font-family: Arial;
+    /* font-family: Arial; */
 }
 
 <?php if (isset($_GET['no_layout'])) { ?>

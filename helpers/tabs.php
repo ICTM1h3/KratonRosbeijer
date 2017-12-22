@@ -53,7 +53,8 @@ $tabs = [
                 ['title' => 'Reserveringen', 'href' => '?p=managereservation'],
                 ['title' => 'Cadeaubonnen', 'href' => '?p=manage_giftcard'],
                 ['title' => 'Tafels', 'href' => '?p=managetables'],
-                ['title' => 'Beheer nieuws', 'href' => '?p=managenews']
+                ['title' => 'Nieuws', 'href' => '?p=managenews'],
+                ['title' => 'Catering', 'href' => '?p=editcatering']
             ]
         ],
     ]
