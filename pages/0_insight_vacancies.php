@@ -35,6 +35,7 @@ echo $VacancyInfo;
         padding: 2px;
         overflow-wrap: break-word;
         border: 1px solid black;        
+        border-radius: 15px;
     }
 </style>
 
