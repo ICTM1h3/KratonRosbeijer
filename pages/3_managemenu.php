@@ -229,7 +229,7 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
         <a href="?p=editcategory&category=<?= $categoryId?>">Wijzig category</a>
         <form method="POST">
             <input type="hidden" name="idcategory" value="<?= $categoryId?>" />
-            <input type="submit" name="switch_status_category" value="<?= $category['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>"/>
+            <input class="btn btn-<?= $category['Activated'] == 0 ? 'secondary' : 'danger' ?>" type="submit" name="switch_status_category" value="<?= $category['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>"/>
         </form>
     <?php
     } elseif($changingPlace){
@@ -242,7 +242,7 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
         if(!$isLast){
         ?> 
         <form method="POST">
-            <input type='submit' name="move_category_down" value="Naar beneden"/>
+            <input class="btn btn-secondary" type='submit' name="move_category_down" value="Naar beneden"/>
             <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
         </form>
         <?php 
@@ -250,7 +250,7 @@ function echoCategory($categoryId, $changingModus, $changingPlace, $size = 1, $i
         if(!$isFirst){
         ?>
             <form method="POST">
-               <input type='submit' name="move_category_up" value="Naar boven"/>
+               <input class="btn btn-secondary" type='submit' name="move_category_up" value="Naar boven"/>
                <input type='hidden' name="categoryid" value="<?= $categoryId ?>"/>
             </form>
         <?php 
@@ -284,7 +284,7 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
             <?php if ($changingModus) { ?>
                 <form method="POST">
                     <input type="hidden" name="iddish" value="<?= $dishValue['Id']?>" />
-                    <input type="submit" name="switch_status_dish" value="<?= $dishValue['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>">
+                    <input class="btn btn-<?= $dishValue['Activated'] == 0 ? 'secondary' : 'danger' ?>" type="submit" name="switch_status_dish" value="<?= $dishValue['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>">
                 </form>
                 <b><?= $dishValue['Name']?></b>
                 <a href="?p=editdish&dish=<?= $dishValue['Id']?>">Wijzig gerecht</a>
@@ -296,14 +296,14 @@ for ($i = 0; $i <= $maxValueDish; $i++) {
                 <b><?= $dishValue['Name']?></b><span class="price"><?= $price ?></span><?= "<br>" . "" . $dishValue['Description']?>
                 <?php if(!$isLast){ ?>
                     <form method="POST">
-                        <input type='submit' name="move_dish_down" value="Naar beneden"/>
+                        <input class="btn btn-secondary" type='submit' name="move_dish_down" value="Naar beneden"/>
                         <input type='hidden' name="dishid" value="<?= $dishValue['Id']?>"/>
                     </form>
 
                 <?php } 
                 if(!$isFirst){ ?>
                 <form method="POST">
-                    <input type='submit' name="move_dish_up" value="Naar boven"/>
+                    <input class="btn btn-secondary" type='submit' name="move_dish_up" value="Naar boven"/>
                     <input type='hidden' name="dishid" value="<?= $dishValue['Id'] ?>"/>
                 </form> 
                 <?php } ?>
