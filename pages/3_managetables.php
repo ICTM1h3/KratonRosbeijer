@@ -59,10 +59,10 @@ $tables = base_query("SELECT * FROM `table` ORDER BY Activated DESC, Id DESC")->
         </tr>
         <tr>
             <td>
-                <input type="number" value="<?= $capacity ?>" name="kitchen_capacity"/>
+                <input class="form-control" type="number" value="<?= $capacity ?>" name="kitchen_capacity"/>
             </td>
             <td>
-                <input type="submit" name="save_kitchen_capacity" value="Opslaan"/>
+                <input class="btn btn-secondary" type="submit" name="save_kitchen_capacity" value="Opslaan"/>
             </td>
         </tr>
     </table>
@@ -75,26 +75,26 @@ $tables = base_query("SELECT * FROM `table` ORDER BY Activated DESC, Id DESC")->
     </thead>
     <tbody>
         <tr>
-            <td><input onkeyup="updateSaveButton(this)" onchange="updateSaveButton(this)" min="1" form="save_new" type="number" name="capacity" value="" data-original="" /></td>
+            <td><input class="form-control" onkeyup="updateSaveButton(this)" onchange="updateSaveButton(this)" min="1" form="save_new" type="number" name="capacity" value="" data-original="" /></td>
             <td>
                 <form id="save_new" method="POST">
-                    <input disabled type="submit" name="save_new" value="Maak nieuwe">
+                    <input class="btn btn-secondary" disabled type="submit" name="save_new" value="Maak nieuwe">
                 </form>
             </td>
         </tr>
         <?php foreach ($tables as $table) {?> 
             <tr>
-                <td><input onkeyup="updateSaveButton(this)" onchange="updateSaveButton(this)" min="1" form="save_<?= $table['Id'] ?>" type="number" name="capacity" value="<?= $table['Capacity'] ?>" data-original="<?= $table['Capacity'] ?>" /></td>
+                <td><input class="form-control" onkeyup="updateSaveButton(this)" onchange="updateSaveButton(this)" min="1" form="save_<?= $table['Id'] ?>" type="number" name="capacity" value="<?= $table['Capacity'] ?>" data-original="<?= $table['Capacity'] ?>" /></td>
                 <td>
                     <form id="save_<?= $table['Id'] ?>" method="POST">
                         <input type="hidden" name="tableid" value="<?= $table['Id'] ?>" />
-                        <input disabled type="submit" name="save" value="Opslaan">
+                        <input class="btn btn-secondary" disabled type="submit" name="save" value="Opslaan">
                     </form>
                 </td>
                 <td>
                     <form method="POST">
                         <input type="hidden" name="tableid" value="<?= $table['Id'] ?>" />
-                        <input type="submit" name="switch_status" value="<?= $table['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>">
+                        <input class="btn btn-secondary" type="submit" name="switch_status" value="<?= $table['Activated'] == 0 ? 'Activeer' : 'Deactiveer' ?>">
                     </form>
                 </td>
             </tr>
