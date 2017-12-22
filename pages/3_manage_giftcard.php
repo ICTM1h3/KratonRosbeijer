@@ -33,10 +33,14 @@ $giftcards = base_query("SELECT * FROM coupon ORDER BY CurrentValue DESC")->fetc
 
 <!--Style of the page-->
 <style>
-table, tr, td {
+table, tr, td, th {
     border: 1px solid black;
     border-collapse: collapse;
     width: 66%;
+}
+
+th {
+    text-align: center;
 }
 </style>
 
@@ -45,21 +49,21 @@ table, tr, td {
 <!-- Form for showing the giftcards, if the giftcard exist-->
 <form method="POST">
     <div class="table-responsive">
-    <table><?php
+    <table style="width:100%;"><?php
         if(!empty($giftcards)){?>
             <tr>
-                <td>Code</td>
-                <td>Oorspronkelijk tegoed</td>
-                <td>Tegoed</td>
-                <td>Oorspronkelijke besteller</td>
-                <td>E-mail</td>
+                <th>Code</th>
+                <th>Oorspronkelijk tegoed</th>
+                <th>Tegoed</th>
+                <th>Oorspronkelijke besteller</th>
+                <th>E-mail</th>
             </tr>
         <?php
             foreach($giftcards as $card){ ?>
             <tr>
                 <td><?= $card['CouponCode']?></td>
                 <td><?= $card['InitialValue']?></td>
-                <td><input class="form-control" type="text" name="currentvalue[<?= $card['CouponCode']?>]" value="<?= $card['CurrentValue']?>"/></td>
+                <td><input style="min-width:100px;" class="form-control" type="text" name="currentvalue[<?= $card['CouponCode']?>]" value="<?= $card['CurrentValue']?>"/></td>
                 <td><?= $card['Email']?></td>
                 <td><?= $card['InNameOf']?></td>
                 <td><input class="btn btn-secondary" type="submit" name="changecoupon[<?= $card['CouponCode']?>]" value="Opslaan"/></td>
