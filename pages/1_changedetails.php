@@ -94,16 +94,16 @@ if (isset($_POST['change_password'])) {
     }
 </style>
 <h2>Details veranderen</h2>
-<div class="alert alert-danger" role="alert">
-    <?php foreach ($user_details_errors as $error) {
-        ?><p><?= $error ?></p>
-    <?php } ?>
-</div>
-<div class="alert alert-succes" role="alert">
-    <?php foreach ($user_details_success as $success) {
-        ?><p><?= $success ?></p>
-    <?php } ?>
-</div>
+<?php foreach ($user_details_errors as $error) { ?>
+    <div class="alert alert-danger" role="alert">
+        <p><?= $error ?></p>
+    </div>
+<?php } ?>
+<?php foreach ($user_details_success as $success) { ?>
+    <div class="alert alert-succes" role="alert">
+        <p><?= $success ?></p>
+    </div>
+<?php } ?>
 <form method="POST">
     <table class="table">
         <tr>
@@ -133,16 +133,16 @@ if (isset($_POST['change_password'])) {
 </form>
 
 <h2>Wachtwoord</h2>
-<div class="alert alert-danger" role="alert">
-    <?php foreach ($password_errors as $error) { ?>
+<?php foreach ($password_errors as $error) { ?>
+    <div class="alert alert-danger" role="alert">
         <p><?= $error ?></p>
-    <?php } ?>
-</div>
-<div class="alert alert-succes" role="alert">
-    <?php foreach ($password_success as $success) { ?>
+    </div>
+<?php } ?>
+<?php foreach ($password_success as $success) { ?>
+    <div class="alert alert-succes" role="alert">
         <p><?= $success ?></p>
-    <?php } ?>
-</div>
+    </div>
+<?php } ?>
 <form method="POST">
     <table class="table">
         <tr>
