@@ -1,6 +1,6 @@
 <?php
 
-$news = base_query("SELECT * FROM news ORDER BY Id DESC");
+$news = base_query("SELECT * FROM news ORDER BY Id DESC")->fetchAll();
 
 ?>
 
