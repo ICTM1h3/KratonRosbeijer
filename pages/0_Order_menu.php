@@ -156,6 +156,7 @@ else
 .form-control {
     margin: 0px;
     width: 30%;
+    padding: 4px;
 }
 
 .inputNumber {
