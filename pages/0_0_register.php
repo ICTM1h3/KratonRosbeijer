@@ -38,6 +38,13 @@ function validateData() {
     elseif ($_POST['password'] != $_POST['password_confirmation']) {
         $errors[] = "Het opgegeven wachtwoord komt niet overeen met het bevestigende wachtwoord.";
     }
+    else {
+        // Make sure the password is strong enough.
+        list($isStrong, $msg) = is_password_strong($_POST['password']);
+        if (!$isStrong) {
+            $errors[] = $msg;
+        }
+    }
     return $errors;
 }
 

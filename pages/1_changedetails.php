@@ -74,12 +74,18 @@ if (isset($_POST['change_password'])) {
             $password_errors[] = "Het nieuwe wachtwoord komt niet overeen met het bevestigings wachtwoord.";
         }
         else {
-            // Update the password of the user in the database with the new hash.
-            base_query("UPDATE User SET Password = :password WHERE Id = :id", [
-                ':password' => password_hash($_POST['new_password'], PASSWORD_BCRYPT),
-                ':id' => $_SESSION['UserId']
-            ]);
-            $password_success[] = 'Uw wachtwoord is aangepast';
+            list($isStrong, $msg) = is_password_strong($_POST['new_password']);
+            if (!$isStrong) {
+                $password_errors[] = $msg;
+            }
+            else {
+                // Update the password of the user in the database with the new hash.
+                base_query("UPDATE User SET Password = :password WHERE Id = :id", [
+                    ':password' => password_hash($_POST['new_password'], PASSWORD_BCRYPT),
+                    ':id' => $_SESSION['UserId']
+                ]);
+                $password_success[] = 'Uw wachtwoord is aangepast';
+            }
         }
     }
 }

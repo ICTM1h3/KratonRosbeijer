@@ -8,23 +8,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["password1"] || (empty($_POST["password2"])))){
         echo("Vul beide velden in om uw wachtwoord te resetten.");
     }
-    elseif ($_POST["password1"] == $_POST["password2"]){
-        // Update the password of the user.
-        $reset = base_query("UPDATE User SET Password=:password, ResetCode = null 
-        WHERE ResetCode = :resetCode", array(
-            ":password" => password_hash($_POST["password1"],PASSWORD_BCRYPT),
-            ":resetCode" => $_GET["resetCode"])
-        );
-
-        // Check if one row (The row of the user account) has changed. If not it means there was no use with the provided resetcode.
-        if ($reset->rowCount() == 1) {
-            header("Location: ?p=inlogpage");
+    elseif ($_POST["password1"] != $_POST["password2"]){
+        echo ("Wachtwoord is niet gelijk");       
+    }else{
+        list($isStrong, $msg) = is_password_strong($_POST['password1']);
+        if (!$isStrong) {
+            echo $msg;
         }
         else {
-            echo("Het account is niet gevonden.");
+            // Update the password of the user.
+            $reset = base_query("UPDATE User SET Password=:password, ResetCode = null 
+            WHERE ResetCode = :resetCode", array(
+                ":password" => password_hash($_POST["password1"],PASSWORD_BCRYPT),
+                ":resetCode" => $_GET["resetCode"])
+            );
+
+            // Check if one row (The row of the user account) has changed. If not it means there was no use with the provided resetcode.
+            if ($reset->rowCount() == 1) {
+                header("Location: ?p=inlogpage");
+            }
+            else {
+                echo("Het account is niet gevonden.");
+            }
         }
-    }else{
-        echo ("Wachtwoord is niet gelijk");       
     }
 }
 
