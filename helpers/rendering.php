@@ -54,6 +54,10 @@ function getPathForPage($page) {
 
 	// Loop through all the files until we find a match.
 	foreach ($files as $file) {
+		// Use regex to extract the minimum role and optional maximum role from the filename.
+		// $matches[0] is the whole match which we don't need.
+		// $matches[1] is the minimum role
+		// $matches[2] is the maximum role but this is optional.
 		$matches = [];
 		preg_match("/pages\/(\d)(?:_(\d))?_/", $file, $matches);
 		$minRole = $matches[1];
