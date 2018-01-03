@@ -168,14 +168,14 @@ $tabs = getTabsForCurrentUser();
           <ul>
             <!-- add correct link to pages-->
             <li><p class="footertext">Pages</p></li>
-            <li><a class="footertext" href="pages/infopage.php">Home</a></li>
-            <li><a class="footertext" href="pages/insight_menu.php">Menu</a></li>
-            <li><a class="footertext" href="pages/reservetable.php">Reserveren</a></li>
-            <li><a class="footertext" href="pages/Order_menu">Bestellen</a></li>
-            <li><a class="footertext" href="pages/cadeaubon.php">Cadeaubon</a></li>
-            <li><a class="footertext" href="pages/cateringpage.php">Catering</a></li>
-            <li><a class="footertext" href="pages/insight_news.php">Nieuws</a></li>
-            <li><a class="footertext" href="pages/insight_vacancies.php">Vacatures</a></li>
+            <li><a class="footertext" href="?p=infopage">Home</a></li>
+            <li><a class="footertext" href="?p=insight_menu">Menu</a></li>
+            <li><a class="footertext" href="?p=reservetable">Reserveren</a></li>
+            <li><a class="footertext" href="?p=Order_menu">Bestellen</a></li>
+            <li><a class="footertext" href="?p=cadeaubon">Cadeaubon</a></li>
+            <li><a class="footertext" href="?p=cateringpage">Catering</a></li>
+            <li><a class="footertext" href="?p=insight_news">Nieuws</a></li>
+            <li><a class="footertext" href="?p=insight_vacancies">Vacatures</a></li>
           </ul>
         </div>
         </div>
