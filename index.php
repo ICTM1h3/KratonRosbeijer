@@ -168,14 +168,14 @@ $tabs = getTabsForCurrentUser();
           <ul>
             <!-- add correct link to pages-->
             <li><p class="footertext">Pages</p></li>
-            <li><a class="footertext" href="">Home</a></li>
-            <li><a class="footertext" href="">Menu</a></li>
-            <li><a class="footertext" href="">Reserveren</a></li>
-            <li><a class="footertext" href="">Afhalen</a></li>
-            <li><a class="footertext" href="">Cadeaubon</a></li>
-            <li><a class="footertext" href="">Catering</a></li>
-            <li><a class="footertext" href="">Nieuws</a></li>
-            <li><a class="footertext" href="">Vacatures</a></li>
+            <li><a class="footertext" href="pages/infopage.php">Home</a></li>
+            <li><a class="footertext" href="pages/insight_menu.php">Menu</a></li>
+            <li><a class="footertext" href="pages/reservetable.php">Reserveren</a></li>
+            <li><a class="footertext" href="pages/Order_menu">Bestellen</a></li>
+            <li><a class="footertext" href="pages/cadeaubon.php">Cadeaubon</a></li>
+            <li><a class="footertext" href="pages/cateringpage.php">Catering</a></li>
+            <li><a class="footertext" href="pages/insight_news.php">Nieuws</a></li>
+            <li><a class="footertext" href="pages/insight_vacancies.php">Vacatures</a></li>
           </ul>
         </div>
         </div>
