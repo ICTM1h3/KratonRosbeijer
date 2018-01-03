@@ -40,12 +40,16 @@ function renderPage()
 // Searches inside the pages folder for the requested page.
 // Looks if the current user has enough permissions
 function getPathForPage($page) {
+	// Retrieve all files in the pages folder that have the name of the requested page. 
+	// It ignores the prefix as it will be checked later on.
 	$files = glob("pages/*_$page.php");
 	if (empty($files)) {
 		// Return to a 404 page if there is no page found.
 		return 'pages/errors/404.php';
 	}
 
+	// Get the role of the current user. 
+	// This will be used to validate if the user is authorized to get the requested page.
 	$currentRole = getCurrentRole();
 
 	// Loop through all the files until we find a match.
@@ -54,8 +58,11 @@ function getPathForPage($page) {
 		preg_match("/pages\/(\d)(?:_(\d))?_/", $file, $matches);
 		$minRole = $matches[1];
 
-		// If the max role is not defined use the administrator role instead.
+		// If the max role is not defined use the highest ranking role instead.
 		$maxRole = isset($matches[2]) ? $matches[2] : MAX_ROLE_NUMBER;
+
+		// If the current role is higher or equal to the minimum role AND is lower or equal to the maximul role return the path of the file.
+		// This can be used to include the page.
 		if ($currentRole >= $minRole && $currentRole <= $maxRole) {
 			return $file;
 		}
