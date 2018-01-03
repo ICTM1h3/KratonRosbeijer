@@ -29,3 +29,28 @@ function is_time_valid($time) {
 function format_date_and_time($date, $time) {
     return $date . ' ' . $time;
 }
+
+// Makes sure the password is strong enough.
+// A password is at least 8 characters long.
+// A password must contain a letter
+// A password must contain a number
+// A password must contain a symbol.
+function is_password_strong($password) {
+    if (strlen($password) < 8) {
+        return [false, "Een wachtwoord moet minimaal 8 karakters lang zijn."];
+    }
+
+    if (!preg_match("/[a-z]/i", $password)) {
+        return [false, "Een wachtwoord moet minimaal één letter hebben."];
+    }
+
+    if (!preg_match("/\d/", $password)) {
+        return [false, "Een wachtwoord moet minimaal één getal hebben."];
+    }
+
+    if (!preg_match("/[!@#$%^&*()_+\-=,\.<>\/\\;':\"]/", $password)) {
+        return [false, "Een wachtwoord moet minimaal één symbool bevatten."];
+    }
+    return [true, null];
+    // if (strpos($password, ))
+}
