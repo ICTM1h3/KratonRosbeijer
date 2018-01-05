@@ -3,7 +3,7 @@ The new website for restaurant Kraton Rosbeijer
 
 ## Set up email
 
-1. Open C:\XAMPP\php.ini
+1. Open C:\XAMPP\php\php.ini
 2. Change the email values to the following: 
    ```
    SMTP=smtp.gmail.com
