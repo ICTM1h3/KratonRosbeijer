@@ -33,6 +33,7 @@ ORDER BY date", [
     <input type="hidden" name="p" value="<?= $_GET['p'] ?>">
     <label for="date">Reserveringen voor</label>
     <input class="form-control" id="date" value="<?= $date ?>" type="date" name="date" onchange="this.form.submit()" />
+    <a class="btn btn-secondary" href="?p=Top">Top 5 meeste Reserveringen</a>
 </form>
 
 <?php if (empty($reservations)) { ?>
